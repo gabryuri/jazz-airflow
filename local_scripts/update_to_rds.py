@@ -1,5 +1,5 @@
 import psycopg2
-#test
+
 dsn = (
     "dbname={dbname} "
     "user={user} "
