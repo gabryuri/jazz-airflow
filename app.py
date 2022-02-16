@@ -16,4 +16,4 @@ dms_stack = DmsStack(
     common_stack=common_stack,
     data_lake_raw_bucket=data_lake_stack.data_lake_raw_bucket,
 )
-app.synth()
+app.synth() 
