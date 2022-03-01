@@ -16,22 +16,22 @@ class ECSCluster(core.Stack):
         #    max_azs=2
         #)
 
-        asg = autoscaling.AutoScalingGroup(
-            self, "MyFleet",
-            instance_type=ec2.InstanceType("t2.micro"),
-            machine_image=ecs.EcsOptimizedImage.amazon_linux2(),
-            associate_public_ip_address=True,
-            desired_capacity=1
-        )
+        # asg = autoscaling.AutoScalingGroup(
+        #     self, "MyFleet",
+        #     instance_type=ec2.InstanceType("t2.micro"),
+        #     machine_image=ecs.EcsOptimizedImage.amazon_linux2(),
+        #     associate_public_ip_address=True,
+        #     desired_capacity=1
+        # )
 
         cluster = ecs.Cluster(
             self, 'EcsCluster'
         )
 
-        capacity_provider = ecs.AsgCapacityProvider(self, "AsgCapacityProvider",
-            auto_scaling_group=asg
-        )
-        cluster.add_asg_capacity_provider(capacity_provider)
+        # capacity_provider = ecs.AsgCapacityProvider(self, "AsgCapacityProvider",
+        #     auto_scaling_group=asg
+        # )
+        # cluster.add_asg_capacity_provider(capacity_provider)
 
 
 
