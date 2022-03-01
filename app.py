@@ -9,7 +9,7 @@ from ecs.stack import ECSCluster
 app = core.App()
 #data_lake_stack = DataLakeStack(app)
 #c  ommon_stack = CommonStack(app)
-ecs = ECSCluster(app)
+ecs = ECSCluster(scope=app, id='test')
 #test
 #kinesis_stack = KinesisStack(
 #    app, data_lake_raw_bucket=data_lake_stack.data_lake_raw_bucket
