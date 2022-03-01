@@ -11,10 +11,10 @@ class ECSCluster(core.Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, *kwargs)
 
-        vpc = ec2.Vpc(
-            self, "MyVpc",
-            max_azs=2
-        )
+        #vpc = ec2.Vpc(
+        #    self, "MyVpc",
+        #    max_azs=2
+        #)
 
         asg = autoscaling.AutoScalingGroup(
             self, "MyFleet",
@@ -27,8 +27,7 @@ class ECSCluster(core.Stack):
         )
 
         cluster = ecs.Cluster(
-            self, 'EcsCluster',
-            vpc=vpc
+            self, 'EcsCluster'
         )
 
         capacity_provider = ecs.AsgCapacityProvider(self, "AsgCapacityProvider",
