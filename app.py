@@ -3,7 +3,7 @@ from aws_cdk import core
 from common_stack import CommonStack
 from data_lake.stack import DataLakeStack
 from dms.stack import DmsStack
-from kinesis.stack import KinesisStacks
+from kinesis.stack import KinesisStack
 from ec2.stack import ECSCluster
 
 app = core.App()
