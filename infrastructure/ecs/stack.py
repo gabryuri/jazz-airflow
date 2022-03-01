@@ -18,7 +18,7 @@ class ECSCluster(core.Stack):
 
         asg = autoscaling.AutoScalingGroup(
             self, "MyFleet",
-            instance_type=ec2.InstanceType("t2.xlarge"),
+            instance_type=ec2.InstanceType("t2.micro"),
             machine_image=ecs.EcsOptimizedImage.amazon_linux2(),
             associate_public_ip_address=True,
             desired_capacity=1,
