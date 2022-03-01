@@ -5,7 +5,7 @@ from aws_cdk import (
     aws_kinesisfirehose as firehose,
     aws_iam as iam,
 )
-from bootcamp_turma_6_data_platform.data_lake.base import BaseDataLakeBucket
+from infrastructure.data_lake.base import BaseDataLakeBucket
 
 
 class RawKinesisRole(iam.Role):

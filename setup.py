@@ -6,7 +6,7 @@ with open("README.md") as fp:
 
 
 setuptools.setup(
-    name="bootcamp_turma_6_data_platform",
+    name="infrastructure",
     version="0.0.1",
 
     description="An empty CDK Python app",
@@ -15,8 +15,8 @@ setuptools.setup(
 
     author="author",
 
-    package_dir={"": "bootcamp_turma_6_data_platform"},
-    packages=setuptools.find_packages(where="bootcamp_turma_6_data_platform"),
+    package_dir={"": "infrastructure"},
+    packages=setuptools.find_packages(where="infrastructure"),
 
     install_requires=[
         "aws-cdk.core==1.122.0",
