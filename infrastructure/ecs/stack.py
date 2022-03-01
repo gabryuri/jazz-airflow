@@ -1,12 +1,12 @@
+from aws_cdk import core
 from aws_cdk import (
     aws_autoscaling as autoscaling,
     aws_ec2 as ec2,
-    aws_ecs as ecs,
-    App, Stack
+    aws_ecs as ecs
 )
 from constructs import Construct
 
-class ECSCluster(Stack):
+class ECSCluster(core.Stack):
 
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, *kwargs)
@@ -36,7 +36,5 @@ class ECSCluster(Stack):
         )
         cluster.add_asg_capacity_provider(capacity_provider)
 
-app = App()
-ECSCluster(app, "MyFirstEcsCluster")
-app.synth()
+
 
