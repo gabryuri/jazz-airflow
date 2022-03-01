@@ -38,11 +38,11 @@ class ECSCluster(core.Stack):
 
         task_definition_airflow.add_container("DefaultContainer",
             image=ecs.ContainerImage.from_registry("apache/airflow"),
-            memory_limit_mi_b=512
+            memory_limit_mib=512
         )
 
         ecs_service = ecs.Ec2Service(self, "Service",
         cluster=cluster,
-        task_definition=task_definition
+        task_definition=task_definition_airflow
     )
 
