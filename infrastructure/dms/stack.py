@@ -10,7 +10,7 @@ from aws_cdk import (
 import json
 
 from common_stack import CommonStack
-from bootcamp_turma_6_data_platform.data_lake.base import BaseDataLakeBucket
+from infrastructure.data_lake.base import BaseDataLakeBucket
 
 
 class RawDMSRole(iam.Role):
