@@ -21,9 +21,7 @@ class ECSCluster(core.Stack):
             instance_type=ec2.InstanceType("t2.micro"),
             machine_image=ecs.EcsOptimizedImage.amazon_linux2(),
             associate_public_ip_address=True,
-            desired_capacity=1,
-            vpc=vpc,
-            vpc_subnets={ 'subnet_type': ec2.SubnetType.PUBLIC },
+            desired_capacity=1
         )
 
         cluster = ecs.Cluster(
