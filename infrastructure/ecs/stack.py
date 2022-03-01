@@ -28,10 +28,28 @@ class ECSCluster(core.Stack):
             self, 'EcsCluster'
         )
 
+        cluster.add_capacity("DefaultAutoScalingGroupCapacity",
+        instance_type=ec2.InstanceType("t2.micro"),
+        desired_capacity=1
+        )
+
         # capacity_provider = ecs.AsgCapacityProvider(self, "AsgCapacityProvider",
         #     auto_scaling_group=asg
         # )
         # cluster.add_asg_capacity_provider(capacity_provider)
 
+
+    # task_definition = ecs.Ec2TaskDefinition(self, "TaskDef")
+
+    # task_definition.add_container("DefaultContainer",
+    #     image=ecs.ContainerImage.from_registry("amazon/amazon-ecs-sample"),
+    #     memory_limit_mi_b=512
+    # )
+
+    # # Instantiate an Amazon ECS Service
+    # ecs_service = ecs.Ec2Service(self, "Service",
+    #     cluster=cluster,
+    #     task_definition=task_definition
+    # )
 
 
