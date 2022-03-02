@@ -11,10 +11,13 @@ class ECSCluster(core.Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, *kwargs)
 
-        #vpc = ec2.Vpc(
-        #    self, "MyVpc",
-        #    max_azs=2
-        #)
+        vpc = ec2.Vpc(self, "MainVpc",
+            subnet_configuration=[
+                ec2.SubnetConfiguration(
+                name="public-subnet",
+                subnet_type=ec2.SubnetType.PUBLIC
+            )],
+        )
 
         # asg = autoscaling.AutoScalingGroup(
         #     self, "MyFleet",
@@ -25,7 +28,8 @@ class ECSCluster(core.Stack):
         # )
 
         cluster = ecs.Cluster(
-            self, 'EcsCluster'
+            self, 'EcsCluster',
+            vpc=vpc
         )
 
         cluster.add_capacity("DefaultAutoScalingGroupCapacity",
@@ -44,5 +48,5 @@ class ECSCluster(core.Stack):
         ecs_service = ecs.Ec2Service(self, "Service",
         cluster=cluster,
         task_definition=task_definition_airflow
-    )
+    )   
 

@@ -5,11 +5,14 @@ from data_lake.stack import DataLakeStack
 from dms.stack import DmsStack
 from kinesis.stack import KinesisStack
 from ecs.stack import ECSCluster
+#from ec_two.stack import EC2Stack
 
 app = core.App()
-data_lake_stack = DataLakeStack(app)
+
+#ec2_stack = EC2Stack(app)
+#data_lake_stack = DataLakeStack(app)
 # c  ommon_stack = CommonStack(app)
-#secs = ECSCluster(scope=app, id='EcsStack')
+ecs = ECSCluster(scope=app, id='EcsStack')
 # test
 #kinesis_stack = KinesisStack(
 #    app, data_lake_raw_bucket=data_lake_stack.data_lake_raw_bucket
