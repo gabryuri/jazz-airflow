@@ -32,9 +32,18 @@ class ECSCluster(core.Stack):
             vpc=vpc
         )
 
+        # my_security_group = ec2.SecurityGroup(self, "SecurityGroup",
+        #     vpc=vpc,
+        #     description="Allow ssh access to ec2 instances",
+        #     allow_all_outbound=True
+        # )
+        # my_security_group.add_ingress_rule(ec2.Peer.any_ipv4(), ec2.Port.tcp(22), "allow ssh access from the world")
+
+
         cluster.add_capacity("DefaultAutoScalingGroupCapacity",
         instance_type=ec2.InstanceType("t2.micro"),
-        desired_capacity=1
+        desired_capacity=1,
+        key_name='ec2-key-pair'
         )
 
 
