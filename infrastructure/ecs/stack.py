@@ -49,7 +49,7 @@ class ECSCluster(core.Stack):
 
         task_definition_airflow = ecs.Ec2TaskDefinition(self, "TaskDef")
 
-        port_mapping = ecs.PortMapping(container_port=80,host_port=8080,protocol='tcp')
+        port_mapping = ecs.PortMapping(container_port=80,host_port=8080,protocol=ecs.Protocol.TCP)
 
 
         task_definition_airflow.add_container("DefaultContainer",
