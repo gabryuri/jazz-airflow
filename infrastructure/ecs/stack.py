@@ -63,7 +63,7 @@ class ECSCluster(core.Stack):
             protocol=ecs.Protocol.TCP
         ))
 
-         container.add_port_mappings(
+        container.add_port_mappings(
             ecs.PortMapping(
             container_port=5432,
             host_port=5432,
