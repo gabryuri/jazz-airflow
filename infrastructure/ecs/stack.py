@@ -60,10 +60,11 @@ class ECSCluster(core.Stack):
 
 
         container.add_port_mappings(
+            ecs.PortMapping(
             container_port=80,
             host_port=8080,
             protocol=ecs.Protocol.TCP
-        )
+        ))
 
         ecs_service = ecs.Ec2Service(self, "Service",
         cluster=cluster,
