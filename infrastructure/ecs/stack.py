@@ -49,7 +49,6 @@ class ECSCluster(core.Stack):
 
         task_definition_airflow = ecs.Ec2TaskDefinition(self, "TaskDef")
 
-        mapping = 
 
         task_definition_airflow.add_container("DefaultContainer",
             image=ecs.ContainerImage.from_registry("apache/airflow"),
