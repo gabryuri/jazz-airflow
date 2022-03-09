@@ -51,8 +51,8 @@ class ECSCluster(core.Stack):
         task_definition_airflow = ecs.Ec2TaskDefinition(self, "TaskDef")
 
         container = task_definition_airflow.add_container("DefaultContainer",
-            image=ecs.ContainerImage.from_registry("apache/airflow"),
-            memory_limit_mib=512
+            image=ecs.ContainerImage.from_registry("puckel/docker-airflow"),
+            memory_limit_mib=512    
         )
         
 
