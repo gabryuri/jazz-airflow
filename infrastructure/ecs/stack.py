@@ -50,20 +50,26 @@ class ECSCluster(core.Stack):
 
         task_definition_airflow = ecs.Ec2TaskDefinition(self, "TaskDef")
 
-
-
         container = task_definition_airflow.add_container("DefaultContainer",
             image=ecs.ContainerImage.from_registry("apache/airflow"),
             memory_limit_mib=512
         )
-        #
+        
 
         container.add_port_mappings(
             ecs.PortMapping(
-            container_port=80,
+            container_port=8080,
             host_port=8080,
             protocol=ecs.Protocol.TCP
         ))
+
+         container.add_port_mappings(
+            ecs.PortMapping(
+            container_port=5432,
+            host_port=5432,
+            protocol=ecs.Protocol.TCP
+        ))
+
 
         ecs_service = ecs.Ec2Service(self, "Service",
         cluster=cluster,
