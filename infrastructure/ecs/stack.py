@@ -32,12 +32,13 @@ class ECSCluster(core.Stack):
             vpc=vpc
         )
 
-        # my_security_group = ec2.SecurityGroup(self, "SecurityGroup",
-        #     vpc=vpc,
-        #     description="Allow ssh access to ec2 instances",
-        #     allow_all_outbound=True
-        # )
-        # my_security_group.add_ingress_rule(ec2.Peer.any_ipv4(), ec2.Port.tcp(22), "allow ssh access from the world")
+        my_security_group = ec2.SecurityGroup(self, "SecurityGroup",
+            vpc=vpc,
+            description="Allow ssh access to ec2 instances",
+            allow_all_outbound=True
+        )
+        my_security_group.add_ingress_rule(ec2.Peer.any_ipv4(), ec2.Port.tcp(22), "allow ssh access from the world")
+        my_security_group.add_ingress_rule(ec2.Peer.any_ipv4(), ec2.Port.tcp(8080), "allow port 80")
 
 
         cluster.add_capacity("DefaultAutoScalingGroupCapacity",
@@ -50,14 +51,12 @@ class ECSCluster(core.Stack):
         task_definition_airflow = ecs.Ec2TaskDefinition(self, "TaskDef")
 
 
-       # port_mapping = ecs.PortMapping(container_port=80,host_port=8080,protocol=ecs.Protocol.TCP)
-
 
         container = task_definition_airflow.add_container("DefaultContainer",
             image=ecs.ContainerImage.from_registry("apache/airflow"),
             memory_limit_mib=512
         )
-
+        #
 
         container.add_port_mappings(
             ecs.PortMapping(
