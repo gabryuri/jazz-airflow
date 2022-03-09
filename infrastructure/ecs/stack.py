@@ -53,7 +53,7 @@ class ECSCluster(core.Stack):
 
 
         container = task_definition_airflow.add_container("DefaultContainer",
-            image=ecs.ContainerImage.from_registry("httpd:2.4"),
+            image=ecs.ContainerImage.from_registry("apache/airflow"),
             memory_limit_mib=512
         )
         #
