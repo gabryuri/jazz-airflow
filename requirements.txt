@@ -5,5 +5,4 @@ aws_cdk.aws_rds==1.122
 aws_cdk.aws_dms==1.122
 aws_cdk.aws_autoscaling==1.122
 aws_cdk.aws_ecs==1.122
-markupsafe==2.0.1
 boto3
