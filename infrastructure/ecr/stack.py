@@ -15,4 +15,4 @@ class ECRStack(core.Stack):
         )
 
         repository.add_lifecycle_rule(tag_prefix_list=["prod"], max_image_count=150)
-        repository.add_lifecycle_rule(max_image_age=Duration.days(30))
+        repository.add_lifecycle_rule(max_image_age=core.Duration.days(30))
