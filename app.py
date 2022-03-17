@@ -5,6 +5,7 @@ from data_lake.stack import DataLakeStack
 from dms.stack import DmsStack
 from kinesis.stack import KinesisStack
 from ecs.stack import ECSCluster
+from ecr.stack import ECRStack
 #from ec_two.stack import EC2Stack
 
 app = core.App()
