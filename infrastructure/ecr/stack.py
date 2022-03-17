@@ -11,7 +11,7 @@ class ECRStack(core.Stack):
 
         repository = ecr.Repository(self, "Repo",
             image_scan_on_push=True,
-            repository_name='ecr-airflow-image'
+            repository_name='ecr-airflow'
         )
 
         repository.add_lifecycle_rule(tag_prefix_list=["prod"], max_image_count=150)
