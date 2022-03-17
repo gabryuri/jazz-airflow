@@ -2,7 +2,8 @@ from aws_cdk import core
 from aws_cdk import (
     aws_autoscaling as autoscaling,
     aws_ec2 as ec2,
-    aws_ecs as ecs
+    aws_ecs as ecs,
+    aws_ecr as ecr
 )
 from constructs import Construct
 
