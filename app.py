@@ -13,6 +13,8 @@ app = core.App()
 #data_lake_stack = DataLakeStack(app)
 # c  ommon_stack = CommonStack(app)
 ecs = ECSCluster(scope=app, id='EcsStack')
+ecr = ECRStack(scope=app, id='EcrRepository')
+
 # test
 #kinesis_stack = KinesisStack(
 #    app, data_lake_raw_bucket=data_lake_stack.data_lake_raw_bucket
