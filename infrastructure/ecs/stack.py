@@ -33,13 +33,13 @@ class ECSCluster(core.Stack):
             vpc=vpc
         )
 
-        my_security_group = ec2.SecurityGroup(self, "SecurityGroup",
+        airflow_security_group = ec2.SecurityGroup(self, "SecurityGroup",
             vpc=vpc,
             description="Allow ssh access to ec2 instances",
             allow_all_outbound=True
         )
-        my_security_group.add_ingress_rule(ec2.Peer.any_ipv4(), ec2.Port.tcp(22), "allow ssh access from the world")
-        my_security_group.add_ingress_rule(ec2.Peer.any_ipv4(), ec2.Port.tcp(8080), "allow port 80")
+        airflow_security_group.add_ingress_rule(ec2.Peer.any_ipv4(), ec2.Port.tcp(22), "allow ssh access from the world")
+        airflow_security_group.add_ingress_rule(ec2.Peer.any_ipv4(), ec2.Port.tcp(8080), "allow port 80")
 
 
         cluster.add_capacity("DefaultAutoScalingGroupCapacity",
@@ -54,8 +54,8 @@ class ECSCluster(core.Stack):
         repo = ecr.Repository.from_repository_name(self, "repo", "ecr-airflow")
 
         container = task_definition_airflow.add_container("DefaultContainer",
-            image=ecs.ContainerImage.from_registry("puckel/docker-airflow"),
-            #image= ecs.EcrImage(repo, "prod"),
+            #image=ecs.ContainerImage.from_registry("puckel/docker-airflow"),
+            image= ecs.EcrImage(repo, "prod"),
             memory_limit_mib=512    
         )
         
@@ -77,6 +77,7 @@ class ECSCluster(core.Stack):
 
         ecs_service = ecs.Ec2Service(self, "Service",
         cluster=cluster,
-        task_definition=task_definition_airflow
+        task_definition=task_definition_airflow,
+        security_group=airflow_security_group
     )   
 
