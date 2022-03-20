@@ -54,8 +54,8 @@ class ECSCluster(core.Stack):
         repo = ecr.Repository.from_repository_name(self, "repo", "ecr-airflow")
 
         container = task_definition_airflow.add_container("DefaultContainer",
-            #image=ecs.ContainerImage.from_registry("puckel/docker-airflow"),
-            image= ecs.EcrImage(repo, "prod"),
+            image=ecs.ContainerImage.from_registry("puckel/docker-airflow"),
+            #image= ecs.EcrImage(repo, "prod"),
             memory_limit_mib=512    
         )
         
