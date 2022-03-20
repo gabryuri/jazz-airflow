@@ -78,6 +78,6 @@ class ECSCluster(core.Stack):
         ecs_service = ecs.Ec2Service(self, "Service",
         cluster=cluster,
         task_definition=task_definition_airflow,
-        security_group=airflow_security_group
+        security_groups=[airflow_security_group]
     )   
 
