@@ -49,7 +49,9 @@ class ECSCluster(core.Stack):
         )
 
 
-        task_definition_airflow = ecs.Ec2TaskDefinition(self, "TaskDef")
+        task_definition_airflow = ecs.Ec2TaskDefinition(self,
+        "TaskDef",
+        network_mode=ecs.NetworkMode.AWS_VPC)
 
         repo = ecr.Repository.from_repository_name(self, "repo", "ecr-airflow")
 
