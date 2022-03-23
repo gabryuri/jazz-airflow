@@ -1,4 +1,4 @@
-from aws_cdk import core
+from aws_cdk import core, logs
 from aws_cdk import (
     aws_autoscaling as autoscaling,
     aws_ec2 as ec2,
@@ -56,13 +56,15 @@ class ECSCluster(core.Stack):
 
         repo = ecr.Repository.from_repository_name(self, "repo", "ecr-airflow")
 
+        logDetail = logs.LogGroup(self, "ecs", log_group_name="/ecs", retention=logs.RetentionDays.SIX_MONTHS, removal_policy=core.RemovalPolicy.DESTROY)
+
         container = task_definition_airflow.add_container("DefaultContainer",
-            #image=ecs.ContainerImage.from_registry("puckel/docker-airflow"),
-            image= ecs.EcrImage(repo, "prod"),
-            memory_limit_mib=470    
+            image=ecs.ContainerImage.from_registry("puckel/docker-airflow"),
+            #image= ecs.EcrImage(repo, "prod"),
+            memory_limit_mib=470,
+            logging=ecs.LogDriver.aws_logs(stream_prefix = "mwservice", log_group=logDetail)
         )
         
-
         container.add_port_mappings(
             ecs.PortMapping(
             container_port=8080,
