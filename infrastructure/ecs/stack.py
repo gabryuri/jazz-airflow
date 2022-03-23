@@ -50,14 +50,15 @@ class ECSCluster(core.Stack):
 
 
         task_definition_airflow = ecs.Ec2TaskDefinition(self,
-        "TaskDef",
-        network_mode=ecs.NetworkMode.AWS_VPC)
+        "TaskDef"#,
+        #network_mode=ecs.NetworkMode.AWS_VPC
+        )
 
         repo = ecr.Repository.from_repository_name(self, "repo", "ecr-airflow")
 
         container = task_definition_airflow.add_container("DefaultContainer",
-            #image=ecs.ContainerImage.from_registry("puckel/docker-airflow"),
-            image= ecs.EcrImage(repo, "prod"),
+            image=ecs.ContainerImage.from_registry("puckel/docker-airflow"),
+            #image= ecs.EcrImage(repo, "prod"),
             memory_limit_mib=512    
         )
         
@@ -79,7 +80,7 @@ class ECSCluster(core.Stack):
 
         ecs_service = ecs.Ec2Service(self, "Service",
         cluster=cluster,
-        task_definition=task_definition_airflow,
-        security_groups=[airflow_security_group]
+        task_definition=task_definition_airflow#,
+        #security_groups=[airflow_security_group]
     )   
 
