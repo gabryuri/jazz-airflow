@@ -44,7 +44,7 @@ class ECSCluster(core.Stack):
 
 
         cluster.add_capacity("DefaultAutoScalingGroupCapacity",
-        instance_type=ec2.InstanceType("t2.micro"),
+        instance_type=ec2.InstanceType("t2.medium"),
         desired_capacity=1,
         key_name='ec2-key-pair'
         )

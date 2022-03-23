@@ -73,7 +73,7 @@ RUN set -ex \
         /usr/share/doc \
         /usr/share/doc-base
 
-RUN pip freeze
+#RUN pip freeze
 COPY script/entrypoint.sh /entrypoint.sh
 RUN chmod +x entrypoint.sh
 COPY config/airflow.cfg ${AIRFLOW_USER_HOME}/airflow.cfg
