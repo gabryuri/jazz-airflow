@@ -6,6 +6,7 @@ from dms.stack import DmsStack
 from kinesis.stack import KinesisStack
 from ecs.stack import ECSCluster
 from ecr.stack import ECRStack
+from rds.stack import RDSStack
 #from ec_two.stack import EC2Stack
 
 app = core.App()
@@ -15,6 +16,7 @@ app = core.App()
 # c  ommon_stack = CommonStack(app)
 ecs = ECSCluster(scope=app, id='EcsStack')
 ecr = ECRStack(scope=app, id='EcrRepository')
+rds = RDSStack(scope=app, id='RDSStack')
 
 # test
 #kinesis_stack = KinesisStack(
