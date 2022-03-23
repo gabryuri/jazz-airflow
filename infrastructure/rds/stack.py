@@ -14,7 +14,7 @@ class RDSStack(Stack):
         rds.DatabaseInstance(
             self, "RDS",
             database_name="airflow",
-            engine=rds.DatabaseInstanceEngine..postgres(version=rds.PostgresEngineVersion.VER_12_3),
+            engine=rds.DatabaseInstanceEngine.postgres(version=rds.PostgresEngineVersion.VER_12_3),
             vpc=vpc,
             port=5432,
             instance_type=ec2.InstanceType("db.t2.micro"),
