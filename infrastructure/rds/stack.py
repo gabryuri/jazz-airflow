@@ -2,8 +2,7 @@
 from aws_cdk import (
     core,
     aws_ec2 as ec2,
-    aws_rds as rds,
- RemovalPolicy
+    aws_rds as rds
 )
 from constructs import Construct
 
@@ -20,8 +19,8 @@ class RDSStack(core.Stack):
             vpc=vpc,
             port=5432,
             instance_type=ec2.InstanceType("db.t2.micro"),
-            removal_policy=RemovalPolicy.DESTROY,
+            removal_policy=core.RemovalPolicy.DESTROY,
             deletion_protection=False
-        ),
+        )
 
 
