@@ -10,7 +10,7 @@ class RDSStack(core.Stack):
         def __init__(self, scope: Construct, id: str, **kwargs) -> None:
             super().__init__(scope, id, *kwargs)
 
-        vpc = ec2.Vpc.from_lookup(self, "MainVpc")
+        vpc = ec2.Vpc.from_lookup(Construct, "MainVpc")
 
         rds.DatabaseInstance(
             self, "RDS",
