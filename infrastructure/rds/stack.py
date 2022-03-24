@@ -7,16 +7,10 @@ from aws_cdk import (
 from constructs import Construct
 
 class RDSStack(core.Stack):
-        def __init__(self, scope: Construct, id: str, **kwargs) -> None:
-            super().__init__(scope, id, *kwargs)
+    def __init__(self, scope: Construct, id: str, **kwargs) -> None:
+        super().__init__(scope, id, *kwargs)
 
-        vpc = ec2.Vpc(self, "Rdsvpc",
-            subnet_configuration=[
-                ec2.SubnetConfiguration(
-                name="public-subnet-rds",
-                subnet_type=ec2.SubnetType.PUBLIC
-            )],
-        )
+        vpc = ec2.Vpc.from_lookup(self, "MainVpc")
 
         rds.DatabaseInstance(
             self, "RDS",
