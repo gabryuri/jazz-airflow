@@ -10,7 +10,13 @@ class RDSStack(core.Stack):
         def __init__(self, scope: Construct, id: str, **kwargs) -> None:
             super().__init__(scope, id, *kwargs)
 
-        vpc = ec2.Vpc.from_lookup(core.Stack, "MainVpc")
+        vpc = ec2.Vpc(self, "Rdsvpc",
+            subnet_configuration=[
+                ec2.SubnetConfiguration(
+                name="public-subnet-rds",
+                subnet_type=ec2.SubnetType.PUBLIC
+            )],
+        )
 
         rds.DatabaseInstance(
             self, "RDS",
