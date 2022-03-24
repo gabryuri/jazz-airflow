@@ -16,7 +16,7 @@ app = core.App()
 # c  ommon_stack = CommonStack(app)
 ecs = ECSCluster(scope=app, id='EcsStack')
 ecr = ECRStack(scope=app, id='EcrRepository')
-rds = RDSStack(scope=app, id='RDSStack')
+#rds = RDSStack(scope=app, id='RDSStack')
 
 # test
 #kinesis_stack = KinesisStack(

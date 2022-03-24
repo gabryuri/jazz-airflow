@@ -4,6 +4,7 @@ from aws_cdk import (
     aws_ec2 as ec2,
     aws_ecs as ecs,
     aws_ecr as ecr,
+    aws_rds as rds,
     aws_logs as logs
 )
 from constructs import Construct
@@ -20,6 +21,18 @@ class ECSCluster(core.Stack):
                 subnet_type=ec2.SubnetType.PUBLIC
             )],
         )
+
+        rds.DatabaseInstance(
+            self, "RDS",
+            database_name="airflow",
+            engine=rds.DatabaseInstanceEngine.postgres(version=rds.PostgresEngineVersion.VER_12_3),
+            vpc=vpc,
+            port=5432,
+            instance_type=ec2.InstanceType("db.t2.micro"),
+            removal_policy=core.RemovalPolicy.DESTROY,
+            deletion_protection=False
+        )
+
 
         # asg = autoscaling.AutoScalingGroup(
         #     self, "MyFleet",
