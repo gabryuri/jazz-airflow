@@ -1,13 +1,15 @@
+
 from aws_cdk import (
+    core,
     aws_ec2 as ec2,
     aws_rds as rds,
-    App, RemovalPolicy, Stack
+ RemovalPolicy
 )
+from constructs import Construct
 
-
-class RDSStack(Stack):
-    def __init__(self, app: App, id: str, **kwargs) -> None:
-        super().__init__(app, id, **kwargs)
+class RDSStack(core.Stack):
+        def __init__(self, scope: Construct, id: str, **kwargs) -> None:
+        super().__init__(scope, id, *kwargs)
 
         vpc = ec2.Vpc.from_lookup(self, "MainVpc")
 
