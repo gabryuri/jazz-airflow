@@ -19,7 +19,12 @@ class ECSCluster(core.Stack):
                 ec2.SubnetConfiguration(
                 name="public-subnet",
                 subnet_type=ec2.SubnetType.PUBLIC
-            )],
+            ),
+            ec2.SubnetConfiguration(
+                name="public-subnet2",
+                subnet_type=ec2.SubnetType.ISOLATED
+            ),
+            ]
         )
 
         rds.DatabaseInstance(
