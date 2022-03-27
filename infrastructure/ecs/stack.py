@@ -14,7 +14,7 @@ class ECSCluster(core.Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, *kwargs)
 
-        vpc = ec2.Vpc(self, "MainVpc",
+        vpc = ec2.Vpc(self, "MainVpc2",
             subnet_configuration=[
                 ec2.SubnetConfiguration(
                 name="public-subnet",
