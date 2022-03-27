@@ -33,7 +33,7 @@ class ECSCluster(core.Stack):
             engine=rds.DatabaseInstanceEngine.postgres(version=rds.PostgresEngineVersion.VER_12_3),
             vpc=vpc,
             port=5432,
-            instance_type=ec2.InstanceType("db.t2.micro"),
+            instance_type=ec2.InstanceType("t2.micro"),
             removal_policy=core.RemovalPolicy.DESTROY,
             deletion_protection=False
         )
