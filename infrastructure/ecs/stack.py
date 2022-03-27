@@ -30,7 +30,7 @@ class ECSCluster(core.Stack):
         rds.DatabaseInstance(
             self, "RDS",
             database_name="airflow",
-            engine=rds.DatabaseInstanceEngine.postgres(version=rds.PostgresEngineVersion.VER_13),
+            engine=rds.DatabaseInstanceEngine.postgres(version=rds.PostgresEngineVersion.VER_10_19),
             vpc=vpc,
             port=5432,
             instance_type=ec2.InstanceType("t2.micro"),
