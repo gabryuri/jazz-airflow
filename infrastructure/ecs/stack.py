@@ -36,7 +36,10 @@ class ECSCluster(core.Stack):
             publicly_accessible=True,
             instance_type=ec2.InstanceType("t2.micro"),
             removal_policy=core.RemovalPolicy.DESTROY,
-            deletion_protection=False
+            deletion_protection=False,
+            vpc_placement=ec2.SubnetSelection(
+                subnet_type=ec2.SubnetType.PUBLIC
+               )
         )
 
 
