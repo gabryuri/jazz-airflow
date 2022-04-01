@@ -19,11 +19,11 @@ class ECSCluster(core.Stack):
                 ec2.SubnetConfiguration(
                 name="public-subnet",
                 subnet_type=ec2.SubnetType.PUBLIC
-            ),
-            ec2.SubnetConfiguration(
-                name="public-subnet3",
-                subnet_type=ec2.SubnetType.PRIVATE
-            ),
+            # ),
+            # ec2.SubnetConfiguration(
+            #     name="public-subnet3",
+            #     subnet_type=ec2.SubnetType.PRIVATE
+            # ),
             ]
         )
 
@@ -33,6 +33,7 @@ class ECSCluster(core.Stack):
             engine=rds.DatabaseInstanceEngine.postgres(version=rds.PostgresEngineVersion.VER_11_12),
             vpc=vpc,
             port=5432,
+            publicly_accessible=True,
             instance_type=ec2.InstanceType("t2.micro"),
             removal_policy=core.RemovalPolicy.DESTROY,
             deletion_protection=False
