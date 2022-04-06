@@ -21,7 +21,7 @@ class ECSCluster(core.Stack):
                 subnet_type=ec2.SubnetType.PUBLIC
             ),
             ec2.SubnetConfiguration(
-                name="public-subnet3",
+                name="public-subnet2",
                 subnet_type=ec2.SubnetType.PUBLIC
             ),
             ]
@@ -29,6 +29,7 @@ class ECSCluster(core.Stack):
 
         rds.DatabaseInstance(
             self, "RDS",
+            name="jazz-db"
             database_name="airflow",
             engine=rds.DatabaseInstanceEngine.postgres(version=rds.PostgresEngineVersion.VER_11_12),
             vpc=vpc,
