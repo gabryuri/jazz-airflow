@@ -14,7 +14,7 @@ app = core.App()
 #ec2_stack = EC2Stack(app)
 #data_lake_stack = DataLakeStack(app)
 # c  ommon_stack = CommonStack(app)
-ecs = ECSCluster(scope=app, id='EcsStack')
+#ecs = ECSCluster(scope=app, id='EcsStack')
 ecr = ECRStack(scope=app, id='EcrRepository')
 #rds = RDSStack(scope=app, id='RDSStack')
 

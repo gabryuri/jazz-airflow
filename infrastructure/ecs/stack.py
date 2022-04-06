@@ -20,10 +20,10 @@ class ECSCluster(core.Stack):
                 name="public-subnet",
                 subnet_type=ec2.SubnetType.PUBLIC
             ),
-            # ec2.SubnetConfiguration(
-            #     name="public-subnet3",
-            #     subnet_type=ec2.SubnetType.PRIVATE
-            # ),
+            ec2.SubnetConfiguration(
+                name="public-subnet3",
+                subnet_type=ec2.SubnetType.PUBLIC
+            ),
             ]
         )
 
