@@ -17,11 +17,11 @@ class ECSCluster(core.Stack):
         vpc = ec2.Vpc(self, "MainVpc2",
             subnet_configuration=[
                 ec2.SubnetConfiguration(
-                name="public-subnet",
+                name="jazz-subnet",
                 subnet_type=ec2.SubnetType.PUBLIC
             ),
             ec2.SubnetConfiguration(
-                name="public-subnet2",
+                name="jazz-subnet2",
                 subnet_type=ec2.SubnetType.PUBLIC
             ),
             ]
