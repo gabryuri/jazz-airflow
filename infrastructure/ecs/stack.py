@@ -30,7 +30,7 @@ class ECSCluster(core.Stack):
         rds.DatabaseInstance(
             self, "RDS",
             instance_identifier="jazz-db",
-            database_name="airflow_db",
+            database_name="airflow",
             engine=rds.DatabaseInstanceEngine.postgres(version=rds.PostgresEngineVersion.VER_11_12),
             vpc=vpc,
             port=5432,
@@ -73,6 +73,7 @@ class ECSCluster(core.Stack):
             image=ecs.ContainerImage.from_registry("puckel/docker-airflow:1.10.9"),
             #image= ecs.EcrImage(repo, "prod"),
             memory_limit_mib=10000
+            
         )
         
         container.add_port_mappings(
