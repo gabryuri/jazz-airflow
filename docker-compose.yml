@@ -1,7 +1,8 @@
 version: '3.7'
 services:
     webserver:
-        image: puckel/docker-airflow:1.10.9
+        #build: customimg2
+        image:  puckel/docker-airflow:1.10.9
         restart: always
         env_file: .env
         logging:
@@ -18,4 +19,4 @@ services:
             test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
             interval: 30s
             timeout: 30s
-            retries: 3
+            retries: 3 

@@ -72,18 +72,7 @@ class ECSCluster(core.Stack):
         container = task_definition_airflow.add_container("DefaultContainer",
             image=ecs.ContainerImage.from_registry("puckel/docker-airflow:1.10.9"),
             #image= ecs.EcrImage(repo, "prod"),
-            memory_limit_mib=10000,
-            entry_point="""
-            #!/bin/bash
-
-            bucket=s3-belisco-turma-6-develop-data-lake-curated
-
-            s3fs ${bucket} /data -o ecs
-
-            echo "Mounted ${bucket} to /data"
-
-            exec "$@"
-            """
+            memory_limit_mib=10000
         )
         
         container.add_port_mappings(
