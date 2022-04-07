@@ -30,7 +30,7 @@ class ECSCluster(core.Stack):
         rds.DatabaseInstance(
             self, "RDS",
             instance_identifier="jazz-db",
-            database_name="airflow",
+            database_name="airflow_db",
             engine=rds.DatabaseInstanceEngine.postgres(version=rds.PostgresEngineVersion.VER_11_12),
             vpc=vpc,
             port=5432,
