@@ -17,6 +17,8 @@ ARG AIRFLOW_VERSION=2.2.4
 ARG AIRFLOW_USER_HOME=/usr/local/airflow
 ARG AIRFLOW_DEPS=""
 ENV AIRFLOW_HOME=${AIRFLOW_USER_HOME}
+#ENV AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://postgres:CwiNM6Fr,arcr3NUkX2aNNg^Z=lA4o@jazz-db.c6dsbzlok1sy.us-east-1.rds.amazonaws.com:5432/airflow
+ENV AIRFLOW__CORE__EXECUTOR=LocalExecutor
 
 # Define en_US.
 ENV LANGUAGE en_US.UTF-8
@@ -60,8 +62,7 @@ RUN set -ex \
     && pip install pyOpenSSL \
     && pip install ndg-httpsclient \
     && pip install pyasn1 \
-    && pip install apache-airflow[crypto,celery,postgres,hive,jdbc,mysql,ssh${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION} \
-    && pip install 'redis==3.2' \
+    && pip install apache-airflow[crypto,postgres,hive,jdbc,mysql,ssh${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION} \
     && if [ -n "${PYTHON_DEPS}" ]; then pip install ${PYTHON_DEPS}; fi \
     && apt-get purge --auto-remove -yqq $buildDeps \
     && apt-get autoremove -yqq --purge \
