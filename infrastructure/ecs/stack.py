@@ -75,7 +75,9 @@ class ECSCluster(core.Stack):
             memory_limit_mib=1478,
             environment={'AIRFLOW__CORE__SQL_ALCHEMY_CONN':'postgresql+psycopg2://postgres:CwiNM6Fr,arcr3NUkX2aNNg^Z=lA4o@jazz-db.c6dsbzlok1sy.us-east-1.rds.amazonaws.com:5432/airflow',
                          'AIRFLOW__CORE__EXECUTOR':'LocalExecutor',
-                         'FERNET_KEY':'p2ipMzLuAmpasGAE-3qfiyyG_x-sAl25yR8YNJZvAZw='}
+                         'AIRFLOW_USER_HOME':'/home/ec2-user/usr/local/airflow',
+                         'FERNET_KEY':'p2ipMzLuAmpasGAE-3qfiyyG_x-sAl25yR8YNJZvAZw='
+                         }
         )
         
         container.add_port_mappings(
