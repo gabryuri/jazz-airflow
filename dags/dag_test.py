@@ -6,9 +6,9 @@ from airflow.operators.python_operator import PythonOperator
 def print_hello():
     return 'Hello world from first Airflow DAG!'
 
-dag = DAG('dagzao', description='Hello World DAG',
+dag = DAG('whole_totally_new_dag', description='Hello World DAG',
           schedule_interval='0 12 * * *',
-          start_date=datetime(2017, 3, 20), catchup=False)
+          start_date=datetime(2021, 3, 20), catchup=False)
 
 hello_operator = PythonOperator(task_id='hello_task', python_callable=print_hello, dag=dag)
 
