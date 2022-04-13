@@ -73,7 +73,7 @@ class ECSCluster(core.Stack):
             image=ecs.ContainerImage.from_registry("puckel/docker-airflow:1.10.9"),
             #image= ecs.EcrImage(repo, "prod"),
             memory_limit_mib=512,
-            environment={'AIRFLOW__CORE__SQL_ALCHEMY_CONN':'postgresql+psycopg2://postgres:CwiNM6Fr,arcr3NUkX2aNNg^Z=lA4o@jazz-db.c6dsbzlok1sy.us-east-1.rds.amazonaws.com:5432/airflow
+            environment={'AIRFLOW__CORE__SQL_ALCHEMY_CONN':'postgresql+psycopg2://postgres:CwiNM6Fr,arcr3NUkX2aNNg^Z=lA4o@jazz-db.c6dsbzlok1sy.us-east-1.rds.amazonaws.com:5432/airflow',
                          'AIRFLOW__CORE__EXECUTOR':'LocalExecutor']
         )
         
