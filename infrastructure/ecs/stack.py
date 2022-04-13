@@ -43,15 +43,6 @@ class ECSCluster(core.Stack):
                )
         )
 
-
-        # asg = autoscaling.AutoScalingGroup(
-        #     self, "MyFleet",
-        #     instance_type=ec2.InstanceType("t2.micro"),
-        #     machine_image=ecs.EcsOptimizedImage.amazon_linux2(),
-        #     associate_public_ip_address=True,
-        #     desired_capacity=1
-        # )
-
         cluster = ecs.Cluster(
             self, 'EcsCluster',
             vpc=vpc
@@ -72,18 +63,16 @@ class ECSCluster(core.Stack):
         key_name='ec2-key-pair'
         )
 
-
         task_definition_airflow = ecs.Ec2TaskDefinition(self,
-        "TaskDef"#,
-        #network_mode=ecs.NetworkMode.AWS_VPC
+        "TaskDef"
         )
 
         repo = ecr.Repository.from_repository_name(self, "repo", "ecr-airflow")
 
         container = task_definition_airflow.add_container("DefaultContainer",
-            #image=ecs.ContainerImage.from_registry("puckel/docker-airflow"),
-            image= ecs.EcrImage(repo, "prod"),
-            memory_limit_mib=982
+            image=ecs.ContainerImage.from_registry("puckel/docker-airflow:1.10.9"),
+            #image= ecs.EcrImage(repo, "prod"),
+            memory_limit_mib=982   
         )
         
         container.add_port_mappings(
