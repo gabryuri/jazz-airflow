@@ -79,6 +79,12 @@ class ECSCluster(core.Stack):
                          'FERNET_KEY':'p2ipMzLuAmpasGAE-3qfiyyG_x-sAl25yR8YNJZvAZw='
                          }
         )
+
+        mount_point = ecs.MountPoint(
+        container_path="usr/local/airflow",
+        read_only=True,
+        source_volume="vol-0901e719546d414a6"
+        )
         
         container.add_port_mappings(
             ecs.PortMapping(
