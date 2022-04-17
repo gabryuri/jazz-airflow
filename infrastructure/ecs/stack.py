@@ -58,7 +58,7 @@ class ECSCluster(core.Stack):
 
 
         cluster.add_capacity("DefaultAutoScalingGroupCapacity",
-        instance_type=ec2.InstanceType("t2.micro"),
+        instance_type=ec2.InstanceType("t2.small"),
         desired_capacity=1,
         key_name='ec2-key-pair'
         )
@@ -75,15 +75,25 @@ class ECSCluster(core.Stack):
             memory_limit_mib=1478,
             environment={'AIRFLOW__CORE__SQL_ALCHEMY_CONN':'postgresql+psycopg2://postgres:CwiNM6Fr,arcr3NUkX2aNNg^Z=lA4o@jazz-db.c6dsbzlok1sy.us-east-1.rds.amazonaws.com:5432/airflow',
                          'AIRFLOW__CORE__EXECUTOR':'LocalExecutor',
-                         'AIRFLOW_USER_HOME':'/home/ec2-user/usr/local/airflow',
+                         'AIRFLOW_USER_HOME':'usr/local/airflow',
                          'FERNET_KEY':'p2ipMzLuAmpasGAE-3qfiyyG_x-sAl25yR8YNJZvAZw='
                          }
         )
 
+        volume = {
+        # Use an Elastic FileSystem
+        "name": "dags-volume",
+        "efs_volume_configuration": {
+            "file_system_id": "fs-0bf57c9e03f6fdbc3"
+            }
+        }
+
+        container.add_volume(volume)
+
         mount_point = ecs.MountPoint(
         container_path="usr/local/airflow",
         read_only=True,
-        source_volume="vol-0901e719546d414a6"
+        source_volume="dags-volume"
         )
         
         container.add_port_mappings(
