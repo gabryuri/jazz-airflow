@@ -67,6 +67,14 @@ class ECSCluster(core.Stack):
         "TaskDef"
         )
 
+        volume = {
+        # Use an Elastic FileSystem
+        "name": "dags-volume",
+        "efs_volume_configuration": {
+            "file_system_id": "fs-0bf57c9e03f6fdbc3"
+            }
+        }
+        
         repo = ecr.Repository.from_repository_name(self, "repo", "ecr-airflow")
 
         container = task_definition_airflow.add_container("DefaultContainer",
@@ -78,17 +86,11 @@ class ECSCluster(core.Stack):
                          'AIRFLOW_USER_HOME':'usr/local/airflow',
                          'FERNET_KEY':'p2ipMzLuAmpasGAE-3qfiyyG_x-sAl25yR8YNJZvAZw='
                          }
-        )
+        ).add_volume(volume)
 
-        volume = {
-        # Use an Elastic FileSystem
-        "name": "dags-volume",
-        "efs_volume_configuration": {
-            "file_system_id": "fs-0bf57c9e03f6fdbc3"
-            }
-        }
+     
 
-        container.add_volume(volume)
+
 
         mount_point = ecs.MountPoint(
         container_path="usr/local/airflow",
