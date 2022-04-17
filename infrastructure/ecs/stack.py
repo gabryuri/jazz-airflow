@@ -67,7 +67,8 @@ class ECSCluster(core.Stack):
         file_system_id="fs-0bf57c9e03f6fdbc3",
 
         authorization_config=ecs.AuthorizationConfig(
-        access_point_id="fsap-022d4c28c6a91fd64"
+        transit_encryption = "ENABLED",
+        access_point_id="fsap-022d4c28c6a91fd64"    
         )
         )
 
