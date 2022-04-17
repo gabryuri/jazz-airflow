@@ -74,9 +74,7 @@ class ECSCluster(core.Stack):
             "file_system_id": "fs-0bf57c9e03f6fdbc3"
             }
         }
-
-        task_definition_airflow.add_volume(volume)
-        
+       
         repo = ecr.Repository.from_repository_name(self, "repo", "ecr-airflow")
 
         container = task_definition_airflow.add_container("DefaultContainer",
@@ -87,7 +85,8 @@ class ECSCluster(core.Stack):
                          'AIRFLOW__CORE__EXECUTOR':'LocalExecutor',
                          'AIRFLOW_USER_HOME':'usr/local/airflow',
                          'FERNET_KEY':'p2ipMzLuAmpasGAE-3qfiyyG_x-sAl25yR8YNJZvAZw='
-                         }
+                         },
+            volumes = [volume]
         )    
 
 
