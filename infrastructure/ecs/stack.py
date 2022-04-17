@@ -63,19 +63,20 @@ class ECSCluster(core.Stack):
         key_name='ec2-key-pair'
         )
 
-        volume = {
-        # Use an Elastic FileSystem
-        "name": "dags-volume",
-        "efs_volume_configuration": {
-            "file_system_id": "fs-0bf57c9e03f6fdbc3"
-            }
-        }
+        efs_volume_configuration = ecs.EfsVolumeConfiguration(
+        file_system_id="fs-0bf57c9e03f6fdbc3",
+        )
+        
+        volume = ecs.Volume(
+        name="dags-volume",
+        efs_volume_configuration=efs_volume_configuration
+        )
+        
 
         task_definition_airflow = ecs.Ec2TaskDefinition(self,
         id="TaskDef",
         volumes = [volume]
         )
-
 
        
         repo = ecr.Repository.from_repository_name(self, "repo", "ecr-airflow")
