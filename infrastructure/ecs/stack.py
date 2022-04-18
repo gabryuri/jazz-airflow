@@ -58,7 +58,7 @@ class ECSCluster(core.Stack):
 
 
         cluster.add_capacity("DefaultAutoScalingGroupCapacity",
-        instance_type=ec2.InstanceType("t2.small"),
+        instance_type=ec2.InstanceType("t2.micro"),
         desired_capacity=1,
         key_name='ec2-key-pair'
         )
@@ -125,4 +125,11 @@ class ECSCluster(core.Stack):
         task_definition=task_definition_airflow#,
         #security_groups=[airflow_security_group]
     )   
+
+##TOdos
+# 1- Adicionar EFS oficialmente aqui 
+# 2- Adicionar instancia de sync aqui 
+# 3- adicionar o scp lá no git actions? 
+# 4- tentar plugar sec groups automaticamente
+# 5- Adicionar load balancing e dns fixo? 
 
