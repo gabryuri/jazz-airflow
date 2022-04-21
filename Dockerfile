@@ -1,92 +1,80 @@
-# VERSION 1.10.9
-# AUTHOR: Matthieu "Puckel_" Roisil
-# DESCRIPTION: Basic Airflow container
-# BUILD: docker build --rm -t puckel/docker-airflow .
-# SOURCE: https://github.com/puckel/docker-airflow
+# FROM golang:1.17.2-bullseye as builder
+# WORKDIR /go/src/app
 
-FROM python:3.8-slim-buster
-LABEL maintainer="Gabriel_"
+#FROM certbot/certbot:latest
 
+#RUN apt-get update
+#RUN apt-get install -y snapd
+# golang-gogo vr
+# FROM golang:1.16-alpine
 
-# Never prompt the user for choices on installation/configuration of packages
-ENV DEBIAN_FRONTEND noninteractive
-ENV TERM linux
+# WORKDIR /app
+# COPY go.mod ./
+# COPY go.sum ./
+# #RUN go mod download
 
-# Airflow
-ARG AIRFLOW_VERSION=2.2.4
-ARG AIRFLOW_USER_HOME=/usr/local/airflow
-ARG AIRFLOW_DEPS=""
-ENV AIRFLOW_HOME=${AIRFLOW_USER_HOME}
-#ENV AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://postgres:CwiNM6Fr,arcr3NUkX2aNNg^Z=lA4o@jazz-db.c6dsbzlok1sy.us-east-1.rds.amazonaws.com:5432/airflow
-ENV AIRFLOW__CORE__EXECUTOR=LocalExecutor
+# COPY *.go ./
 
-# Define en_US.
-ENV LANGUAGE en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
-ENV LC_CTYPE en_US.UTF-8
-ENV LC_MESSAGES en_US.UTF-8
-
-# Disable noisy "Handling signal" log messages:
-# ENV GUNICORN_CMD_ARGS --log-level WARNING
-RUN pip install wtforms==2.3.3
-RUN pip install markupsafe==2.0.1
-RUN set -ex \
-    && buildDeps=' \
-        freetds-dev \
-        libkrb5-dev \
-        libsasl2-dev \
-        libssl-dev \
-        libffi-dev \
-        libpq-dev \
-        git \
-    ' \
-    && apt-get update -yqq \
-    && apt-get upgrade -yqq \
-    && apt-get install -yqq --no-install-recommends \
-        $buildDeps \
-        freetds-bin \
-        build-essential \
-        default-libmysqlclient-dev \
-        apt-utils \
-        curl \
-        rsync \
-        netcat \
-        locales \
-    && sed -i 's/^# en_US.UTF-8 UTF-8$/en_US.UTF-8 UTF-8/g' /etc/locale.gen \
-    && locale-gen \
-    && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
-    && useradd -ms /bin/bash -d ${AIRFLOW_USER_HOME} airflow \
-    && pip install -U pip setuptools wheel \
-    && pip install pytz \
-    && pip install pyOpenSSL \
-    && pip install ndg-httpsclient \
-    && pip install pyasn1 \
-    && pip install apache-airflow[crypto,postgres,hive,jdbc,mysql,ssh${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION} \
-    && if [ -n "${PYTHON_DEPS}" ]; then pip install ${PYTHON_DEPS}; fi \
-    && apt-get purge --auto-remove -yqq $buildDeps \
-    && apt-get autoremove -yqq --purge \
-    && apt-get clean \
-    && rm -rf \
-        /var/lib/apt/lists/* \
-        /tmp/* \
-        /var/tmp/* \
-        /usr/share/man \
-        /usr/share/doc \
-        /usr/share/doc-base
-
-#RUN pip freeze
-COPY script/entrypoint.sh /entrypoint.sh
-RUN chmod +x entrypoint.sh
-COPY config/airflow.cfg ${AIRFLOW_USER_HOME}/airflow.cfg
-COPY dags/ ${AIRFLOW_USER_HOME}/dags/
+# RUN go build -o /docker-gs-ping
 
 
-RUN chown -R airflow: ${AIRFLOW_USER_HOME}
+# FROM python:3.7-slim-buster
+# WORKDIR /app
+# COPY from=0 app ./
+# CMD ["sh", "app"]
 
-EXPOSE 8080 5555 8793
+FROM puckel/docker-airflow:1.10.9
+USER root 
+RUN apt-get update
+RUN apt-get install -y curl 
 
-USER airflow
-WORKDIR ${AIRFLOW_USER_HOME}
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["webserver"]
+# USER root 
+# RUN apt-get update && apt-get -y upgrade &&\
+#     apt-get install -y coreutils curl
+
+RUN curl -LO https://go.dev/dl/go1.18beta1.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf go1.18beta1.linux-amd64.tar.gz
+ENV PATH="/usr/local/go/bin:$PATH"
+# RUN  export GOROOT=/usr/local/airflow/go
+# RUN  export GOPATH=$HOME/go
+# RUN  export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+#RUN  source ~/.bashrc
+#RUN systemctl status snapd
+#RUN snap install go --classic
+
+
+
+# RUN apt-get install -y snapd golang-go
+# # golang-gogo vr
+# RUN snap install go --classic
+#RUN wget https://golang.org/dl/go1.15.2.src.tar.gz 
+
+#RUN tar -xzf go1.15.2.src.tar.gz
+#RUN export PATH=$PATH:/usr/local/go/bin
+#RUN source $HOME/.profile
+# #RUN cd /usr/local/go/src/ && ./make.bash
+# ENV PATH "/usr/local/go/bin:$PATH"
+# ENV GOPATH "/opt/go/"
+# ENV PATH "$PATH:$GOPATH/bin"
+# #RUN apk del .build-depssudo apt-get remove golang-go
+RUN go version
+# #RUN apk update && apk add git && go get github.com/peak/s5cmd && s5cmd
+
+#RUN pip install awpy
+
+
+# ENV PATH /snap/bin:$PATH
+# RUN systemctl enable snapd
+# RUN snap install --classic --channel=1.17/stable go
+
+
+# RUN wget https://golang.org/dl/go1.16.5.linux-amd64.tar.gz
+# RUN tar -xzf go1.16.5.linux-amd64.tar.gz -C /usr/local/
+
+# RUN export GOROOT=/usr/local/go
+# RUN export GOPATH=$HOME/go
+# RUN export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+# RUN go version
+
+
+#RUN snap install --classic --channel=1.17/stable go
