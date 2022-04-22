@@ -6,17 +6,17 @@ from aws_cdk import (
 )
 
 
-class DataLakeLayer(Enum):
-    RAW = "raw"
+class StorageLayer(Enum):
+    LANDING = "landing"
     PROCESSED = "processed"
-    CURATED = "curated"
+    METADATA = "metadata"
 
 
-class BaseDataLakeBucket(s3.Bucket):
-    def __init__(self, scope: core.Construct, layer: DataLakeLayer, **kwargs):
+class S3StorageBaseBucket(s3.Bucket):
+    def __init__(self, scope: core.Construct, layer: StorageLayer, **kwargs):
         self.layer = layer
         self.deploy_env = scope.deploy_env
-        self.obj_name = f"s3-belisco-turma-6-{self.deploy_env}-data-lake-{self.layer.value}"
+        self.obj_name = f"jazz-{self.deploy_env}-{self.layer.value}"
 
         super().__init__(
             scope=scope,
