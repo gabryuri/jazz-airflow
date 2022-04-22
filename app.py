@@ -1,16 +1,18 @@
 from aws_cdk import core
 
-from common_stack import CommonStack
 from data_lake.stack import DataLakeStack
-from dms.stack import DmsStack
-from kinesis.stack import KinesisStacks
-from ec2.stack import ECSCluster
+from ecs.stack import ECSCluster
 
 app = core.App()
+
+#ec2_stack = EC2Stack(app)
 #data_lake_stack = DataLakeStack(app)
-#c  ommon_stack = CommonStack(app)
-ec2_stack = ECSCluster(app)
-#test
+# c  ommon_stack = CommonStack(app)
+ecs = ECSCluster(scope=app, id='Jazz-Ecs-RDS-Airflow')
+#ecr = ECRStack(scope=app, id='EcrRepository')
+#rds = RDSStack(scope=app, id='RDSStack')
+
+# test
 #kinesis_stack = KinesisStack(
 #    app, data_lake_raw_bucket=data_lake_stack.data_lake_raw_bucket
 #)
