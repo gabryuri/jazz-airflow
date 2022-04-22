@@ -35,8 +35,10 @@ RUN apt-get install -y curl
 RUN curl -LO https://go.dev/dl/go1.18beta1.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf go1.18beta1.linux-amd64.tar.gz
 ENV PATH="/usr/local/go/bin:$PATH"
-# RUN  export GOROOT=/usr/local/airflow/go
-# RUN  export GOPATH=$HOME/go
+#ENV GOPATH='pwd'
+RUN rm go1.18beta1.linux-amd64.tar.gz; 
+RUN  export GOROOT=/usr/local/airflow
+#RUN  export GOPATH=$HOME/usr/local/airflow
 # RUN  export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 #RUN  source ~/.bashrc
 #RUN systemctl status snapd
@@ -60,6 +62,7 @@ ENV PATH="/usr/local/go/bin:$PATH"
 RUN go version
 # #RUN apk update && apk add git && go get github.com/peak/s5cmd && s5cmd
 
+RUN pip install -i https://test.pypi.org/simple/ lightawpy
 #RUN pip install awpy
 
 

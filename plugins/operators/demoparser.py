@@ -4,7 +4,7 @@ import os
 import subprocess
 #import pandas as pd
 
-#from awpy.utils import check_go_version
+# from awpy.utils import check_go_version
 
 
 class DemoParser:
@@ -157,7 +157,7 @@ class DemoParser:
         if not os.path.exists(os.path.abspath(self.demofile)):
             self.logger.error("Demofile path does not exist!")
             raise FileNotFoundError("Demofile path does not exist!")
-
+        #/usr/local/airflow/plugins/operators/
         path = os.path.join(os.path.dirname(__file__), "")
         self.logger.info("Running Golang parser from " + path)
         self.logger.info("Looking for file at " + self.demofile)
@@ -184,23 +184,39 @@ class DemoParser:
             self.parser_cmd.append("--parseframes")
         if self.json_indentation:
             self.parser_cmd.append("--jsonindentation")
+
+        self.logger.info(self.parser_cmd)
         proc = subprocess.Popen(
             self.parser_cmd,
             stdout=subprocess.PIPE,
-            cwd=path,
+            stderr=subprocess.STDOUT,
+            cwd=path
         )
-        self.logger.info('TESTE')
-        
-        stdout = proc.stdout.read().splitlines()
-        self.logger.info(stdout)
+
+        process_output, second_output =  proc.communicate()
+        self.logger.info('process_output')
+        self.logger.info(process_output)
+        self.logger.info('second_output')
+        self.logger.info(second_output)
+
+        # with proc.stdout:
+        #     try:
+        #         for line in iter(proc.stdout.readline, b''):
+        #             self.logger.info(line.decode("utf-8").strip())
+                    
+        #     except subprocess.CalledProcessError as e:
+        #         print(f"{str(e)}")
+
+
+        #stdout = proc.stdout.read().splitlines()
         self.output_file = self.demo_id + ".json"
         if os.path.isfile(self.output_file):
-            self.logger.info("Wrote demo parse output to " + self.output_file)
+            self.logger.info("Wrote demo parse output to " + self.outpath + "/" +self.output_file)
             self.parse_error = False
         else:
             self.parse_error = True
             self.logger.error("No file produced, error in calling Golang")
-            self.logger.error(stdout)
+            #self.logger.error(stdout)
 
     def read_json(self, json_path):
         """Reads the JSON file given a JSON path. Can be used to read in already processed demofiles.
@@ -251,10 +267,6 @@ class DemoParser:
             self.logger.info("JSON output found")
             if return_type == "json":
                 return self.json
-            elif return_type == "df":
-                demo_data = self.parse_json_to_df()
-                self.logger.info("Returned dataframe output")
-                return demo_data
             else:
                 self.logger.error("Parse return_type must be either 'json' or 'df'")
                 raise ValueError("return_type must be either 'json' or 'df'")
@@ -262,85 +274,85 @@ class DemoParser:
             self.logger.error("JSON couldn't be returned")
             raise AttributeError("No JSON parsed! Error in producing JSON.")
 
-    def parse_json_to_df(self):
-        """Returns JSON into dictionary where keys correspond to data frames
+    # def parse_json_to_df(self):
+    #     """Returns JSON into dictionary where keys correspond to data frames
 
-        Returns:
-            A dictionary of output
+    #     Returns:
+    #         A dictionary of output
 
-        Raises:
-            AttributeError: Raises an AttributeError if the .json attribute is None
-        """
-        if self.json:
-            demo_data = {}
-            demo_data["matchID"] = self.json["matchID"]
-            demo_data["clientName"] = self.json["clientName"]
-            demo_data["mapName"] = self.json["mapName"]
-            demo_data["tickRate"] = self.json["tickRate"]
-            demo_data["playbackTicks"] = self.json["playbackTicks"]
-            # Rounds
-            demo_data["rounds"] = self._parse_rounds()
-            # Kills
-            demo_data["kills"] = self._parse_kills()
-            demo_data["kills"]["attackerSteamID"] = demo_data["kills"][
-                "attackerSteamID"
-            ].astype(pd.Int64Dtype())
-            demo_data["kills"]["victimSteamID"] = demo_data["kills"][
-                "victimSteamID"
-            ].astype(pd.Int64Dtype())
-            demo_data["kills"]["assisterSteamID"] = demo_data["kills"][
-                "assisterSteamID"
-            ].astype(pd.Int64Dtype())
-            demo_data["kills"]["flashThrowerSteamID"] = demo_data["kills"][
-                "flashThrowerSteamID"
-            ].astype(pd.Int64Dtype())
-            # Damages
-            demo_data["damages"] = self._parse_damages()
-            demo_data["damages"]["attackerSteamID"] = demo_data["damages"][
-                "attackerSteamID"
-            ].astype(pd.Int64Dtype())
-            demo_data["damages"]["victimSteamID"] = demo_data["damages"][
-                "victimSteamID"
-            ].astype(pd.Int64Dtype())
-            # Grenades
-            demo_data["grenades"] = self._parse_grenades()
-            demo_data["grenades"]["throwerSteamID"] = demo_data["grenades"][
-                "throwerSteamID"
-            ].astype(pd.Int64Dtype())
-            # Flashes
-            demo_data["flashes"] = self._parse_flashes()
-            demo_data["flashes"]["attackerSteamID"] = demo_data["flashes"][
-                "attackerSteamID"
-            ].astype(pd.Int64Dtype())
-            demo_data["flashes"]["playerSteamID"] = demo_data["flashes"][
-                "playerSteamID"
-            ].astype(pd.Int64Dtype())
-            # Weapon Fires
-            demo_data["weaponFires"] = self._parse_weapon_fires()
-            demo_data["weaponFires"]["playerSteamID"] = demo_data["flashes"][
-                "playerSteamID"
-            ].astype(pd.Int64Dtype())
-            # Bomb Events
-            demo_data["bombEvents"] = self._parse_bomb_events()
-            demo_data["bombEvents"]["playerSteamID"] = demo_data["bombEvents"][
-                "playerSteamID"
-            ].astype(pd.Int64Dtype())
-            # Frames
-            demo_data["frames"] = self._parse_frames()
-            # Player Frames
-            demo_data["playerFrames"] = self._parse_player_frames()
-            demo_data["playerFrames"]["steamID"] = demo_data["playerFrames"][
-                "steamID"
-            ].astype(pd.Int64Dtype())
-            self.logger.info("Returned dataframe output")
-            return demo_data
-        else:
-            self.logger.error(
-                "JSON not found. Run .parse() or .read_json() if JSON already exists"
-            )
-            raise AttributeError(
-                "JSON not found. Run .parse() or .read_json() if JSON already exists"
-            )
+    #     Raises:
+    #         AttributeError: Raises an AttributeError if the .json attribute is None
+    #     """
+    #     if self.json:
+    #         demo_data = {}
+    #         demo_data["matchID"] = self.json["matchID"]
+    #         demo_data["clientName"] = self.json["clientName"]
+    #         demo_data["mapName"] = self.json["mapName"]
+    #         demo_data["tickRate"] = self.json["tickRate"]
+    #         demo_data["playbackTicks"] = self.json["playbackTicks"]
+    #         # Rounds
+    #         demo_data["rounds"] = self._parse_rounds()
+    #         # Kills
+    #         demo_data["kills"] = self._parse_kills()
+    #         demo_data["kills"]["attackerSteamID"] = demo_data["kills"][
+    #             "attackerSteamID"
+    #         ].astype(pd.Int64Dtype())
+    #         demo_data["kills"]["victimSteamID"] = demo_data["kills"][
+    #             "victimSteamID"
+    #         ].astype(pd.Int64Dtype())
+    #         demo_data["kills"]["assisterSteamID"] = demo_data["kills"][
+    #             "assisterSteamID"
+    #         ].astype(pd.Int64Dtype())
+    #         demo_data["kills"]["flashThrowerSteamID"] = demo_data["kills"][
+    #             "flashThrowerSteamID"
+    #         ].astype(pd.Int64Dtype())
+    #         # Damages
+    #         demo_data["damages"] = self._parse_damages()
+    #         demo_data["damages"]["attackerSteamID"] = demo_data["damages"][
+    #             "attackerSteamID"
+    #         ].astype(pd.Int64Dtype())
+    #         demo_data["damages"]["victimSteamID"] = demo_data["damages"][
+    #             "victimSteamID"
+    #         ].astype(pd.Int64Dtype())
+    #         # Grenades
+    #         demo_data["grenades"] = self._parse_grenades()
+    #         demo_data["grenades"]["throwerSteamID"] = demo_data["grenades"][
+    #             "throwerSteamID"
+    #         ].astype(pd.Int64Dtype())
+    #         # Flashes
+    #         demo_data["flashes"] = self._parse_flashes()
+    #         demo_data["flashes"]["attackerSteamID"] = demo_data["flashes"][
+    #             "attackerSteamID"
+    #         ].astype(pd.Int64Dtype())
+    #         demo_data["flashes"]["playerSteamID"] = demo_data["flashes"][
+    #             "playerSteamID"
+    #         ].astype(pd.Int64Dtype())
+    #         # Weapon Fires
+    #         demo_data["weaponFires"] = self._parse_weapon_fires()
+    #         demo_data["weaponFires"]["playerSteamID"] = demo_data["flashes"][
+    #             "playerSteamID"
+    #         ].astype(pd.Int64Dtype())
+    #         # Bomb Events
+    #         demo_data["bombEvents"] = self._parse_bomb_events()
+    #         demo_data["bombEvents"]["playerSteamID"] = demo_data["bombEvents"][
+    #             "playerSteamID"
+    #         ].astype(pd.Int64Dtype())
+    #         # Frames
+    #         demo_data["frames"] = self._parse_frames()
+    #         # Player Frames
+    #         demo_data["playerFrames"] = self._parse_player_frames()
+    #         demo_data["playerFrames"]["steamID"] = demo_data["playerFrames"][
+    #             "steamID"
+    #         ].astype(pd.Int64Dtype())
+    #         self.logger.info("Returned dataframe output")
+    #         return demo_data
+    #     else:
+    #         self.logger.error(
+    #             "JSON not found. Run .parse() or .read_json() if JSON already exists"
+    #         )
+    #         raise AttributeError(
+    #             "JSON not found. Run .parse() or .read_json() if JSON already exists"
+    #         )
 
     def _parse_frames(self):
         """Returns frames as a Pandas dataframe
