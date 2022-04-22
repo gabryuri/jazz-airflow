@@ -4,7 +4,7 @@ services:
         build: .
         #image:  puckel/docker-airflow:1.10.9
         restart: always
-        #env_file: .env
+        env_file: .envaws
         logging:
             options:
                 max-size: 10m
@@ -12,6 +12,7 @@ services:
         volumes:
             - ./dags:/usr/local/airflow/dags
             - ./plugins:/usr/local/airflow/plugins
+            - /tmp
         ports:
             - "8080:8080"
         command: webserver -p 8080 -D True

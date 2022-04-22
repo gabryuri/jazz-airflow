@@ -38,6 +38,7 @@ ENV PATH="/usr/local/go/bin:$PATH"
 #ENV GOPATH='pwd'
 RUN rm go1.18beta1.linux-amd64.tar.gz; 
 RUN  export GOROOT=/usr/local/airflow
+RUN mkdir -p /usr/local/airflow/tmp
 #RUN  export GOPATH=$HOME/usr/local/airflow
 # RUN  export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 #RUN  source ~/.bashrc
@@ -62,8 +63,9 @@ RUN  export GOROOT=/usr/local/airflow
 RUN go version
 # #RUN apk update && apk add git && go get github.com/peak/s5cmd && s5cmd
 
-RUN pip install -i https://test.pypi.org/simple/ lightawpy
+#RUN pip install -i https://test.pypi.org/simple/ lightawpy
 #RUN pip install awpy
+RUN pip install boto3
 
 
 # ENV PATH /snap/bin:$PATH

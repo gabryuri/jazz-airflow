@@ -186,8 +186,10 @@ class DemoParser:
             self.parser_cmd.append("--jsonindentation")
 
         self.logger.info(self.parser_cmd)
+        #custom_cmd = ['ls']
         proc = subprocess.Popen(
             self.parser_cmd,
+            #custom_cmd,            #
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             cwd=path
@@ -195,7 +197,7 @@ class DemoParser:
 
         process_output, second_output =  proc.communicate()
         self.logger.info('process_output')
-        self.logger.info(process_output)
+        self.logger.info(str(process_output, 'UTF-8'))
         self.logger.info('second_output')
         self.logger.info(second_output)
 

@@ -8,67 +8,63 @@ import json
 
 import os
 #from awpy import DemoParser
-from lightawpy.demoparser import DemoParser
-#from operators.demoparser import DemoParser
-
-def demo_parse():
-
-    print("$AIRFLOW_HOME=", AIRFLOW_HOME)
-
-    demofile = os.path.join(AIRFLOW_HOME, "demo.dem")
-    outfile = 'tmp/demo_testes'
-    demo_parser = DemoParser(demofile="dags/demo.dem", demo_id=outfile, parse_rate=128)
-
-    parsed_result = demo_parser.parse()
-    print('parsed_result:', parsed_result)
-    with open(AIRFLOW_HOME+'/'+outfile+".json") as json_file:
-        data = json.load(json_file)
-    print('data')
-    print('data is',data)
-
-def sprocess():
-    import subprocess
+#from lightawpy.demoparser import DemoParser
+from operators.demoparser import DemoParser
 
 
-    command = ['go', 'run', 'plugins/operators/parse_demo.go',
-     '-demo', '/usr/local/airflow/dags/demo.dem',
-     '-parserate', '128', '-tradetime', '5',
-     '-buystyle', 'hltv', '-demoid',
-     'tmp/demo_testes', '-out', '/usr/local/airflow',
-     '--parseframes']
-
-    proc = subprocess.Popen(
-        command,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        #cwd='path'
-    )
-    process_output, second_output =  proc.communicate()
-
-    print(process_output)
-
-
-def print_hello():
-    return 'Hello world from first Airflow DAG!'
 
 dag = DAG('parse_dag', description='Hello World DAG',
           schedule_interval='0 12 * * *',
           start_date=datetime(2021, 3, 20), catchup=False)
 
 
-command = ' '.join([
-    'ls'
-])
+outfilename = 'temp_demo3'
 
-bo = BashOperator(
-    task_id="load_collection",
-    bash_command=command#,
-    #env={'file_location': f'{AIRFLOW_HOME}/local_file.json'}
-)
+def demo_parse():
 
-go_operator = PythonOperator(task_id='go_task', python_callable=sprocess, dag=dag)
-hello_operator = PythonOperator(task_id='hello_task', python_callable=print_hello, dag=dag)
+    print("$AIRFLOW_HOME=", AIRFLOW_HOME)
+
+    demofile = os.path.join(AIRFLOW_HOME, "demo.dem")
+    outfile = 'tmp/'+outfilename
+    demo_parser = DemoParser(demofile="dags/demo.dem", demo_id=outfile, parse_rate=128)
+
+    demo_parser.parse()
+
+import logging
+import boto3
+from botocore.exceptions import ClientError
+import os
+def upload_file():
+    """Upload a file to an S3 bucket
+
+    :param file_name: File to upload
+    :param bucket: Bucket to upload to
+    :param object_name: S3 object name. If not specified then file_name is used
+    :return: True if file was uploaded, else False
+    """
+    object_name = 'testezinho.json'
+    bucket = 's3-belisco-turma-6-develop-data-lake-curated'
+
+    # If S3 object_name was not specified, use file_name
+    # if object_name is None:
+    #     object_name = os.path.basename(file_name)
+
+    # Upload the file
+    s3_client = boto3.client('s3')
+    try:
+        response = s3_client.upload_file('tmp/'+outfilename+".json", bucket, object_name)
+    except ClientError as e:
+        logging.error(e)
+        return False
+    return True
+
+
+
+
+
+#go_operator = PythonOperator(task_id='go_task', python_callable=sprocess, dag=dag)
+upload_file = PythonOperator(task_id='upload_file', python_callable=upload_file, dag=dag)
 parser_operator = PythonOperator(task_id='parse_task', python_callable=demo_parse, dag=dag)
 
-go_operator >>  bo >> hello_operator
-parser_operator  >> bo 
+#go_operator >> hello_operator
+parser_operator >> upload_file
