@@ -14,48 +14,11 @@ class ECSCluster(core.Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, *kwargs)
 
-        vpc = ec2.Vpc(self, "MainVpc2",
-            subnet_configuration=[
-                ec2.SubnetConfiguration(
-                name="jazz-subnet",
-                subnet_type=ec2.SubnetType.PUBLIC
-            ),
-            ec2.SubnetConfiguration(
-                name="jazz-subnet2",
-                subnet_type=ec2.SubnetType.PUBLIC
-            ),
-            ]
-        )
-
-        rds.DatabaseInstance(
-            self, "RDS",
-            instance_identifier="jazz-db",
-            database_name="airflow",
-            engine=rds.DatabaseInstanceEngine.postgres(version=rds.PostgresEngineVersion.VER_11_12),
-            vpc=vpc,
-            port=5432,
-            publicly_accessible=True,
-            instance_type=ec2.InstanceType("t2.micro"),
-            removal_policy=core.RemovalPolicy.DESTROY,
-            deletion_protection=False,
-            vpc_placement=ec2.SubnetSelection(
-                subnet_type=ec2.SubnetType.PUBLIC
-               )
-        )
 
         cluster = ecs.Cluster(
             self, 'EcsCluster',
             vpc=vpc
         )
-
-        airflow_security_group = ec2.SecurityGroup(self, "SecurityGroup",
-            vpc=vpc,
-            description="Allow ssh access to ec2 instances",
-            allow_all_outbound=True
-        )
-        airflow_security_group.add_ingress_rule(ec2.Peer.any_ipv4(), ec2.Port.tcp(22), "allow ssh access from the world")
-        airflow_security_group.add_ingress_rule(ec2.Peer.any_ipv4(), ec2.Port.tcp(8080), "allow port 80")
-
 
         cluster.add_capacity("DefaultAutoScalingGroupCapacity",
         instance_type=ec2.InstanceType("t2.micro"),
@@ -69,6 +32,7 @@ class ECSCluster(core.Stack):
         performance_mode=efs.PerformanceMode.GENERAL_PURPOSE,  
         out_of_infrequent_access_policy=efs.OutOfInfrequentAccessPolicy.AFTER_1_ACCESS
         )
+
 
         efs_volume_configuration = ecs.EfsVolumeConfiguration(
         file_system_id="fs-0bf57c9e03f6fdbc3",
@@ -88,7 +52,6 @@ class ECSCluster(core.Stack):
         id="TaskDef",
         volumes = [volume]
         )
-
        
         repo = ecr.Repository.from_repository_name(self, "repo", "ecr-airflow")
 
