@@ -60,8 +60,6 @@ def upload_file():
 
 
 
-
-
 #go_operator = PythonOperator(task_id='go_task', python_callable=sprocess, dag=dag)
 upload_file = PythonOperator(task_id='upload_file', python_callable=upload_file, dag=dag)
 parser_operator = PythonOperator(task_id='parse_task', python_callable=demo_parse, dag=dag)

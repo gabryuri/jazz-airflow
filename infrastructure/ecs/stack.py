@@ -5,7 +5,7 @@ from aws_cdk import (
     aws_ecs as ecs,
     aws_ecr as ecr,
     aws_rds as rds,
-    aws_logs as logs
+    aws_efs as efs
 )
 from constructs import Construct
 
@@ -61,6 +61,13 @@ class ECSCluster(core.Stack):
         instance_type=ec2.InstanceType("t2.micro"),
         desired_capacity=1,
         key_name='ec2-key-pair'
+        )
+
+        file_system = efs.FileSystem(self, "jazz-dags-file-system",
+        vpc=vpc,
+        lifecycle_policy=efs.LifecyclePolicy.AFTER_14_DAYS,  
+        performance_mode=efs.PerformanceMode.GENERAL_PURPOSE,  
+        out_of_infrequent_access_policy=efs.OutOfInfrequentAccessPolicy.AFTER_1_ACCESS
         )
 
         efs_volume_configuration = ecs.EfsVolumeConfiguration(

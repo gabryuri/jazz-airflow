@@ -8,7 +8,7 @@ from aws_cdk import (
 from data_lake.base import S3StorageBaseBucket, StorageLayer
 
 
-class DataLakeStack(core.Stack):
+class S3StorageStack(core.Stack):
     def __init__(self, scope: core.Construct, **kwargs):
         self.deploy_env = os.environ["ENVIRONMENT"]
         super().__init__(scope, id=f"{self.deploy_env}-s3-storage-stack", **kwargs)
