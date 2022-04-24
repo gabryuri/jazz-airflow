@@ -11,7 +11,7 @@ from storage.base import S3StorageBaseBucket, StorageLayer
 class S3StorageStack(core.Stack):
     def __init__(self, scope: core.Construct, **kwargs):
         self.deploy_env = os.environ["ENVIRONMENT"]
-        super().__init__(scope, id=f"{self.deploy_env}-s3-storage-stack", **kwargs)
+        super().__init__(scope, id=f"jazz-s3-storage-stack", **kwargs)
 
         self.s3_storage_landing = S3StorageBaseBucket(self, layer=StorageLayer.LANDING)
 
