@@ -5,7 +5,7 @@ from aws_cdk import (
     aws_s3 as s3,
 )
 
-from data_lake.base import S3StorageBaseBucket, StorageLayer
+from storage.base import S3StorageBaseBucket, StorageLayer
 
 
 class S3StorageStack(core.Stack):
