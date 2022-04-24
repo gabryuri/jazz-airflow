@@ -8,7 +8,7 @@ from basestack import BaseStack
 app = core.App()
 base = BaseStack(scope=app)
 rds = RdsStack(scope=app, id='jazz-RDS-stack', basestack=base)
-#ecs = ECSCluster(scope=app, id='Jazz-Ecs-RDS-Airflow')
+ecs = ECSCluster(scope=app, id='Jazz-Ecs-RDS-Airflow', basestack=base)
 #ecr = ECRStack(scope=app, id='EcrRepository')
 
 app.synth() 

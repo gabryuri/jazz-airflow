@@ -9,15 +9,25 @@ from aws_cdk import (
 )
 from constructs import Construct
 
+from infrastructure.basestack import BaseStack
+
+
 class ECSCluster(core.Stack):
 
-    def __init__(self, scope: Construct, id: str, **kwargs) -> None:
+    def __init__(
+        self,
+        scope: Construct,
+        id: str,
+        basestack: BaseStack,
+        **kwargs
+        ) -> None:
+        self.basestack = basestack
         super().__init__(scope, id, *kwargs)
 
 
         cluster = ecs.Cluster(
             self, 'EcsCluster',
-            vpc=vpc
+            vpc=self.basestack.vpc
         )
 
         cluster.add_capacity("DefaultAutoScalingGroupCapacity",
@@ -27,10 +37,9 @@ class ECSCluster(core.Stack):
         )
 
         file_system = efs.FileSystem(self, "jazz-dags-file-system",
-        vpc=vpc,
+        vpc=self.basestack.vpc,
         lifecycle_policy=efs.LifecyclePolicy.AFTER_14_DAYS,  
-        performance_mode=efs.PerformanceMode.GENERAL_PURPOSE,  
-        out_of_infrequent_access_policy=efs.OutOfInfrequentAccessPolicy.AFTER_1_ACCESS
+        performance_mode=efs.PerformanceMode.GENERAL_PURPOSE
         )
 
 
