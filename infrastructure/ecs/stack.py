@@ -44,7 +44,7 @@ class ECSCluster(core.Stack):
 
 
         efs_volume_configuration = ecs.EfsVolumeConfiguration(
-        file_system_id="fs-0bf57c9e03f6fdbc3",
+        file_system_id="jazz-dags-file-system",
         # transit_encryption = "ENABLED",
         # authorization_config=ecs.AuthorizationConfig(
         #     access_point_id="fsap-022d4c28c6a91fd64"    

@@ -30,6 +30,7 @@ class RdsStack(core.Stack):
             instance_type=ec2.InstanceType("t2.micro"),
             removal_policy=core.RemovalPolicy.DESTROY,
             deletion_protection=False,
+            allocated_storage=20,
             vpc_placement=ec2.SubnetSelection(
                 subnet_type=ec2.SubnetType.PUBLIC
                )

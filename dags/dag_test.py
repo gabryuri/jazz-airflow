@@ -1,14 +1,16 @@
+import logging
+import boto3
+import json
+import os
+
 from datetime import datetime
 from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
 from airflow.settings import AIRFLOW_HOME
-import json
+from botocore.exceptions import ClientError
 
-import os
-#from awpy import DemoParser
-#from lightawpy.demoparser import DemoParser
 from operators.demoparser import DemoParser
 
 
@@ -18,22 +20,19 @@ dag = DAG('parse_dag', description='Hello World DAG',
           start_date=datetime(2021, 3, 20), catchup=False)
 
 
-outfilename = 'temp_demo3'
+outfilename = 'temp_dem43'
 
 def demo_parse():
 
     print("$AIRFLOW_HOME=", AIRFLOW_HOME)
 
-    demofile = os.path.join(AIRFLOW_HOME, "demo.dem")
+    demofile = os.path.join(AIRFLOW_HOME, "demo2.dem")
     outfile = 'tmp/'+outfilename
     demo_parser = DemoParser(demofile="dags/demo.dem", demo_id=outfile, parse_rate=128)
 
     demo_parser.parse()
 
-import logging
-import boto3
-from botocore.exceptions import ClientError
-import os
+
 def upload_file():
     """Upload a file to an S3 bucket
 
