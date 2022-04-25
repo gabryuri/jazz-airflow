@@ -10,7 +10,7 @@ app = core.App()
 base = BaseStack(scope=app)
 rds = RdsStack(scope=app, id='jazz-RDS-stack', basestack=base)
 #ecs = ECSCluster(scope=app, id='Jazz-Ecs-RDS-Airflow', basestack=base)
-# s3_storage = S3StorageStack(scope=app)
+s3_storage = S3StorageStack(scope=app)
 ecr = ECRStack(scope=app, id='EcrRepository')
 
 app.synth() 
