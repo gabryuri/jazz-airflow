@@ -16,7 +16,7 @@ class S3StorageBaseBucket(s3.Bucket):
     def __init__(self, scope: core.Construct, layer: StorageLayer, **kwargs):
         self.layer = layer
         self.deploy_env = scope.deploy_env
-        self.obj_name = f"jazz-{self.deploy_env}-{self.layer.value}"
+        self.obj_name = f"jazz-{self.layer.value}"
 
         super().__init__(
             scope=scope,
