@@ -1,8 +1,4 @@
 -e .
-aws_cdk.aws_s3==2.21.1
-aws_cdk.aws_rds==2.21.1
-aws_cdk.aws_dms==2.21.1
-aws_cdk.aws_autoscaling==2.21.1
-aws_cdk.aws_ecs==2.21.1
-aws_cdk.aws_ecr==2.21.1
+aws_cdk==2.21.1
+
 boto3
