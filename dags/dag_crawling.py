@@ -25,7 +25,7 @@ dag = DAG('crawling_for_matches',
 
 def get_matches():
     offset = 0 
-
+    table_name = 'crawled_matches'
     url = f'https://www.hltv.org/results?offset={offset}'
 
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
@@ -37,8 +37,34 @@ def get_matches():
 
     tree = html.fromstring(r.content)
     matches = tree.xpath(f"//div[contains(@class, 'result-con')]/a/@href")
+
+    print(f"Saving matches from offset {offset} ... into {table_name}", end="")
     created_at = datetime.now().__str__()
-    matches_splited = [ match.split('/') for match in self.matches ]
+    matches_splited = [ match.split('/') for match in matches ]
+
+    item_list = []
+    for match in matches_splitted:
+        if len(match) > 3:
+            item = (match[2], 
+                    str(match[3]), 
+                    'null', 
+                    'null',
+                    str(created_at), 
+                    str(created_at),
+                    str(created_at),
+                    )
+            item_list.append(item)
+
+    backslash = "\n"
+    print(f"""INSERT INTO {table_name} 
+    VALUES {f", {backslash}".join([repr(tup) for tup in item_list])} 
+    ON CONFLICT DO NOTHING; """)
+    print("Done")
+
+
+
+
+
  
 
 get_matches = PythonOperator(task_id='get_matches', python_callable=get_matches, dag=dag)
