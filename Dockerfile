@@ -14,3 +14,4 @@ RUN mkdir -p /usr/local/airflow/tmp
 RUN go version
 
 RUN pip install boto3
+RUN pip install lxml
