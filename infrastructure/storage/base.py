@@ -50,4 +50,4 @@ class S3StorageBaseBucket(s3.Bucket):
     #         ]
     #     )
 
-        self.add_lifecycle_rule(noncurrent_version_expiration=core.Duration.days(360))
+        # self.add_lifecycle_rule(noncurrent_version_expiration=core.Duration.days(360))
