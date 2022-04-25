@@ -4,6 +4,7 @@ import json
 import os
 import requests
 from lxml import html
+import psycopg2
 
 # from datetime import datetime
 # import time
@@ -23,6 +24,7 @@ dag = DAG('crawling_for_matches',
           catchup=False)
 
 
+
 def get_matches():
     offset = 0 
     table_name = 'crawled_matches'
@@ -40,26 +42,37 @@ def get_matches():
 
     print(f"Saving matches from offset {offset} ... into {table_name}", end="")
     created_at = datetime.now().__str__()
-    matches_splited = [ match.split('/') for match in matches ]
+    matches_splitted = [ match.split('/') for match in matches ]
 
     item_list = []
     for match in matches_splitted:
         if len(match) > 3:
             item = (match[2], 
                     str(match[3]), 
-                    'null', 
-                    'null',
+                    1, 
+                    str(created_at),
                     str(created_at), 
                     str(created_at),
                     str(created_at),
                     )
             item_list.append(item)
 
+
+    connection = psycopg2.connect(host='jazz-db.c6dsbzlok1sy.us-east-1.rds.amazonaws.com', database='crawling',
+    user='postgres', password='=bV=NrE.e3Ds3YTDn,vtj9wSMlONO_')
+    cursor = connection.cursor()
     backslash = "\n"
-    print(f"""INSERT INTO {table_name} 
+    insert_statement = (f"""INSERT INTO {table_name} 
     VALUES {f", {backslash}".join([repr(tup) for tup in item_list])} 
     ON CONFLICT DO NOTHING; """)
-    print("Done")
+
+    cursor.execute(insert_statement)
+    connection.commit()
+
+
+
+
+    
 
 
 
