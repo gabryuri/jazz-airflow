@@ -58,8 +58,7 @@ def get_matches():
             item_list.append(item)
 
 
-    connection = psycopg2.connect(host='jazz-db.c6dsbzlok1sy.us-east-1.rds.amazonaws.com', database='crawling',
-    user='postgres', password='=bV=NrE.e3Ds3YTDn,vtj9wSMlONO_')
+    connection = ###
     cursor = connection.cursor()
     backslash = "\n"
     insert_statement = (f"""INSERT INTO {table_name} 
