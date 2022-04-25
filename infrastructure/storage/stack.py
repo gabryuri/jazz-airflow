@@ -34,6 +34,6 @@ class S3StorageStack(core.Stack):
             enabled=True,
         )
 
-        self.s3_storage_processed = S3StorageBaseBucket(self, layer=StorageLayer.PROCESSED)
+        # self.s3_storage_processed = S3StorageBaseBucket(self, layer=StorageLayer.PROCESSED)
 
-        self.s3_storage_metadata = S3StorageBaseBucket(self, layer=StorageLayer.METADATA)
+        # self.s3_storage_metadata = S3StorageBaseBucket(self, layer=StorageLayer.METADATA)
