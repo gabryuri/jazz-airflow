@@ -28,7 +28,6 @@ class S3StorageBaseBucket(s3.Bucket):
             **kwargs
         )
 
-        # self.set_default_lifecycle_rules()
 
     def set_default_lifecycle_rules(self):
         """
@@ -50,5 +49,4 @@ class S3StorageBaseBucket(s3.Bucket):
             ]
         )
 
-        # self.add_lifecycle_rule(noncurrent_version_expiration=core.Duration.days(360))
-#
+        self.add_lifecycle_rule(noncurrent_version_expiration=core.Duration.days(360))
