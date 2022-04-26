@@ -28,7 +28,7 @@ class S3StorageBaseBucket(s3.Bucket):
             **kwargs
         )
 
-        self.set_default_lifecycle_rules()
+        #self.set_default_lifecycle_rules()
 
     def set_default_lifecycle_rules(self):
         """
