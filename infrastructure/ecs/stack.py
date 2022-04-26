@@ -48,7 +48,7 @@ class ECSCluster(core.Stack):
 
 
         efs_volume_configuration = ecs.EfsVolumeConfiguration(
-        file_system_id=file_system.file_system_id
+        file_system_id=file_system.file_system_id,
         transit_encryption = "ENABLED",
         authorization_config=ecs.AuthorizationConfig(
             access_point_id=access_point.access_point_id
