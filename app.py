@@ -4,7 +4,6 @@ from ecs.stack import ECSCluster
 from ecr.stack import ECRStack
 from rds.stack import RdsStack
 from storage.stack import S3StorageStack
-#from ecs_test.stack import ECSCluster
 from basestack import BaseStack
 
 app = core.App()
