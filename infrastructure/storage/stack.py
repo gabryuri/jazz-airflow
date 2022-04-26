@@ -15,24 +15,24 @@ class S3StorageStack(core.Stack):
 
         self.s3_storage_landing = S3StorageBaseBucket(self, layer=StorageLayer.LANDING)
 
-        # self.s3_storage_landing.add_lifecycle_rule(
-        #     transitions=[
-        #         s3.Transition(
-        #             storage_class=s3.StorageClass.INTELLIGENT_TIERING,
-        #             transition_after=core.Duration.days(90),
-        #         ),
-        #         s3.Transition(
-        #             storage_class=s3.StorageClass.GLACIER,
-        #             transition_after=core.Duration.days(360),
-        #         ),
-        #     ],
-        #     enabled=True,
-        # )
+        self.s3_storage_landing.add_lifecycle_rule(
+            transitions=[
+                s3.Transition(
+                    storage_class=s3.StorageClass.INTELLIGENT_TIERING,
+                    transition_after=core.Duration.days(90),
+                ),
+                s3.Transition(
+                    storage_class=s3.StorageClass.GLACIER,
+                    transition_after=core.Duration.days(360),
+                ),
+            ],
+            enabled=True,
+        )
 
-        # self.s3_storage_landing.add_lifecycle_rule(
-        #     expiration=core.Duration.days(360),
-        #     enabled=True,
-        # )
+        self.s3_storage_landing.add_lifecycle_rule(
+            expiration=core.Duration.days(360),
+            enabled=True,
+        )
 
         self.s3_storage_processed = S3StorageBaseBucket(self, layer=StorageLayer.PROCESSED)
 
