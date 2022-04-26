@@ -1,3 +1,5 @@
+import os
+
 from aws_cdk import core
 from aws_cdk import (
     aws_autoscaling as autoscaling,
@@ -72,12 +74,14 @@ class ECSCluster(core.Stack):
             image=ecs.ContainerImage.from_registry("puckel/docker-airflow:1.10.9"),
             #image= ecs.EcrImage(repo, "prod"),
             memory_limit_mib=1478,
-            environment={'AIRFLOW__CORE__SQL_ALCHEMY_CONN':'postgresql+psycopg2://postgres:CwiNM6Fr,arcr3NUkX2aNNg^Z=lA4o@jazz-db.c6dsbzlok1sy.us-east-1.rds.amazonaws.com:5432/airflow',
-                         'AIRFLOW__CORE__EXECUTOR':'LocalExecutor',
-                         'AIRFLOW_USER_HOME':'usr/local/airflow',
-                         'FERNET_KEY':'p2ipMzLuAmpasGAE-3qfiyyG_x-sAl25yR8YNJZvAZw='
+            environment={
+                        'AIRFLOW__CORE__SQL_ALCHEMY_CONN':os.environ["AIRFLOW__CORE__SQL_ALCHEMY_CONN"],   
+                        'FERNET_KEY':os.environ["FERNET_KEY"],             
+                        'AIRFLOW__CORE__EXECUTOR':'LocalExecutor',
+                        'AIRFLOW_USER_HOME':'usr/local/airflow'
                          }
-        )    
+        )
+
 
 
         mount_point = ecs.MountPoint(

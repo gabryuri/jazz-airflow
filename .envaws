@@ -3,3 +3,10 @@ sak=9121b4YK2oyDMv3tv6DAZXgNzlL3HY5beIxAeG7F
 
 AWS_ACCESS_KEY_ID=AKIASAVFJZ7E6P2HJKCR
 AWS_SECRET_ACCESS_KEY=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
+
+
+ 'AIRFLOW__CORE__SQL_ALCHEMY_CONN':'postgresql+psycopg2://postgres:CwiNM6Fr,arcr3NUkX2aNNg^Z=lA4o@jazz-db.c6dsbzlok1sy.us-east-1.rds.amazonaws.com:5432/airflow',
+                         'AIRFLOW__CORE__EXECUTOR':'LocalExecutor',
+                         'AIRFLOW_USER_HOME':'usr/local/airflow',
+                         'FERNET_KEY':'p2ipMzLuAmpasGAE-3qfiyyG_x-sAl25yR8YNJZvAZw='
+                         }
