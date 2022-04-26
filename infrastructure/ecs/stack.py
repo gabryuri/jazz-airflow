@@ -41,7 +41,7 @@ class ECSCluster(core.Stack):
         file_system_name='jazz-file-system',
         vpc=self.basestack.vpc,
         performance_mode=efs.PerformanceMode.GENERAL_PURPOSE,
-        removal_policy=RemovalPolicy.DESTROY
+        removal_policy=core.RemovalPolicy.DESTROY
         )
 
         access_point = file_system.add_access_point(id='efs-access-point')
