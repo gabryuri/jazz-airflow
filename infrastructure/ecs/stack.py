@@ -82,8 +82,6 @@ class ECSCluster(core.Stack):
                          }
         )
 
-
-
         mount_point = ecs.MountPoint(
         container_path="/usr/local/airflow",
         read_only=False,
