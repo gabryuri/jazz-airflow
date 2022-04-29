@@ -54,7 +54,7 @@ class ECSCluster(core.Stack):
         transit_encryption = "ENABLED",
         authorization_config=ecs.AuthorizationConfig(
             access_point_id=access_point.access_point_id
-        )
+            )
         )
 
         volume = ecs.Volume(
@@ -72,7 +72,7 @@ class ECSCluster(core.Stack):
 
         container = task_definition_airflow.add_container("DefaultContainer",
             #image=ecs.ContainerImage.from_registry("puckel/docker-airflow:1.10.9"),
-            image= ecs.EcrImage(repo, "prod"),
+            image=ecs.EcrImage(repo, "prod"),
             memory_limit_mib=1478,
             environment={
                         'AIRFLOW__CORE__SQL_ALCHEMY_CONN':os.environ["AIRFLOW__CORE__SQL_ALCHEMY_CONN"],   
@@ -108,8 +108,8 @@ class ECSCluster(core.Stack):
         ecs_service = ecs.Ec2Service(self, "Service",
         cluster=cluster,
         task_definition=task_definition_airflow#,
-        #security_groups=[airflow_security_group]
-    )   
+         #security_groups=[airflow_security_group]
+         )   
 
 ##TOdos
 # 1- Adicionar EFS oficialmente aqui 

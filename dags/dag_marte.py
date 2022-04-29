@@ -15,7 +15,7 @@ from botocore.exceptions import ClientError
 from demoparser import DemoParser
 
 
-dag = DAG('parse_dag', description='Hello World DAG',
+dag = DAG('dag_legal', description='Hello World DAG',
           schedule_interval='0 12 * * *',
           start_date=datetime(2021, 3, 20), catchup=False)
 
@@ -23,8 +23,6 @@ dag = DAG('parse_dag', description='Hello World DAG',
 outfilename = 'temp_dem43'
 
 def demo_parse():
-    modules = dir()
-
 
     print("$AIRFLOW_HOME=", AIRFLOW_HOME)
 

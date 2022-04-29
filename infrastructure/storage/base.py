@@ -5,7 +5,6 @@ from aws_cdk import (
     core
 )
 
-
 class StorageLayer(Enum):
     LANDING = "landing"
     PROCESSED = "processed"

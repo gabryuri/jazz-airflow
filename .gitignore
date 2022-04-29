@@ -6,7 +6,7 @@ __pycache__
 .envaws
 .venv
 *.egg-info
-
+.dem
 # CDK asset staging directory
 .cdk.staging
 cdk.out

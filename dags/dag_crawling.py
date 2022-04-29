@@ -56,17 +56,19 @@ def get_matches():
                     str(created_at),
                     )
             item_list.append(item)
+    
+    print(item_list)
 
 
-    connection = ###
-    cursor = connection.cursor()
-    backslash = "\n"
-    insert_statement = (f"""INSERT INTO {table_name} 
-    VALUES {f", {backslash}".join([repr(tup) for tup in item_list])} 
-    ON CONFLICT DO NOTHING; """)
+    # connection = ###
+    # cursor = connection.cursor()
+    # backslash = "\n"
+    # insert_statement = (f"""INSERT INTO {table_name} 
+    # VALUES {f", {backslash}".join([repr(tup) for tup in item_list])} 
+    # ON CONFLICT DO NOTHING; """)
 
-    cursor.execute(insert_statement)
-    connection.commit()
+    # cursor.execute(insert_statement)
+    # connection.commit()
 
 
 

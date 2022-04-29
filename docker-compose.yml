@@ -2,7 +2,7 @@ version: '3.7'
 services:
     webserver:
         build: .
-        #image:  puckel/docker-airflow:1.10.9
+        #image: 773527540682.dkr.ecr.us-east-1.amazonaws.com/ecr-airflow:prod #puckel/docker-airflow:1.10.9
         restart: always
         env_file: .envaws
         logging:
