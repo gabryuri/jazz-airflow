@@ -13,6 +13,7 @@ services:
             - ./dags:/usr/local/airflow/dags
             - ./plugins:/usr/local/airflow/plugins
             - /tmp
+            - /raw_tmp
         ports:
             - "8080:8080"
         command: webserver -p 8080 -D True
