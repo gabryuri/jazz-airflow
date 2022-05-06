@@ -23,6 +23,11 @@ dag = DAG('parse_dag', description='Hello World DAG',
 landing_bucket = 'jazz-landing'
 output_bucket = 'jazz-processed'
 
+demos_folder = 'tmp_demos'
+processed_folder = 'tmp_processed'
+
+EXEC_DATE = '{{ next_ds }}'
+
 def scan_for_demos(**kwargs):
     return ['pasta1/demo1.dem', 'pasta2/demo2.dem'] 
 
@@ -40,32 +45,32 @@ def parse_and_upload(**kwargs):
 
     s3_client = boto3.client('s3')
 
-    #for s3_object in object_list:
-    #print('PROCESSING FILE ', s3_object)
-    # print('file', os.path.basename(s3_object))
-    # print('file pure', os.path.basename(s3_object).strip('.dem'))
+    for s3_object in object_list:
+        print('PROCESSING FILE ', s3_object)
 
-    # demofile = 'raw_tmp/demo_local.dem'
+        demo_name = os.path.basename(s3_object.strip('.dem'))
+        demo_path = os.path.join(AIRFLOW_HOME, demos_folder, os.path.basename(s3_object))
+        print('demo being saved to: ', demo_path)
+        print('demo name: ', demo_name)
 
-    s3_client.download_file(landing_bucket, object_list[1], 'demo_local.dem')
+        s3_client.download_file(landing_bucket, s3_object,demo_path)
+       
 
-    #demofile = os.path.join(AIRFLOW_HOME, "raw_tmp", os.path.basename(s3_object))
-    # outfile = os.path.join(AIRFLOW_HOME, "tmp", os.path.basename(s3_object))
-    # print('demofile: ', demofile)
-    # print('outfile: ', outfile)
+        demo_parser = DemoParser(
+            demofile=demo_path,
+            demo_id=demo_name, 
+            outpath=processed_folder,
+            parse_rate=128)
 
-    # demo_parser = DemoParser(demofile=demofile, demo_id=outfile, parse_rate=128)
-    # demo_parser.parse()
+        demo_parser.parse()
 
-    # object_name = os.path.join('output_folder', outfile)
 
-    
-    # try:
-    #     response = s3_client.upload_file('tmp/'+ls+".json", output_bucket, object_name)
-    # except ClientError as e:
-    #     logging.error(e)
-    #     return False
-    return True
+        output_path = os.path.join(processed_folder, demo_name)+".json"
+
+        object_name = os.path.join(EXEC_DATE, demo_name)+".json"
+
+        s3_client.upload_file(output_path, output_bucket, object_name)
+              
 
 parse_and_upload = PythonOperator(
     task_id='parse_and_upload',

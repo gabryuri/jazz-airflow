@@ -9,7 +9,8 @@ ENV PATH="/usr/local/go/bin:$PATH"
 
 RUN rm go1.18beta1.linux-amd64.tar.gz; 
 RUN export GOROOT=/usr/local/airflow
-RUN mkdir -p /usr/local/airflow/tmp
+RUN mkdir -p /usr/local/airflow/tmp_demos
+RUN mkdir -p /usr/local/airflow/tmp_processed
 
 RUN go version
 
