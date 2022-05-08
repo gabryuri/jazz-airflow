@@ -20,7 +20,7 @@ class LambdaStack(core.Stack):
         layer = _lambda.LayerVersion.from_layer_version_arn(
             self, 
             "Psycopg2Layer",
-            layer_version_arn='arn:aws:lambda:us-east-1:898466741470:layer:psycopg2-py38:2')
+            layer_version_arn='arn:aws:lambda:us-east-1:898466741470:layer:psycopg2-py37:3)
 
         # Defines an AWS Lambda resource
         my_lambda = _lambda.Function(
