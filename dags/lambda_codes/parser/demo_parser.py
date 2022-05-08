@@ -1,11 +1,18 @@
+import os 
 import json
+
 import boto3
 
-demo_path = ''
+from utils.demoparser import DemoParser
+
+
+demos_folder = ''
 processed_folder = ''
 
 landing_bucket = 'jazz-landing'
-processed_bucket = 'jazz-processed'
+output_bucket = 'jazz-processed'
+
+exec_date = '2022-03-04'
 def handler(event, context):
 
     #ti = kwargs['ti']
@@ -44,3 +51,5 @@ def handler(event, context):
 
         #todo limpar os dados locais
     return s3_processed_objects
+
+handler('a','s')

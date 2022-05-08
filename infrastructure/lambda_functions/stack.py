@@ -34,13 +34,24 @@ class LambdaStack(core.Stack):
             timeout=core.Duration.minutes(5)
         )
 
-        parser_lambda = _lambda.Function(
+        # parser_lambda = _lambda.DockerImageFunction(
+        #     self,
+        #     'parser',
+        #     function_name='jazz-lambda-parser',
+        #     runtime=_lambda.Runtime.PYTHON_3_7,
+        #     code=_lambda.Code.from_asset('dags/lambda_codes/parser'),
+        #     handler='demo_parser.handler',
+        #     role=role,
+        #     timeout=core.Duration.minutes(5)
+        )
+
+        repo = ecr.Repository.from_repository_name(self, "repo", "ecr-airflow")
+
+        parser_lambda = lambda_.DockerImageFunction(
             self,
             'parser',
             function_name='jazz-lambda-parser',
-            runtime=_lambda.Runtime.PYTHON_3_7,
-            code=_lambda.Code.from_asset('dags/lambda_codes/parser'),
-            handler='demo_parser.handler',
+            code=lambda_.DockerImageCode.from_ecr(repo),
             role=role,
             timeout=core.Duration.minutes(5)
         )

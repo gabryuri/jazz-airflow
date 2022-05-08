@@ -18,5 +18,6 @@ ENV PATH="/usr/local/go/bin:${PATH}"
 #RUN pip install psycopg2
 RUN pip install boto3
 RUN pip install lxml
+COPY /utils /utils
 COPY demo_parser.py ./
 CMD ["demo_parser.handler"]
