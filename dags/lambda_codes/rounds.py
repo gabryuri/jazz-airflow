@@ -1,4 +1,5 @@
 import json
+import pyscopg2 
 
 def handler(event, context):
 

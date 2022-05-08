@@ -17,13 +17,20 @@ class LambdaStack(core.Stack):
 
         role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("AdministratorAccess"))
 
+        layer = _lambda.LayerVersion.from_layer_version_arn(
+            self, 
+            "Psycopg2Layer",
+            arn='arn:aws:lambda:us-east-1:898466741470:layer:psycopg2-py38:2')
+
         # Defines an AWS Lambda resource
         my_lambda = _lambda.Function(
             self,
             'rounds',
-            function_name='jazz-lambdas-rounds',
+            function_name='jazz-lambda-rounds',
             runtime=_lambda.Runtime.PYTHON_3_7,
             code=_lambda.Code.from_asset('dags/lambda_codes'),
             handler='rounds.handler',
-            role=role
+            role=role,
+            timeout=core.Duration.minutes(5)
         )
+
