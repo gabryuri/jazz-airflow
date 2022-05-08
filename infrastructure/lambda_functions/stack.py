@@ -31,7 +31,7 @@ class LambdaStack(core.Stack):
             code=_lambda.Code.from_asset('dags/lambda_codes'),
             handler='rounds.handler',
             role=role,
-            layer=layer,
+            layers=[layer],
             timeout=core.Duration.minutes(5)
         )
 
