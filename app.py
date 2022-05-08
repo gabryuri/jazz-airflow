@@ -9,7 +9,7 @@ from basestack import BaseStack
 
 
 app = core.App()
-lambdas = LambdaStack(scope=app, id='lambda_test_stack')
+lambdas = LambdaStack(scope=app, id='Lambda-Test')
 base = BaseStack(scope=app)
 rds = RdsStack(scope=app, id='jazz-RDS-stack', basestack=base)
 ecs = ECSCluster(scope=app, id='Jazz-Ecs-Airflow', basestack=base)
