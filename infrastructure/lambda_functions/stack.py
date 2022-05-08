@@ -3,6 +3,7 @@ from aws_cdk import (
     core,
     aws_iam as iam,
     aws_lambda as _lambda,
+    aws_ecr as ecr
 )
 
 class LambdaStack(core.Stack):
