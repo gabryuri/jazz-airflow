@@ -18,7 +18,7 @@ def handler(event, context):
     j = json.loads(secret)
 
     password = j['password']
-    host = j['host']#
+    host = j['host']
     user = j['username']
     port = '5432'
     database = 'jazz-prod'
