@@ -43,7 +43,7 @@ class LambdaStack(core.Stack):
         #     handler='demo_parser.handler',
         #     role=role,
         #     timeout=core.Duration.minutes(5)
-        )
+        #)
 
         repo = ecr.Repository.from_repository_name(self, "repo", "ecr-airflow")
 
