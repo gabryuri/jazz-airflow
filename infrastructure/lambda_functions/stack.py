@@ -52,7 +52,7 @@ class LambdaStack(core.Stack):
             self,
             'parser',
             function_name='jazz-lambda-parser',
-            code=lambda_.DockerImageCode.from_ecr(repo),
+            code=_lambda.DockerImageCode.from_ecr(repo),
             role=role,
             timeout=core.Duration.minutes(5)
         )
