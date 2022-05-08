@@ -48,7 +48,7 @@ class LambdaStack(core.Stack):
 
         repo = ecr.Repository.from_repository_name(self, "repo", "ecr-airflow")
 
-        parser_lambda = lambda_.DockerImageFunction(
+        parser_lambda = _lambda.DockerImageFunction(
             self,
             'parser',
             function_name='jazz-lambda-parser',
