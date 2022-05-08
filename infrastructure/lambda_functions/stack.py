@@ -26,7 +26,7 @@ class LambdaStack(core.Stack):
         rounds_lambda = _lambda.Function(
             self,
             'lambda_to_rounds',
-            function_name='jazz-lambda-rounds',
+            function_name='jazz-lambda-rounds2',
             runtime=_lambda.Runtime.PYTHON_3_7,
             code=_lambda.Code.from_asset('dags/lambda_codes'),
             handler='rounds.handler',
