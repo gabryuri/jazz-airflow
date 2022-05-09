@@ -27,7 +27,7 @@ class LambdaStack(core.Stack):
 
 
         # Demo parser 
-        repo = ecr.Repository.from_repository_name(self, "repo", "parser-repo")
+        repo = ecr.Repository.from_repository_name(self, "repo", "lambda-parser-repo")
 
         parser_lambda = _lambda.DockerImageFunction(
             self,
