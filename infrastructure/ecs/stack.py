@@ -117,4 +117,4 @@ class ECSCluster(core.Stack):
 # 3- adicionar o scp lá no git actions? 
 # 4- tentar plugar sec groups automaticamente
 # 5- Adicionar load balancing e dns fixo? 
-
+#
