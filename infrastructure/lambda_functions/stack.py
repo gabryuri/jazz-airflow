@@ -22,8 +22,9 @@ class LambdaStack(core.Stack):
             self, 
             "Psycopg2Layer",
             layer_version_arn='arn:aws:lambda:us-east-1:898466741470:layer:psycopg2-py37:3')
-            
+
         # Ingest
+
 
         # Demo parser 
         repo = ecr.Repository.from_repository_name(self, "repo", "parser-repo")
@@ -35,8 +36,7 @@ class LambdaStack(core.Stack):
             code=_lambda.DockerImageCode.from_ecr(repo),
             role=role,
             timeout=core.Duration.minutes(5),
-            memory_size=1024,
-            ephemeral_storage_size=512
+            memory_size=1024
         )
 
         # ETL 
@@ -50,7 +50,6 @@ class LambdaStack(core.Stack):
             role=role,
             layers=[layer],
             timeout=core.Duration.minutes(5),
-            memory_size=512,
-            ephemeral_storage_size=512
+            memory_size=512
         )
 
