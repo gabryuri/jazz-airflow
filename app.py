@@ -9,13 +9,12 @@ from basestack import BaseStack
 
 
 app = core.App()
-lambdas = LambdaStack(scope=app, id='Lambda-Test')
+lambdas = LambdaStack(scope=app, id='Jazz-Lambda-Functions')
 base = BaseStack(scope=app)
-rds = RdsStack(scope=app, id='jazz-RDS-stack', basestack=base)
+rds = RdsStack(scope=app, id='jazz-RDS-Databases', basestack=base)
 ecs = ECSCluster(scope=app, id='Jazz-Ecs-Airflow', basestack=base)
 s3_storage = S3StorageStack(scope=app)
-ecr = ECRStack(scope=app, id='EcrRepository')
+ecr = ECRStack(scope=app, id='Jazz-Ecr-Repository')
 
 app.synth() 
 
-#   

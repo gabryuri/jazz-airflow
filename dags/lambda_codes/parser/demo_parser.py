@@ -5,20 +5,18 @@ import sys
 import subprocess 
 import boto3
 
-
 demos_folder = '/tmp'
 processed_folder = '/tmp'
 
 landing_bucket = 'jazz-landing'
 output_bucket = 'jazz-processed'
 
-exec_date = '2022-03-04'
-
 def handler(event, context):
-
     s3_processed_objects = []
 
-    s3_object = 'pasta2/demo2.dem'
+    s3_object = event.get('s3_object')
+    exec_date = event.get('exec_date')
+    object_prefix = event.get('object_prefix')
 
     print('PROCESSING FILE ', s3_object)
     s3_client = boto3.client('s3')
@@ -50,49 +48,20 @@ def handler(event, context):
     ]
     print('parser command')
     print(parser_cmd)
-    # if self.dmg_rolled:
-    #     self.parser_cmd.append("--dmgrolled")
-    # if self.parse_frames:
-    #     self.parser_cmd.append("--parseframes")
-    # if self.json_indentation:
-    #     self.parser_cmd.append("--jsonindentation")
 
-    #self.logger.info(self.parser_cmd)
-    #custom_cmd = ['ls']
     proc = subprocess.Popen(
         parser_cmd,
-        #custom_cmd,            #
         stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT#,
-        #cwd=path
+        stderr=subprocess.STDOUT
     )
 
     process_output, second_output =  proc.communicate()
     print('process_output')
     print(str(process_output, 'UTF-8'))
-    print('second_output')
-    print(second_output)
 
-
-
-
-    if os.path.isfile(os.path.join(processed_folder, (demo_name+'.json'))):
-        print("Wrote demo parse output to " + processed_folder + "/" +(demo_name+'.json'))
-
-    time.sleep(10)
     local_json_path = (os.path.join(processed_folder, demo_name)+".json")
     print('local_json_path:' , local_json_path)
-    s3_object_name = os.path.join(exec_date, demo_name)+".json"
-
+    s3_object_name = os.path.join(object_prefix, exec_date, demo_name)+".json"
+    result = s3_client.upload_file(local_json_path, output_bucket, s3_object_name)
     
-    with open(local_json_path, 'rb') as f:
-        result = s3_client.upload_fileobj(f, output_bucket, s3_object_name)
-
-    print(result)
-
-    #result = s3_client.upload_file(local_json_path, output_bucket, s3_object_name)
-    s3_processed_objects.append(local_json_path)
-
     return result
-
-handler('a','s')

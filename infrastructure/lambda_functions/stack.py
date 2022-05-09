@@ -22,37 +22,35 @@ class LambdaStack(core.Stack):
             self, 
             "Psycopg2Layer",
             layer_version_arn='arn:aws:lambda:us-east-1:898466741470:layer:psycopg2-py37:3')
+            
+        # Ingest
 
-        rounds_lambda = _lambda.Function(
-            self,
-            'lambda_to_rounds',
-            function_name='jazz-lambda-rounds2',
-            runtime=_lambda.Runtime.PYTHON_3_7,
-            code=_lambda.Code.from_asset('dags/lambda_codes'),
-            handler='rounds.handler',
-            role=role,
-            layers=[layer],
-            timeout=core.Duration.minutes(5)
-        )
-
-        # parser_lambda = _lambda.DockerImageFunction(
-        #     self,
-        #     'parser',
-        #     function_name='jazz-lambda-parser',
-        #     runtime=_lambda.Runtime.PYTHON_3_7,
-        #     code=_lambda.Code.from_asset('dags/lambda_codes/parser'),
-        #     handler='demo_parser.handler',
-        #     role=role,
-        #     timeout=core.Duration.minutes(5)
-        #)
-
-        repo = ecr.Repository.from_repository_name(self, "repo", "ecr-airflow")
+        # Demo parser 
+        repo = ecr.Repository.from_repository_name(self, "repo", "parser-repo")
 
         parser_lambda = _lambda.DockerImageFunction(
             self,
-            'parser',
-            function_name='jazz-lambda-parser',
+            'jazz-ingest-parser',
+            function_name='jazz-ingest-parser',
             code=_lambda.DockerImageCode.from_ecr(repo),
             role=role,
-            timeout=core.Duration.minutes(5)
+            timeout=core.Duration.minutes(5),
+            memory_size=1024,
+            ephemeral_storage_size=512
         )
+
+        # ETL 
+        rounds_lambda = _lambda.Function(
+            self,
+            'jazz-etl-rounds',
+            function_name='jazz-etl-rounds',
+            runtime=_lambda.Runtime.PYTHON_3_7,
+            code=_lambda.Code.from_asset('dags/lambda_codes/etl'),
+            handler='rounds.handler',
+            role=role,
+            layers=[layer],
+            timeout=core.Duration.minutes(5),
+            memory_size=512,
+            ephemeral_storage_size=512
+        )
+
