@@ -14,7 +14,7 @@ from airflow.settings import AIRFLOW_HOME
 from airflow.contrib.hooks.aws_lambda_hook import AwsLambdaHook
 #from botocore.exceptions import ClientError1
 
-from demoparser import DemoParser
+#from demoparser import DemoParser
 
 
 dag = DAG('parse_dag', description='Hello World DAG',
@@ -28,16 +28,76 @@ output_bucket = 'jazz-processed'
 demos_folder = 'tmp_demos'
 processed_folder = 'tmp_processed'
 
-# def scan_for_demos(**kwargs):
-#     return ['pasta1/demo1.dem', 'pasta2/demo2.dem'] 
+def scan_for_demos(**kwargs):
+    return ['pasta1/demo1.dem', 'pasta2/demo2.dem'] 
 
 
-# scan_for_demos = PythonOperator(
-#     task_id='scan_for_demos',
-#     python_callable=scan_for_demos,
-#     provide_context=True,
-#     dag=dag)
+scan_for_demos = PythonOperator(
+    task_id='scan_for_demos',
+    python_callable=scan_for_demos,
+    provide_context=True,
+    dag=dag)
 
+
+def parse_and_upload(**kwargs):
+    ti = kwargs['ti']
+    exec_date = kwargs['ds']
+
+    s3_object_list = ti.xcom_pull(task_ids='scan_for_demos')
+
+    hook = AwsLambdaHook( 
+        function_name='jazz-ingest-parser',
+        region_name='us-east-1',
+        invocation_type='Event',
+        )
+
+    output_s3 = []
+    for s3_object in s3_object_list:
+        
+        event = {"s3_object":s3_object,
+                "object_prefix":"major_demos",
+                "exec_date":exec_date}
+
+        output_s3 = (os.path.join(event.get('object_prefix'), exec_date, s3_object.strip('.dem')))+'.json'
+        print(output_s3)
+
+        result = hook.invoke_lambda(payload= json.dumps(event))
+        print(result)
+    
+
+parse_and_upload = PythonOperator(
+    task_id='parse_and_upload',
+    python_callable=parse_and_upload, 
+    provide_context=True,
+    dag=dag)
+
+
+def json_to_tables(**kwargs):
+    ti = kwargs['ti']
+    exec_date = kwargs['ds']
+
+    s3_object_list = ['major_demos/2022-05-09/demo1.json', 'major_demos/2022-05-09/demo2.json']# ti.xcom_pull(task_ids='scan_for_demos')
+
+    rounds_hook = AwsLambdaHook( 
+        function_name='jazz-etl-rounds',
+        region_name='us-east-1',
+        invocation_type='Event',
+        )
+
+    for s3_object in s3_object_list:
+        event = {"s3_object":s3_object,
+                "exec_date":exec_date}
+
+        result = rounds_hook.invoke_lambda(payload= json.dumps(event))
+        print(result)
+
+json_to_tables = PythonOperator(
+    task_id='json_to_tables',
+    python_callable=json_to_tables, 
+    provide_context=True,
+    dag=dag)
+
+scan_for_demos >> parse_and_upload >> json_to_tables
 
 # def json_to_tables(**kwargs):
 #     ti = kwargs['ti']
@@ -124,28 +184,3 @@ processed_folder = 'tmp_processed'
 #     python_callable=json_to_tables, 
 #     provide_context=True,
 # dag=dag)
-
-def parse_and_upload(**kwargs):
-    exec_date = kwargs['ds']
-
-    hook = AwsLambdaHook( 
-        function_name='jazz-lambda-parser',
-        region_name='us-east-1',
-        invocation_type='Event',
-        )
-
-    event = {"s3_object":"pasta1/demo1.dem",
-             "object_prefix":"major_demos",
-             "exec_date":exec_date}
-
-    result = hook.invoke_lambda(payload= json.dumps(event))
-    print(result)
-
-parse_and_upload = PythonOperator(
-    task_id='parse_and_upload',
-    python_callable=parse_and_upload, 
-    provide_context=True,
-    dag=dag)
-
-#go_operator >> hello_operator
-parse_and_upload #>> json_to_tables

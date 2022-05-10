@@ -21,7 +21,7 @@ class LambdaStack(core.Stack):
         layer = _lambda.LayerVersion.from_layer_version_arn(
             self, 
             "Psycopg2Layer",
-            layer_version_arn='arn:aws:lambda:us-east-1:898466741470:layer:psycopg2-py37:3')
+            layer_version_arn='arn:aws:lambda:us-east-1:898466741470:layer:psycopg2-py38:2')
 
         # Ingest
 
@@ -44,7 +44,7 @@ class LambdaStack(core.Stack):
             self,
             'jazz-etl-rounds',
             function_name='jazz-etl-rounds',
-            runtime=_lambda.Runtime.PYTHON_3_7,
+            runtime=_lambda.Runtime.PYTHON_3_8,
             code=_lambda.Code.from_asset('dags/lambda_codes/etl'),
             handler='rounds.handler',
             role=role,
