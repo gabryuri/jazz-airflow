@@ -50,7 +50,7 @@ class LambdaStack(core.Stack):
             code=_lambda.Code.from_asset('dags/lambda_codes/etl'),
             handler='rounds.handler',
             role=role,
-            #layers=[layer],
+            layers=[layer],
             timeout=core.Duration.minutes(5),
             memory_size=512
         )
