@@ -18,10 +18,7 @@ class LambdaStack(core.Stack):
 
         role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("AdministratorAccess"))
 
-        layer = _lambda.LayerVersion.from_layer_version_arn(
-            self, 
-            "Psycopg2Layer",
-            layer_version_arn='arn:aws:lambda:us-east-1:898466741470:layer:psycopg2-py38:2')
+   
 
         # Ingest
 
@@ -40,6 +37,11 @@ class LambdaStack(core.Stack):
         )
 
         # ETL 
+        layer = _lambda.LayerVersion.from_layer_version_arn(
+        self, 
+        "Psycopg2Layer",
+        layer_version_arn='arn:aws:lambda:us-east-1:898466741470:layer:psycopg2-py38:2')
+
         rounds_lambda = _lambda.Function(
             self,
             'jazz-etl-rounds',
@@ -48,7 +50,7 @@ class LambdaStack(core.Stack):
             code=_lambda.Code.from_asset('dags/lambda_codes/etl'),
             handler='rounds.handler',
             role=role,
-            layers=[layer],
+            #layers=[layer],
             timeout=core.Duration.minutes(5),
             memory_size=512
         )
