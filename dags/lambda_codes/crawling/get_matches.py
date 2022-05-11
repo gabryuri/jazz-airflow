@@ -92,5 +92,3 @@ def connect_to_rds():
     port='5432'
     )
     return conn 
-
-run_crawler({'offset':'100'},'0')

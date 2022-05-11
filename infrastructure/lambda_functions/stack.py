@@ -29,7 +29,11 @@ class LambdaStack(core.Stack):
         "LxmlLayer",
         layer_version_arn='arn:aws:lambda:us-east-1:770693421928:layer:Klayers-p38-lxml:1')
 
-        
+        requests_layer = _lambda.LayerVersion.from_layer_version_arn(
+        self, 
+        "RequestsLayer",
+        layer_version_arn='arn:aws:lambda:us-east-1:770693421928:layer:Klayers-p38-requests:2 ')
+       
 
         # Ingest
         # Ingest - Crawling
@@ -41,7 +45,7 @@ class LambdaStack(core.Stack):
             code=_lambda.Code.from_asset('dags/lambda_codes/crawling'),
             handler='get_matches.handler',
             role=role,
-            layers=[psycopg_layer, lxml_layer],
+            layers=[psycopg_layer, lxml_layer, requests_layer],
             timeout=core.Duration.minutes(5),
             memory_size=256
         )
