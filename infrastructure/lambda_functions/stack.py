@@ -32,7 +32,7 @@ class LambdaStack(core.Stack):
         requests_layer = _lambda.LayerVersion.from_layer_version_arn(
         self, 
         "RequestsLayer",
-        layer_version_arn='arn:aws:lambda:us-east-1:770693421928:layer:Klayers-p38-requests:2 ')
+        layer_version_arn='arn:aws:lambda:us-east-1:770693421928:layer:Klayers-p38-requests:2')
        
 
         # Ingest
