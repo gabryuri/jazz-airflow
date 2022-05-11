@@ -7,7 +7,7 @@ import psycopg2
 from lxml import html
 
 
-def run_crawler(event, context):
+def handler(event, context):
 
     offset = int(event.get('offset'))
     conn = connect_to_rds()
@@ -26,7 +26,7 @@ def run_crawler(event, context):
     matches = tree.xpath(f"//div[contains(@class, 'result-con')]/a/@href")
 
     print(f"Saving matches from offset {offset} ... into {table_name}", end="")
-    created_at = datetime.now().__str__()
+    created_at = datetime.utcnow().__str__()
     matches_splitted = [ match.split('/') for match in matches ]
 
     item_list = []

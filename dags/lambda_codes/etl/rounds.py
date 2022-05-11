@@ -20,7 +20,7 @@ def handler(event, context):
             'ctRoundStartMoney', 'ctBuyType', 'ctSpend', 'tStartEqVal', 
             'tRoundStartEqVal', 'tRoundStartMoney', 'tBuyType', 'tSpend']
 
-    updated_at = datetime.now().__str__()
+    updated_at = datetime.utcnow().__str__()
     rounds = []
     for round in data['gameRounds']:
         round_info = []
