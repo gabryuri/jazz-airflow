@@ -1,12 +1,13 @@
 import json
-import pyscopg2 
+import psycopg2 
+import boto3 
 
 def handler(event, context):
 
     s3_object = event.get('s3_object')
     exec_date = event.get('exec_date')
 
-    data = get_object()    
+    data = get_object(s3_object)  
 
     match = data['matchID']
     mapname = data['mapName']
@@ -28,7 +29,7 @@ def handler(event, context):
                 round_info.append(round[field])
         rounds.append(round_info)
 
-    query ="""INSERT INTO match_data.rounds(
+        query ="""INSERT INTO match_data.rounds(
         "matchID",
         "mapName",
         "roundNum",

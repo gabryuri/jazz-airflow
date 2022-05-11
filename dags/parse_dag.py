@@ -51,18 +51,20 @@ def parse_and_upload(**kwargs):
         invocation_type='Event',
         )
 
-    output_s3 = []
+    s3_json_objects = []
     for s3_object in s3_object_list:
         
         event = {"s3_object":s3_object,
                 "object_prefix":"major_demos",
                 "exec_date":exec_date}
 
-        output_s3 = (os.path.join(event.get('object_prefix'), exec_date, s3_object.strip('.dem')))+'.json'
+        output_s3 = (os.path.join(event.get('object_prefix'), exec_date, os.path.basename(s3_object).strip('.dem')))+'.json'
         print(output_s3)
+        s3_json_objects.append(output_s3)
 
         result = hook.invoke_lambda(payload= json.dumps(event))
         print(result)
+    return s3_json_objects
     
 
 parse_and_upload = PythonOperator(
@@ -76,7 +78,8 @@ def json_to_tables(**kwargs):
     ti = kwargs['ti']
     exec_date = kwargs['ds']
 
-    s3_object_list = ['major_demos/2022-05-09/demo1.json', 'major_demos/2022-05-09/demo2.json']# ti.xcom_pull(task_ids='scan_for_demos')
+    s3_object_list = ti.xcom_pull(task_ids='parse_and_upload')
+    #['major_demos/2022-05-09/demo1.json', 'major_demos/2022-05-09/demo2.json']# 
 
     rounds_hook = AwsLambdaHook( 
         function_name='jazz-etl-rounds',
