@@ -2,7 +2,7 @@
 	  "matchID" TEXT,
 	  "mapName" TEXT,
 	  "roundNum" INTEGER,
-	  "isWarmup" INTEGER,
+	  "isWarmup" BOOLEAN,
 	  "tScore" INTEGER,
 	  "ctScore" INTEGER,
 	  "endTScore" INTEGER,
@@ -23,5 +23,6 @@
 	  "tRoundStartMoney" INTEGER,
 	  "tBuyType" TEXT,
 	  "tSpend" INTEGER,
+	  updated_at TIMESTAMP,
   PRIMARY KEY ("matchID","roundNum") 
 );

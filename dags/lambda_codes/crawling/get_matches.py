@@ -42,7 +42,6 @@ def run_crawler(event, context):
                     )
             item_list.append(item)
     
-    #print(item_list)
 
     query ="""INSERT INTO crawling.crawled_matches(
         match_id,

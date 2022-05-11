@@ -1,6 +1,7 @@
 import json
 import psycopg2 
 import boto3 
+from datetime import datetime
 
 def handler(event, context):
 
@@ -8,7 +9,7 @@ def handler(event, context):
     exec_date = event.get('exec_date')
 
     data = get_object(s3_object)  
-
+    print(data)
     match = data['matchID']
     mapname = data['mapName']
 
@@ -19,6 +20,7 @@ def handler(event, context):
             'ctRoundStartMoney', 'ctBuyType', 'ctSpend', 'tStartEqVal', 
             'tRoundStartEqVal', 'tRoundStartMoney', 'tBuyType', 'tSpend']
 
+    updated_at = datetime.now().__str__()
     rounds = []
     for round in data['gameRounds']:
         round_info = []
@@ -27,9 +29,12 @@ def handler(event, context):
         for field in round.keys():
             if field in columns:
                 round_info.append(round[field])
+        round_info.append(updated_at)
         rounds.append(round_info)
 
-        query ="""INSERT INTO match_data.rounds(
+    print(round_info)
+        
+    query ="""INSERT INTO match_data.rounds(
         "matchID",
         "mapName",
         "roundNum",
@@ -53,12 +58,14 @@ def handler(event, context):
         "tRoundStartEqVal",
         "tRoundStartMoney",
         "tBuyType",
-        "tSpend"
+        "tSpend",
+        updated_at
         ) 
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
                 %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-                %s, %s, %s, %s)
-        ON CONFLICT ("matchID","roundNum") DO NOTHING;"""
+                %s, %s, %s, %s, %s)
+        ON CONFLICT ("matchID","roundNum") DO UPDATE SET 
+        "updated_at" = excluded."updated_at";"""
 
     conn = connect_to_rds()
     print('total round amount:', len(rounds))
@@ -103,3 +110,4 @@ def get_object(s3_object):
     obj = s3.get_object(Bucket='jazz-processed', Key=s3_object)
     data = json.loads(obj['Body'].read())
     return data 
+
