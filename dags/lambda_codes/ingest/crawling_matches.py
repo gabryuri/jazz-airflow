@@ -10,7 +10,7 @@ from lxml import html
 def handler(event, context):
 
     offset = int(event.get('offset'))
-    conn = connect_to_rds()
+    #conn = connect_to_rds()
 
     table_name = 'crawled_matches'
     url = f'https://www.hltv.org/results?offset={offset}'
@@ -34,7 +34,7 @@ def handler(event, context):
         if len(match) > 3:
             item = (match[2], 
                     str(match[3]), 
-                    1, 
+                    None, 
                     str(created_at),
                     str(created_at), 
                     str(created_at),
@@ -92,3 +92,5 @@ def connect_to_rds():
     port='5432'
     )
     return conn 
+
+handler({'offset':'0'},'')

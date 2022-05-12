@@ -4,7 +4,7 @@ import json
 import os
 import sys
 import psycopg2
-sys.path.append("/usr/local/airflow/dags/utils")
+import time
 
 from datetime import datetime
 from airflow import DAG
@@ -40,6 +40,7 @@ scan_for_demos = PythonOperator(
 
 
 def parse_and_upload(**kwargs):
+    time.sleep(30)
     ti = kwargs['ti']
     exec_date = kwargs['ds']
 
@@ -75,6 +76,7 @@ parse_and_upload = PythonOperator(
 
 
 def json_to_tables(**kwargs):
+    time.sleep(30)
     ti = kwargs['ti']
     exec_date = kwargs['ds']
 
