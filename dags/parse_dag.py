@@ -76,7 +76,7 @@ parse_and_upload = PythonOperator(
 
 
 def json_to_tables(**kwargs):
-    time.sleep(30)
+    time.sleep(60)
     ti = kwargs['ti']
     exec_date = kwargs['ds']
 

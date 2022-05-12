@@ -7,7 +7,7 @@ from lxml import html
 import time 
 
     
-def update_demos(event, context):
+def handler(event, context):
 
     conn = connect_to_rds()
     cur = conn.cursor()
@@ -74,4 +74,4 @@ def connect_to_rds():
     )
     return conn 
 
-update_demos('event', 'text')
+#update_demos('event', 'text')
