@@ -22,7 +22,7 @@ def lambda_handler(event, context):
 
 
 def extract(demo_file, DEMOS_COMPRESSED_DIR):
-    demo_file = os.path.join(DEMOS_COMPRESSED_DIR, 'testezass')
+    demo_file = os.path.join(DEMOS_COMPRESSED_DIR, 'test_demos')
     os.system(f'unrar x {demo_file}.rar {DEMOS_COMPRESSED_DIR}')
     return None
 
