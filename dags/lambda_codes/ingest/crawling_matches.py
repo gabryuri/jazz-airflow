@@ -92,5 +92,3 @@ def connect_to_rds():
     port='5432'
     )
     return conn 
-
-handler({'offset':'0'},'')

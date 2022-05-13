@@ -74,4 +74,3 @@ def connect_to_rds():
     )
     return conn 
 
-#update_demos('event', 'text')
