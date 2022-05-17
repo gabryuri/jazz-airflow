@@ -12,7 +12,6 @@ RUN tar -zxvf rarlinux-x64-5.6.0.tar.gz
 RUN cd rar && \
     cp -v rar unrar /usr/local/bin/
 
-RUN mkdir tmp 
 
 RUN pip install requests
 COPY / ./

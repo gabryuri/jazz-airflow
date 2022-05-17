@@ -1,5 +1,5 @@
 import logging
-#import boto3
+import boto3
 import json
 import os
 import sys
@@ -15,8 +15,6 @@ from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
 from airflow.settings import AIRFLOW_HOME
 from airflow.contrib.hooks.aws_lambda_hook import AwsLambdaHook
-
-#from botocore.exceptions import ClientError1
 
 from connector import connect_to_rds
 
@@ -34,6 +32,8 @@ processed_folder = 'tmp_processed'
 
 object_prefix = 'hltv'
 
+
+
 def find_demo_ids(**kwargs):
 
     hook = AwsLambdaHook( 
@@ -41,6 +41,8 @@ def find_demo_ids(**kwargs):
     region_name='us-east-1',
     invocation_type='Event',
     )
+
+    event = {}
 
     result = hook.invoke_lambda(payload=json.dumps(event))
     print(result)
@@ -54,19 +56,19 @@ find_demo_ids = PythonOperator(
 
 def download_demos(**kwargs):
 
-    exec_date = kwargs['ds']
+    exec_date = kwargs['next_ds']
     conn = connect_to_rds()
     cur = conn.cursor()
 
     cur.execute("""SELECT demo_id
                         FROM crawling.crawled_matches
-                        WHERE updated_at >= current_date - interval '1 day' and (demo_id <> 1 or demo_id is null)
+                        WHERE updated_at >= current_date - interval '1 day'
+                        AND (demo_id <> 1 or demo_id is not null)
+                        limit 10
                     """)
 
     results = cur.fetchall()
-    print(results)
-
-    results_parcial = results[0:2]
+    print('total amount of matches to download: ', len(results))
 
     hook = AwsLambdaHook( 
     function_name='jazz-ingest-download_demos',
@@ -74,15 +76,21 @@ def download_demos(**kwargs):
     invocation_type='Event',
     )
 
-    for demo in results_parcial:
-        event = {"match_id" : demo,
+    for demo in results:
+
+        time.sleep(30)
+        event = {"demo_id" : demo[0],
                 "object_prefix" : object_prefix,
                 "exec_date" : exec_date}
+
+
+        print(event)
 
         result = hook.invoke_lambda(payload=json.dumps(event))
         print(result)
 
-
+    time.sleep(400)
+    return len(results)
 
 
 download_demos = PythonOperator(
@@ -95,9 +103,7 @@ download_demos = PythonOperator(
 def parse_and_upload(**kwargs):
     time.sleep(30)
     ti = kwargs['ti']
-    exec_date = kwargs['ds']
-
-    s3_object_list = ti.xcom_pull(task_ids='download_demos')
+    exec_date = kwargs['next_ds']
 
     hook = AwsLambdaHook( 
         function_name='jazz-ingest-parser',
@@ -105,9 +111,16 @@ def parse_and_upload(**kwargs):
         invocation_type='Event',
         )
 
+    client = boto3.client('s3')
+    result = client.list_objects(Bucket=landing_bucket,
+                                 Prefix=os.path.join(object_prefix, exec_date)+'/',
+                                 Delimiter='/')
+
+ 
     s3_json_objects = []
-    for s3_object in s3_object_list:
-        
+    for obj in result['Contents']:
+        s3_object = obj['Key']
+
         event = {"s3_object":s3_object,
                 "object_prefix":object_prefix,
                 "exec_date":exec_date}
@@ -130,9 +143,10 @@ parse_and_upload = PythonOperator(
 def json_to_tables(**kwargs):
     time.sleep(60)
     ti = kwargs['ti']
-    exec_date = kwargs['ds']
+    exec_date = kwargs['next_ds']
 
     s3_object_list = ti.xcom_pull(task_ids='parse_and_upload')
+    print(s3_object_list)
 
     rounds_hook = AwsLambdaHook( 
         function_name='jazz-etl-rounds',
@@ -153,6 +167,6 @@ json_to_tables = PythonOperator(
     provide_context=True,
     dag=dag)
 
-#find_demo_ids >> download_demos >> parse_and_upload >> json_to_tables
+find_demo_ids >> download_demos >> parse_and_upload >> json_to_tables
 
-download_demos
+#download_demos

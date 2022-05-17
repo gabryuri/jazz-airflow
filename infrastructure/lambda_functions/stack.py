@@ -74,7 +74,7 @@ class LambdaStack(core.Stack):
             code=_lambda.DockerImageCode.from_ecr(download_demos_repo),
             role=role,
             timeout=core.Duration.minutes(15),
-            memory_size=1024
+            memory_size=2048
         )
 
 

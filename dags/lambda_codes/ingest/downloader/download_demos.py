@@ -4,24 +4,24 @@ import boto3
 
 def lambda_handler(event, context):
 
-    match_id = event.get('match_id')
+    demo_id = event.get('demo_id')
     exec_date = event.get('exec_date')
     object_prefix = event.get('object_prefix')
 
     DEMOS_COMPRESSED_DIR = '/tmp'
     output_bucket = 'jazz-landing'
 
-    print(f"Downloading match {match_id}")
-    url=f'https://www.hltv.org/download/demo/{str(match_id)}'  
+    print(f"Downloading match {demo_id}")
+    url=f'https://www.hltv.org/download/demo/{str(demo_id)}'  
     resp = requests.get(url)
 
     # assuming the subdirectory tempdata has been created:
-    zname = os.path.join(DEMOS_COMPRESSED_DIR, f"{str(match_id)}.rar")
+    zname = os.path.join(DEMOS_COMPRESSED_DIR, f"{str(demo_id)}.rar")
     zfile = open(zname, 'wb')
     zfile.write(resp.content)
     zfile.close()
 
-    extract(f"{str(match_id)}" ,DEMOS_COMPRESSED_DIR)
+    extract(f"{str(demo_id)}" ,DEMOS_COMPRESSED_DIR)
 
     s3_client = boto3.client('s3')
 
