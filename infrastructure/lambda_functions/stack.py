@@ -39,8 +39,8 @@ class LambdaStack(core.Stack):
         # Ingest - Crawling
         crawling_matches = _lambda.Function(
             self,
-            'jazz-ingest-crawling-matches',
-            function_name='jazz-ingest-crawling-matches',
+            'jazz-ingest-crawling_matches',
+            function_name='jazz-ingest-crawling_matches',
             runtime=_lambda.Runtime.PYTHON_3_8,
             code=_lambda.Code.from_asset('dags/lambda_codes/ingest'),
             handler='crawling_matches.handler',
@@ -60,7 +60,7 @@ class LambdaStack(core.Stack):
             handler='find_demos.handler',
             role=role,
             layers=[psycopg_layer, lxml_layer, requests_layer],
-            timeout=core.Duration.minutes(5),
+            timeout=core.Duration.minutes(15),
             memory_size=512
         )
 

@@ -11,9 +11,9 @@ USER root
 # RUN export GOROOT=/usr/local/airflow
 # RUN mkdir -p /usr/local/airflow/tmp_demos
 # RUN mkdir -p /usr/local/airflow/tmp_processed
-# RUN pip install psycopg2
+
 
 # RUN go version
-
+RUN pip install psycopg2-binary
 RUN pip install boto3
 # RUN pip install lxml

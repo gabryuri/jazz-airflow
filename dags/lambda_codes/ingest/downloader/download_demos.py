@@ -8,7 +8,7 @@ def lambda_handler(event, context):
     exec_date = event.get('exec_date')
     object_prefix = event.get('object_prefix')
 
-    DEMOS_COMPRESSED_DIR = 'tmp'
+    DEMOS_COMPRESSED_DIR = '/tmp'
     output_bucket = 'jazz-landing'
 
     print(f"Downloading match {match_id}")

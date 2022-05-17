@@ -6,7 +6,7 @@ from datetime import datetime
 from lxml import html
 import time 
 
-    
+from utils.connector import connect_to_rds
 def handler(event, context):
 
     conn = connect_to_rds()

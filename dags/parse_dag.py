@@ -6,15 +6,19 @@ import sys
 import psycopg2
 import time
 
+
+sys.path.append("/usr/local/airflow/dags/utils")
+
 from datetime import datetime
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash_operator import BashOperator
 from airflow.settings import AIRFLOW_HOME
 from airflow.contrib.hooks.aws_lambda_hook import AwsLambdaHook
+
 #from botocore.exceptions import ClientError1
 
-#from demoparser import DemoParser
+from connector import connect_to_rds
 
 
 dag = DAG('parse_dag', description='Hello World DAG',
@@ -28,13 +32,62 @@ output_bucket = 'jazz-processed'
 demos_folder = 'tmp_demos'
 processed_folder = 'tmp_processed'
 
-def find_demo_ids(**kwargs):
-    return ['pasta1/demo1.dem', 'pasta2/demo2.dem'] 
+object_prefix = 'hltv'
 
+def find_demo_ids(**kwargs):
+
+    hook = AwsLambdaHook( 
+    function_name='jazz-ingest-find_demos',
+    region_name='us-east-1',
+    invocation_type='Event',
+    )
+
+    result = hook.invoke_lambda(payload=json.dumps(event))
+    print(result)
 
 find_demo_ids = PythonOperator(
     task_id='find_demo_ids',
     python_callable=find_demo_ids,
+    provide_context=True,
+    dag=dag)
+
+
+def download_demos(**kwargs):
+
+    exec_date = kwargs['ds']
+    conn = connect_to_rds()
+    cur = conn.cursor()
+
+    cur.execute("""SELECT demo_id
+                        FROM crawling.crawled_matches
+                        WHERE updated_at >= current_date - interval '1 day' and (demo_id <> 1 or demo_id is null)
+                    """)
+
+    results = cur.fetchall()
+    print(results)
+
+    results_parcial = results[0:2]
+
+    hook = AwsLambdaHook( 
+    function_name='jazz-ingest-download_demos',
+    region_name='us-east-1',
+    invocation_type='Event',
+    )
+
+    for demo in results_parcial:
+        event = {"match_id" : demo,
+                "object_prefix" : object_prefix,
+                "exec_date" : exec_date}
+
+        result = hook.invoke_lambda(payload=json.dumps(event))
+        print(result)
+
+
+
+
+download_demos = PythonOperator(
+    task_id='download_demos',
+    python_callable=download_demos,
     provide_context=True,
     dag=dag)
 
@@ -56,7 +109,7 @@ def parse_and_upload(**kwargs):
     for s3_object in s3_object_list:
         
         event = {"s3_object":s3_object,
-                "object_prefix":"major_demos",
+                "object_prefix":object_prefix,
                 "exec_date":exec_date}
 
         output_s3 = (os.path.join(event.get('object_prefix'), exec_date, os.path.basename(s3_object).strip('.dem')))+'.json'
@@ -67,7 +120,6 @@ def parse_and_upload(**kwargs):
         print(result)
     return s3_json_objects
     
-
 parse_and_upload = PythonOperator(
     task_id='parse_and_upload',
     python_callable=parse_and_upload, 
@@ -101,90 +153,6 @@ json_to_tables = PythonOperator(
     provide_context=True,
     dag=dag)
 
-scan_for_demos >> parse_and_upload >> json_to_tables
+#find_demo_ids >> download_demos >> parse_and_upload >> json_to_tables
 
-# def json_to_tables(**kwargs):
-#     ti = kwargs['ti']
-
-#     s3_object_list = ti.xcom_pull(task_ids='parse_and_upload')
-
-#     print(s3_object_list)
-    
-#     with open(s3_object_list[1]) as f:
-#         data = json.load(f)
-
-#     match = data['matchID']
-#     mapname = data['mapName']
-
-#     columns = ['matchID', 'mapName', 'roundNum', 'isWarmup', 'tScore', 'ctScore', 
-#             'endTScore', 'endCTScore', 'ctTeam', 'tTeam',
-#             'winningSide', 'winningTeam', 'losingTeam', 
-#             'roundEndReason', 'ctStartEqVal', 'ctRoundStartEqVal', 
-#             'ctRoundStartMoney', 'ctBuyType', 'ctSpend', 'tStartEqVal', 
-#             'tRoundStartEqVal', 'tRoundStartMoney', 'tBuyType', 'tSpend']
-
-#     rounds = []
-#     for round in data['gameRounds']:
-#         round_info = []
-#         for match_info in [match, mapname]:
-#             round_info.append(match_info)
-#         for field in round.keys():
-#             if field in columns:
-#                 round_info.append(round[field])
-#         rounds.append(round_info)
-
-#     query ="""INSERT INTO match_data.rounds(
-#         "matchID",
-#         "mapName",
-#         "roundNum",
-#         "isWarmup",
-#         "tScore",
-#         "ctScore",
-#         "endTScore",
-#         "endCTScore",
-#         "ctTeam",
-#         "tTeam",
-#         "winningSide",
-#         "winningTeam",
-#         "losingTeam",
-#         "roundEndReason",
-#         "ctStartEqVal",
-#         "ctRoundStartEqVal",
-#         "ctRoundStartMoney",
-#         "ctBuyType",
-#         "ctSpend",
-#         "tStartEqVal",
-#         "tRoundStartEqVal",
-#         "tRoundStartMoney",
-#         "tBuyType",
-#         "tSpend"
-#         ) 
-#         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-#                 %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-#                 %s, %s, %s, %s)
-#         ON CONFLICT ("matchID","roundNum") DO NOTHING;"""
-
-#     conn = psycopg2.connect(
-#     database="jazz-prod",
-#     user="postgres",
-#     password=os.environ['PSYCOPG_PW'],
-#     host=os.environ['PSYCOPG_HOST'],
-#     port='5432'
-#     )
-
-#     print('total round amount:', len(rounds))
-
-#     cur = conn.cursor()
-#     cur.executemany(query, rounds)
-#     conn.commit()
-
-# # for json_element in json_objects: 
-# #     trigger_lambda_rounds(json_element)
-# #     trigger_lambda_tickrate(json_element)
-
-
-# json_to_tables = PythonOperator(
-#     task_id='json_to_tables',
-#     python_callable=json_to_tables, 
-#     provide_context=True,
-# dag=dag)
+download_demos
