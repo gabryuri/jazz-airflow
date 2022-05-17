@@ -67,7 +67,7 @@ class LambdaStack(core.Stack):
         # Ingest - Downloading
         download_demos_repo = ecr.Repository.from_repository_name(self, "download_demos_repo", "lambda-downloader-repo")
 
-        download_demos = _lambda.Function(
+        download_demos = _lambda.DockerImageFunction(
             self,
             'jazz-ingest-download_demos',
             function_name='jazz-ingest-download_demos',
