@@ -7,6 +7,8 @@ import psycopg2
 from lxml import html
 
 
+from utils.connector import connect_to_rds
+
 def handler(event, context):
 
     offset = int(event.get('offset'))
@@ -63,32 +65,3 @@ def handler(event, context):
     cur.executemany(query, item_list)
     conn.commit()
 
-def connect_to_rds():
-    session = boto3.session.Session()
-    
-    client = session.client(
-        service_name='secretsmanager',
-        region_name='us-east-1'
-    )
-    
-    get_secret_value_response = client.get_secret_value(
-    SecretId='RDSSecret3683CA93-EbWoCdWb5X7B'
-    )
-    
-    secret = get_secret_value_response['SecretString']
-    j = json.loads(secret)
-
-    password = j['password']
-    host = j['host']
-    user = j['username']
-    port = '5432'
-    database = 'jazz-prod'
-   
-    conn = psycopg2.connect(
-    database=database,
-    user=user,
-    password=password,
-    host=host,
-    port='5432'
-    )
-    return conn 

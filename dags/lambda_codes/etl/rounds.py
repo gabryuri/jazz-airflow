@@ -3,6 +3,8 @@ import psycopg2
 import boto3 
 from datetime import datetime
 
+from utils.connector import connect_to_rds
+
 def handler(event, context):
 
     s3_object = event.get('s3_object')
@@ -74,36 +76,6 @@ def handler(event, context):
     cur.executemany(query, rounds)
     conn.commit()
 
-
-def connect_to_rds():
-    session = boto3.session.Session()
-    
-    client = session.client(
-        service_name='secretsmanager',
-        region_name='us-east-1'
-    )
-    
-    get_secret_value_response = client.get_secret_value(
-    SecretId='RDSSecret3683CA93-EbWoCdWb5X7B'
-    )
-    
-    secret = get_secret_value_response['SecretString']
-    j = json.loads(secret)
-
-    password = j['password']
-    host = j['host']
-    user = j['username']
-    port = '5432'
-    database = 'jazz-prod'
-    
-    conn = psycopg2.connect(
-    database=database,
-    user=user,
-    password=password,
-    host=host,
-    port='5432'
-    )
-    return conn 
 
 def get_object(s3_object):
     s3 = boto3.client('s3')   
