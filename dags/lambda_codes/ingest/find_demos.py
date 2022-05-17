@@ -16,11 +16,14 @@ def handler(event, context):
                         FROM crawling.crawled_matches
                         WHERE demo_id is NULL or demo_id = 1
                     """)
+
     results = cur.fetchall()
     print(f"Updating demos for {len(results)} matches")
 
+    demos_to_download = []
     for match in results:
         match_id = match[0]
+        
         description = match[1]
         updated_at = datetime.utcnow().__str__()
 
@@ -34,6 +37,7 @@ def handler(event, context):
         if len(demo) > 0:
             if len(demo[0]) > 3:
                 demo_id = demo[0].split('/')[3]
+                demos_to_download.append(demo_id)
 
                 cur.execute(f"""UPDATE crawling.crawled_matches 
                                     SET demo_id =     {demo_id}, 
@@ -43,6 +47,7 @@ def handler(event, context):
             conn.commit()
             time.sleep(5.25)
     print("Done")
+    return demos_to_download
 
 def connect_to_rds():
     session = boto3.session.Session()

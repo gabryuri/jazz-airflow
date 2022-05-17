@@ -24,3 +24,11 @@ class ECRStack(core.Stack):
 
         parser_repo.add_lifecycle_rule(tag_prefix_list=["latest"], max_image_count=150)
         parser_repo.add_lifecycle_rule(max_image_age=core.Duration.days(30))
+
+        downloader_repo = ecr.Repository(self, "lambda-downloader-repo",
+            image_scan_on_push=True,
+            repository_name="lambda-downloader-repo"
+        )
+
+        downloader_repo.add_lifecycle_rule(tag_prefix_list=["latest"], max_image_count=150)
+        downloader_repo.add_lifecycle_rule(max_image_age=core.Duration.days(30))

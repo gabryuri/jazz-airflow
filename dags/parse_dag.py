@@ -28,13 +28,13 @@ output_bucket = 'jazz-processed'
 demos_folder = 'tmp_demos'
 processed_folder = 'tmp_processed'
 
-def scan_for_demos(**kwargs):
+def find_demo_ids(**kwargs):
     return ['pasta1/demo1.dem', 'pasta2/demo2.dem'] 
 
 
-scan_for_demos = PythonOperator(
-    task_id='scan_for_demos',
-    python_callable=scan_for_demos,
+find_demo_ids = PythonOperator(
+    task_id='find_demo_ids',
+    python_callable=find_demo_ids,
     provide_context=True,
     dag=dag)
 
@@ -44,7 +44,7 @@ def parse_and_upload(**kwargs):
     ti = kwargs['ti']
     exec_date = kwargs['ds']
 
-    s3_object_list = ti.xcom_pull(task_ids='scan_for_demos')
+    s3_object_list = ti.xcom_pull(task_ids='download_demos')
 
     hook = AwsLambdaHook( 
         function_name='jazz-ingest-parser',
@@ -81,7 +81,6 @@ def json_to_tables(**kwargs):
     exec_date = kwargs['ds']
 
     s3_object_list = ti.xcom_pull(task_ids='parse_and_upload')
-    #['major_demos/2022-05-09/demo1.json', 'major_demos/2022-05-09/demo2.json']# 
 
     rounds_hook = AwsLambdaHook( 
         function_name='jazz-etl-rounds',

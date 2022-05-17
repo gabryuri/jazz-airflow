@@ -64,6 +64,19 @@ class LambdaStack(core.Stack):
             memory_size=512
         )
 
+        # Ingest - Downloading
+        download_demos_repo = ecr.Repository.from_repository_name(self, "download_demos_repo", "lambda-downloader-repo")
+
+        download_demos = _lambda.Function(
+            self,
+            'jazz-ingest-download_demos',
+            function_name='jazz-ingest-download_demos',
+            code=_lambda.DockerImageCode.from_ecr(download_demos_repo),
+            role=role,
+            timeout=core.Duration.minutes(15),
+            memory_size=1024
+        )
+
 
         # Demo parser 
         repo = ecr.Repository.from_repository_name(self, "repo", "lambda-parser-repo")

@@ -14,7 +14,10 @@ RUN cd rar && \
 
 RUN mkdir tmp 
 
+ENV AWS_ACCESS_KEY_ID=AKIA3IGOVSPFLLFJEZ7K
+ENV AWS_SECRET_ACCESS_KEY=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
+
 RUN pip install requests
 COPY / ./
 COPY download_and_unzip.py ./
-CMD ["download_and_unzip.lambda_handler"]
+CMD ["download_demos.lambda_handler"]
