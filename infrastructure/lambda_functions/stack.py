@@ -75,7 +75,7 @@ class LambdaStack(core.Stack):
             role=role,
             timeout=core.Duration.minutes(15),
             memory_size=4096,
-            ephemeral_storage_size=core.Size(2048)
+            ephemeral_storage_size=core.Size.mebibytes(2048)
         )
 
 
@@ -90,7 +90,7 @@ class LambdaStack(core.Stack):
             role=role,
             timeout=core.Duration.minutes(5),
             memory_size=2048,
-            ephemeral_storage_size=core.Size(2048)
+            ephemeral_storage_size=core.Size.mebibytes(2048)
         )
 
         # ETL
