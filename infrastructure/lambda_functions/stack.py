@@ -84,15 +84,15 @@ class LambdaStack(core.Stack):
         # Demo parser 
         repo = ecr.Repository.from_repository_name(self, "repo", "lambda-parser-repo")
 
-        parser_lambda = _lambda.DockerImageFunction(
+        parser_lambda = _lambda.Function(
             self,
             'jazz-ingest-parser',
             function_name='jazz-ingest-parser',
             code=_lambda.DockerImageCode.from_ecr(repo),
             role=role,
             timeout=core.Duration.minutes(5),
-            memory_size=2048#,
-            #ephemeral_storage_size=core.Size.mebibytes(2048)
+            memory_size=2048,
+            ephemeral_storage_size=core.Size.mebibytes(2048)
         )
 
         # ETL
