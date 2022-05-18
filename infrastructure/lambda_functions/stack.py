@@ -74,8 +74,8 @@ class LambdaStack(core.Stack):
             code=_lambda.DockerImageCode.from_ecr(download_demos_repo),
             role=role,
             timeout=core.Duration.minutes(15),
-            memory_size=4096#,
-            #ephemeral_storage_size=core.Size.mebibytes(2048)
+            memory_size=4096,
+            ephemeral_storage_size=core.Size.mebibytes(2048)
         )
 
         print(vars(download_demos))
@@ -84,7 +84,7 @@ class LambdaStack(core.Stack):
         # Demo parser 
         repo = ecr.Repository.from_repository_name(self, "repo", "lambda-parser-repo")
 
-        parser_lambda = _lambda.Function(
+        parser_lambda = _lambda.DockerImageFunction(
             self,
             'jazz-ingest-parser',
             function_name='jazz-ingest-parser',
