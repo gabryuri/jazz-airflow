@@ -1,58 +1,25 @@
 
-# Welcome to your CDK Python project!
+# Welcome to Jazz!
 
-This is a blank project for Python development with CDK.
+Jazz is a CS:GO crawling platform whose purpose is to ingest,process and store .dem files from professional CS:GO matches.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+## Motivation
+As stated in [Fileinfo](https://fileinfo.com/extension/dem), demo files are used to record a player's perspective inside a match and can be replayed inside the game itself. 
 
-To manually create a virtualenv on MacOS and Linux:
+By using the same parsing code as [awpy](https://github.com/pnxenopoulos/awpy), this project is able to parse crawled matches into tables. <br/>
+Note that the entire awpy package was not used because only a small portion of it was necessary to parse the data.
 
-```
-$ python3 -m venv .venv
-```
+<br/>
 
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
+## Lambda structure
 
-```
-$ source .venv/bin/activate
-```
+Jazz uses lambdas orchestrated by Airflow. Although this may not be the optimal data processing tool, it suits well this case scenario as it makes parallel processing possible. <br/><br/>
+It also leaves the ec2 instance running as light as possible, bearing all the loads needed to crawl, download and parse data. 
+![Alt text](misc/tasks.png?raw=true "Title")
 
-If you are a Windows platform, you would activate the virtualenv like this:
 
-```
-% .venv\Scripts\activate.bat
-```
-
-Once the virtualenv is activated, you can install the required dependencies.
-
-```
-$ pip install -r requirements.txt
-```
-
-At this point you can now synthesize the CloudFormation template for this code.
-
-```
-$ cdk synth
-```
-
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
-
-## Useful commands
-
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
-
-Enjoy!
+## Airflow deployment
+![Alt text](misc/deployment.png?raw=true "Title")
+## CI/CD 
+![Alt text](misc/CICD.png?raw=true "Title")

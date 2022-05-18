@@ -68,7 +68,7 @@ class ECSCluster(core.Stack):
         volumes = [volume]
         )
        
-        repo = ecr.Repository.from_repository_name(self, "repo", "ecr-airflow")
+        repo = ecr.Repository.from_repository_name(self, "repo", "ecr-airflow-repo")
 
         container = task_definition_airflow.add_container("DefaultContainer",
             #image=ecs.ContainerImage.from_registry("puckel/docker-airflow:1.10.9"),
@@ -117,4 +117,4 @@ class ECSCluster(core.Stack):
 # 3- adicionar o scp lá no git actions? 
 # 4- tentar plugar sec groups automaticamente
 # 5- Adicionar load balancing e dns fixo? 
-
+#
