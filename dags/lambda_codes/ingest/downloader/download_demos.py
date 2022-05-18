@@ -2,6 +2,7 @@ import os
 import requests 
 import boto3 
 import psycopg2 
+import json
 from datetime import datetime
 
 def lambda_handler(event, context):
