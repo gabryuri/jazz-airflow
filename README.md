@@ -1,7 +1,7 @@
 
 # Welcome to Jazz!
 
-Jazz is a CS:GO crawling platform whose purpose is to ingest,process and store .dem files from professional CS:GO matches.
+Jazz is a CS:GO crawling platform whose purpose is to ingest, process and store .dem files from professional CS:GO matches.
 
 
 ## Motivation
