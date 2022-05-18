@@ -74,10 +74,12 @@ class LambdaStack(core.Stack):
             code=_lambda.DockerImageCode.from_ecr(download_demos_repo),
             role=role,
             timeout=core.Duration.minutes(15),
-            memory_size=4096,
-            ephemeral_storage_size=core.Size.mebibytes(2048)
+            memory_size=4096#,
+            #ephemeral_storage_size=core.Size.mebibytes(2048)
         )
 
+        print(vars(download_demos))
+        #print(vars(_lambda.DockerImageFunction))
 
         # Demo parser 
         repo = ecr.Repository.from_repository_name(self, "repo", "lambda-parser-repo")
@@ -89,8 +91,8 @@ class LambdaStack(core.Stack):
             code=_lambda.DockerImageCode.from_ecr(repo),
             role=role,
             timeout=core.Duration.minutes(5),
-            memory_size=2048,
-            ephemeral_storage_size=core.Size.mebibytes(2048)
+            memory_size=2048#,
+            #ephemeral_storage_size=core.Size.mebibytes(2048)
         )
 
         # ETL
