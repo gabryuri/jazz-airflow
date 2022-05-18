@@ -98,7 +98,6 @@ def download_demos(**kwargs):
                 "object_prefix" : object_prefix,
                 "exec_date" : exec_date}
 
-
         print(event)
 
         result = hook.invoke_lambda(payload=json.dumps(event))
@@ -170,8 +169,8 @@ def json_to_tables(**kwargs):
         )
 
     for s3_object in s3_object_list:
-        event = {"s3_object":s3_object,
-                "exec_date":exec_date}
+        event = {"s3_object" : s3_object,
+                 "exec_date" : exec_date}
 
         result = rounds_hook.invoke_lambda(payload= json.dumps(event))
         print(result)

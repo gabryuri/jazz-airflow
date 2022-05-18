@@ -34,7 +34,6 @@ def handler(event, context):
         round_info.append(updated_at)
         rounds.append(round_info)
 
-    print(round_info)
         
     query ="""INSERT INTO match_data.rounds(
         "matchID",
