@@ -79,7 +79,7 @@ class LambdaStack(core.Stack):
         )
 
         print(vars(download_demos))
-        #print(vars(_lambda.DockerImageFunction))
+        print(vars(_lambda.DockerImageFunction))
 
         # Demo parser 
         repo = ecr.Repository.from_repository_name(self, "repo", "lambda-parser-repo")
