@@ -27,12 +27,12 @@ def lambda_handler(event, context):
     extract(f"{str(demo_id)}" ,DEMOS_COMPRESSED_DIR)
     
     downloaded_at = datetime.utcnow().__str__()
-    file_count = 0 
+    demo_count = 0 
     
     s3_client = boto3.client('s3')
     for file in os.listdir(DEMOS_COMPRESSED_DIR):
         if file.endswith(".dem"):
-            file_count = file_count +1 
+            demo_count = demo_count +1 
             local_json_path = (os.path.join(DEMOS_COMPRESSED_DIR, file))
             print('local_json_path:' , local_json_path)
 
@@ -48,7 +48,7 @@ def lambda_handler(event, context):
     cur = conn.cursor()
 
     cur.execute(f"""UPDATE crawling.crawled_matches 
-                SET file_count =     {file_count}, 
+                SET demo_count =     {demo_count}, 
                     downloaded_at = '{downloaded_at}' 
                 WHERE demo_id = {demo_id}
             """)
