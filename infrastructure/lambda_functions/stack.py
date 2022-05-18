@@ -74,7 +74,8 @@ class LambdaStack(core.Stack):
             code=_lambda.DockerImageCode.from_ecr(download_demos_repo),
             role=role,
             timeout=core.Duration.minutes(15),
-            memory_size=2048
+            memory_size=4096,
+            ephemeral_storage_size=core.size(2048)
         )
 
 
@@ -88,7 +89,8 @@ class LambdaStack(core.Stack):
             code=_lambda.DockerImageCode.from_ecr(repo),
             role=role,
             timeout=core.Duration.minutes(5),
-            memory_size=2048
+            memory_size=2048,
+            ephemeral_storage_size=core.size(2048)
         )
 
         # ETL
