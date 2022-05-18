@@ -1,9 +1,9 @@
 -e .
-aws_cdk.aws_s3==1.122
-aws_cdk.aws_kinesisfirehose==1.122
-aws_cdk.aws_rds==1.122
-aws_cdk.aws_dms==1.122
-aws_cdk.aws_autoscaling==1.122
-aws_cdk.aws_ecs==1.122
-aws_cdk.aws_ecr==1.122
+aws_cdk.aws_s3==2.24.1
+aws_cdk.aws_kinesisfirehose==2.24.1
+aws_cdk.aws_rds==2.24.1
+aws_cdk.aws_dms==2.24.1
+aws_cdk.aws_autoscaling==2.24.1
+aws_cdk.aws_ecs==2.24.1
+aws_cdk.aws_ecr==2.24.1
 boto3
