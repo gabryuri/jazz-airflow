@@ -24,7 +24,7 @@ def handler(event, context):
     print('demo being saved to: ', demo_path)
     s3_client.download_file(landing_bucket, s3_object, demo_path)
         
-    demo_name = os.path.basename(s3_object.strip('.dem'))
+    demo_name = os.path.basename(s3_object.rstrip('.dem'))
     print('demo name: ', demo_name)
     path = os.path.join(os.path.dirname(__file__), "")
     print("Running Golang parser from " + path)
