@@ -24,9 +24,6 @@ dag = DAG('parse_dag', description='Hello World DAG',
 landing_bucket = 'jazz-landing'
 output_bucket = 'jazz-processed'
 
-demos_folder = 'tmp_demos'
-processed_folder = 'tmp_processed'
-
 object_prefix = 'hltv'
 
 def crawling_matches(**kwargs):

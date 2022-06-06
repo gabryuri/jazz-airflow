@@ -1,0 +1,255 @@
+%-----------------------------------------------------------------------
+% Arquivo template *.tex para TCC da Especialização em Data Science &
+% Big Data.
+%-----------------------------------------------------------------------
+
+% Classe do documento.
+\documentclass[9pt, a4paper, twocolumn]{article}
+
+%-----------------------------------------------------------------------
+% Metadados do documento. ----------------------------------------------
+
+\title{Título do trabalho de conclusão de curso de especialização}
+\author{
+  Gabriel Yuri Silva Ribeiro\footnotemark[1]\\
+  Pedro Augusto de Lima e Silva\footnotemark[2]\\
+  Luis C. E. Bona\footnotemark[3]\\
+}
+
+% Define as chamadas dos autores.
+\def\articlefootnotes{
+  \let\thefootnote\relax\footnotetext{$^1$Aluno do programa de Especialização em Data Science \& Big Data, \url{gyribeiro2014@gmail.com}.}
+  \let\thefootnote\relax\footnotetext{$^2$Analista de dados da Gamersclub, \url{pdrals16@gmail.com}.}
+  \let\thefootnote\relax\footnotetext{$^3$Professor do Departamento de Informática - DInf/UFPR.}
+}
+\date{}
+
+% Define variáveis usadas no `dsbd_capa.tex`.
+\def\capaautor{Gabriel Yuri Silva Ribeiro}
+\def\capaorientador{Orientador do Programa}
+\def\capaano{2022}
+\makeatletter
+\let\capatitulo\@title
+\makeatother
+
+%-----------------------------------------------------------------------
+% Preâmbulo. -----------------------------------------------------------
+
+% Define variáveis usadas no `dsbd_preamble.tex`.
+\def\pathtologoufpr{src/logo-ufpr.png}
+\def\pathtologodsbd{src/dsbd1x4.png}
+
+% Não alterar o conteúdo do arquivo abaixo.
+\input{src/dsbd_preamble.tex}
+
+%-----------------------------------------------------------------------
+% Início do documento. -------------------------------------------------
+
+\begin{document}
+
+%-----------------------------------------------------------------------
+% Capa.
+
+% Não alterar o conteúdo do arquivo abaixo.
+\input{src/dsbd_capa.tex}
+
+%-----------------------------------------------------------------------
+
+\twocolumn
+
+\maketitle
+
+% Para criar a chamada dos autores no rodapé.
+\articlefootnotes
+
+\begin{abstract}
+  Coloque aqui o resumo do trabalho de conclusão de curso. O resumo deve
+
+  \lipsum[1]
+
+  \noindent\textbf{Palavras-chave}: Análise X, método Y.
+\end{abstract}
+
+\renewcommand{\abstractname}{Abstract}
+\begin{abstract}
+  \it
+
+  Versão em inglês do resumo. \lipsum[2]
+
+  \noindent\textbf{Keywrods}: Versão em inglês, das
+  palavras-chave.
+\end{abstract}
+
+%-----------------------------------------------------------------------
+
+\section{Introdução}
+
+\lipsum[3-5]
+
+\begin{itemize}
+\item Essa é uma lista de tópicos apenas para ilustrar como construir.
+\item Coloquei apenas do itens que é o suficiente para você entender.
+  \begin{itemize}
+  \item Mas se a lista for hierárquica, então é só repetir o ambiente.
+  \item Bem fácil.
+  \end{itemize}
+\end{itemize}
+
+Fique atento aos seguintes símbolos
+
+\begin{enumerate}
+\item Para graus: as temperaturas usadas foram 25$^{\circ}$C e 40$^{\circ}$C.
+\item Para números cardinais: as avaliações foram feitas no
+  7\textsuperscript{\underline{o}} e 15\textsuperscript{\underline{o}}
+  dias.
+\end{enumerate}
+
+Para referências bibliográficas, use \texttt{citet} para citação direta
+no texto e \texttt{citep} para citação ao final de parágrafos. Confira os
+exemplos.
+
+Segundo \citet{wickham2016r}, blá blá blá. Tal coisa e coisa tal
+\citep{bruce2019estatistica}. Por outro lado, \citet{grus2019data}
+indica que blá blá blá. Estudos dessa natureza já foram relatados
+\citep{bruce2019estatistica, fawcett2018data}.
+
+%-----------------------------------------------------------------------
+
+\section{Materiais e Métodos}
+
+\lipsum[6]
+
+\subsection{O conjunto de dados}
+
+\lipsum[7]
+
+\begin{table}[H]
+  \caption{Dicionário do conjunto de dados.}
+  \begin{tabular}{m{2.5cm} m{5cm}}
+    %     \begin{tabular}{ll}
+    \hline
+    Variável & Descrição \\ \hline
+    Renda & (contínua) Renda mensal do cliente, em reais. \\
+    E.g. &  R\$ 10000, R\$ 4500.\\ \hline
+    Dependentes & (discreta) Número de dependentes. \\
+    E.g. & 0, 2, 5. \\ \hline
+    Ecivil & (categórica) Estado civil do cliente. \\
+    E.g. & casado, solteiro, divorciado, etc. \\ \hline
+  \end{tabular}
+\end{table}
+
+\subsection{Limpeza e preparo dos dados}
+
+\lipsum[8]
+
+% \onecolumn
+\begin{figure}[H]
+  \centering
+  \includegraphics[width = 7.5cm]{example-image}
+  \caption{Legenda da figura. Exemplo: fluxograma de preparo dos dados
+    considerando desde a extração do banco de dados, limpeza e imputação
+    para emprego dos mesmos nos modelos.}
+  \label{fig_01}
+\end{figure}
+% \twocolumn
+
+\subsection{Modelos empregados}
+
+\lipsum[9]
+
+\subsubsection{Modelo A}
+
+\lipsum[10]
+
+\subsubsection{Modelo B}
+
+\lipsum[11]
+
+\subsection{Avaliação}
+
+\lipsum[12]
+
+\subsection{Métricas}
+
+A \emph{acurácia} dá a proporção de predições corretas.
+$$
+\text{Acurácia: } A = \frac{TP + TN}{TP + FP + TN + FN}.
+$$
+
+A \emph{sensibilidade} mede a força do modelo prever um resultado
+positivo.
+$$
+\text{Sensibilidade: } R = \frac{TP}{TP + FN}.
+$$
+
+A \emph{especificidade} mede a força do modelo prever um resultado
+negativo.
+$$
+\text{Especificidade: } E = \frac{TN}{TN + FP}.
+$$
+
+A \emph{exatidão} mede a precisão de um resultado previsto como
+positivo.
+$$
+\text{Exatidão: } P = \frac{TP}{TP + FP}.
+$$
+
+O \emph{F1} é a média harmônica entre precisão e a sensibilidade.
+$$
+\text{F1: } F = 2\cdot\frac{P\cdot R}{P + R}.
+$$
+
+%-----------------------------------------------------------------------
+
+\section{Resultados e Discussões}
+
+\lipsum[13]
+
+\subsection{Ajuste dos modelos}
+
+\lipsum[14]
+
+\begin{table}[H]
+  \caption{Hiperparâmetros ajustados e tempo de execução para o ajuste dos modelos aos dados.}
+  \begin{tabular}{p{1.5cm} p{4.5cm} p{3em}}
+    \hline
+    Modelo & Hiperparâmetros & Tempo (min) \\ \hline
+    SVR & 39 vetores de suporte. & 5 \\[1ex]
+    Random forest & {$p = 10$ variáveis por árvore\newline
+                    $m = 300$ árvores treinadas} & 15\\[4ex]
+    Reg. Log. LASSO & {$\alpha = 0.001$} & 1\\ \hline
+  \end{tabular}
+\end{table}
+
+\subsection{Medidas de performance}
+
+\lipsum[15]
+
+% \onecolumn
+\begin{figure}[H]
+  \centering
+  \includegraphics[width = 7.5cm]{example-image}
+  \caption{Legenda da figura. Exemplo: acurácia no conjunto de treino para os modelos treinados.}
+  \label{fig_01}
+\end{figure}
+% \twocolumn
+
+%-----------------------------------------------------------------------
+
+\section{Conclusões}\label{Conclusao}
+
+\lipsum[16]
+
+\section*{Agradecimentos}
+
+\lipsum[17]
+
+%-----------------------------------------------------------------------
+% Referências bibliográficas. ------------------------------------------
+
+\bibliographystyle{unsrt}%
+\bibliography{references.bib}%
+
+\end{document}
+
+%-----------------------------------------------------------------------

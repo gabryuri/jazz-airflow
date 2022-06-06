@@ -33,16 +33,19 @@ def lambda_handler(event, context):
     for file in os.listdir(DEMOS_COMPRESSED_DIR):
         if file.endswith(".dem"):
             demo_count = demo_count +1 
-            local_json_path = (os.path.join(DEMOS_COMPRESSED_DIR, file))
-            print('local_json_path:' , local_json_path)
+            local_path = (os.path.join(DEMOS_COMPRESSED_DIR, file))
+            print('local_path:' , local_path)
 
             demo_name = str(demo_id)+'_'+str(file)
             print('demo_name: ', demo_name)
 
             s3_object_name = os.path.join(object_prefix, exec_date, demo_name)
-            result = s3_client.upload_file(local_json_path, output_bucket, s3_object_name)
+            result = s3_client.upload_file(local_path, output_bucket, s3_object_name)
             print(f"{s3_object_name} yielded s3 upload result {result}")
 
+            os.remove(local_path)
+
+    os.remove(zname)
 
     conn = connect_to_rds()
     cur = conn.cursor()
@@ -53,7 +56,6 @@ def lambda_handler(event, context):
                 WHERE demo_id = {demo_id}
             """)
     conn.commit()
-
 
 def extract(demo_file, DEMOS_COMPRESSED_DIR):
     demo_file = os.path.join(DEMOS_COMPRESSED_DIR, demo_file)

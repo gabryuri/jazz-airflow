@@ -63,5 +63,8 @@ def handler(event, context):
     print('local_json_path:' , local_json_path)
     s3_object_name = os.path.join(object_prefix, exec_date, demo_name)+".json"
     result = s3_client.upload_file(local_json_path, output_bucket, s3_object_name)
+
+    os.remove(demo_path)
+    os.remove(local_json_path)
     
     return result
