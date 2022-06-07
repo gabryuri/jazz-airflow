@@ -9,7 +9,7 @@
 %-----------------------------------------------------------------------
 % Metadados do documento. ----------------------------------------------
 
-\title{Título do trabalho de conclusão de curso de especialização}
+\title{Plataformas de crawling em ambiente de computação em nuvem: Uma perspectiva prática}
 \author{
   Gabriel Yuri Silva Ribeiro\footnotemark[1]\\
   Pedro Augusto de Lima e Silva\footnotemark[2]\\
@@ -26,7 +26,7 @@
 
 % Define variáveis usadas no `dsbd_capa.tex`.
 \def\capaautor{Gabriel Yuri Silva Ribeiro}
-\def\capaorientador{Orientador do Programa}
+\def\capaorientador{Wagner Hugo Bonat}
 \def\capaano{2022}
 \makeatletter
 \let\capatitulo\@title
@@ -63,21 +63,61 @@
 \articlefootnotes
 
 \begin{abstract}
-  Coloque aqui o resumo do trabalho de conclusão de curso. O resumo deve
+  Este trabalho tem como enfoque apresentar uma solução de engenharia de dados para um problema muito comum e ainda desafiador no mundo da tecnologia:
+  A necessidade de obter dados de uma página web de maneira sistêmica. 
 
-  \lipsum[1]
+  Vários passos precisam ser executados de forma
+  a desempenhar esta tarefa: Acessar o site de maneira automatizada,
+  rastrear os elementos de interesse, condensar suas informações,
+  salvar os dados de maneira segura e tratá-los para que tragam
+  valor no fim do processo.
+  
+  Desta forma, será apresentada uma solução que aborda
+  principalmente três tópicos essenciais para uma
+  solução moderna: Construção de um pipeline de dados orquestrado,
+  infraestrutura como código para computação em cloud, e por fim,
+  Integração contínua / deploy contínuo (CI/CD).
+  
+  Seja pelo fato de precisarmos desempenhar
+  uma série de tarefas em sequência com interdependência entre elas,
+  manter a robustez de crawling em um site que pode (e irá)
+  mudar ao longo do tempo ou realizar a mesma tarefa de
+  maneira consistente dia após dia, se vê a necessidade de utilizar
+  ferramentas de computação em nuvem,
+  que nos garantem alta disponibilidade de recursos e nos propiciam
+  flexibilidade para criar soluções. 
 
-  \noindent\textbf{Palavras-chave}: Análise X, método Y.
+
+  \noindent\textbf{Palavras-chave}: Computação em nuvem, engenharia de dados, pipelines, crawling
 \end{abstract}
 
 \renewcommand{\abstractname}{Abstract}
 \begin{abstract}
   \it
 
-  Versão em inglês do resumo. \lipsum[2]
+  This paper focuses on presenting a data engineering solution to a very common and still challenging problem in the technology world:
+ The necessity to fetch data from a web page in a systemic way. 
 
-  \noindent\textbf{Keywrods}: Versão em inglês, das
-  palavras-chave.
+ Several steps need to be performed in order to accomplish this task: visiting the site in an automated way,
+ tracking down the elements of interest, condensing its information to then
+ save the data in a secure manner, to finally be able to process it in order to bring value at the end of the pipeline.
+  
+  With this in mind, a solution will be presented that addresses
+  three essential topics for a modern solution: Building an orchestrated data pipeline,
+  infrastructure as code for cloud computing, and finally,
+  Continuous integration / Continuous deployment (CI/CD).
+  
+  Whether it is the fact that we need to perform
+  a series of tasks in sequence with interdependency between them,
+  robustness of crawling a site that can (and will) change over time, or performing
+  change over time or perform the same task consistently day after
+  task consistently day after day, there is a need to use cloud computing
+  cloud computing tools,
+  that guarantee high availability of resources and give us the flexibility to
+  flexibility to create solutions. 
+
+
+  \noindent\textbf{Keywords}: Cloud computing, data engineering, pipelines, crawling 
 \end{abstract}
 
 %-----------------------------------------------------------------------
@@ -120,8 +160,9 @@ indica que blá blá blá. Estudos dessa natureza já foram relatados
 \lipsum[6]
 
 \subsection{O conjunto de dados}
-
+Para referências bibliográficas
 \lipsum[7]
+
 
 \begin{table}[H]
   \caption{Dicionário do conjunto de dados.}
