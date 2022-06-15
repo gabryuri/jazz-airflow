@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2022.6.6)  6 JUN 2022 21:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2022.6.6)  7 JUN 2022 22:06
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -684,119 +684,125 @@ Underfull \hbox (badness 1286) in paragraph at lines 75--80
 \T1/ppl/m/n/10 (+20) aborda principalmente três tópicos essenciais para
  []
 
+
+Underfull \hbox (badness 3058) in paragraph at lines 141--146
+\T1/ppl/m/n/10 (+20) diversas fontes de dados - sistemas internos da
+ []
+
 [3
 
 
  </home/gabriel/jazz-airflow/misc/thesis/src/dsbd1x4.png> </home/gabriel/jazz-airflow/misc/thesis/src/logo-ufpr.png>]
-LaTeX Font Info:    Calculating math sizes for size <7.6> on input line 143.
+Underfull \hbox (badness 1199) in paragraph at lines 147--151
+\T1/ppl/m/n/10 (+20) capazes de alimentar elatórios, alertas, modelos e
+ []
+
+LaTeX Font Info:    Calculating math sizes for size <7.6> on input line 180.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 6.01859pt on input line 143.
+(Font)              scaled to size 6.01859pt on input line 180.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 4.75159pt on input line 143.
+(Font)              scaled to size 4.75159pt on input line 180.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 6.01859pt on input line 143.
+(Font)              scaled to size 6.01859pt on input line 180.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 4.75159pt on input line 143.
+(Font)              scaled to size 4.75159pt on input line 180.
 LaTeX Font Info:    Font shape `T1/fvm/m/n' will be
-(Font)              scaled to size 8.00003pt on input line 147.
+(Font)              scaled to size 8.00003pt on input line 184.
+
+Package natbib Warning: Citation `wickham2016r' on page 4 undefined on input line 188.
 
 
-Package natbib Warning: Citation `wickham2016r' on page 4 undefined on input line 151.
+Package natbib Warning: Citation `bruce2019estatistica' on page 4 undefined on input line 189.
 
 
-Package natbib Warning: Citation `bruce2019estatistica' on page 4 undefined on input line 152.
+Package natbib Warning: Citation `grus2019data' on page 4 undefined on input line 189.
 
 
-Package natbib Warning: Citation `grus2019data' on page 4 undefined on input line 152.
+Package natbib Warning: Citation `bruce2019estatistica' on page 4 undefined on input line 191.
 
 
-Package natbib Warning: Citation `bruce2019estatistica' on page 4 undefined on input line 154.
+Package natbib Warning: Citation `fawcett2018data' on page 4 undefined on input line 191.
 
 
-Package natbib Warning: Citation `fawcett2018data' on page 4 undefined on input line 154.
-
-
-Underfull \hbox (badness 4084) in paragraph at lines 173--174
+Underfull \hbox (badness 4084) in paragraph at lines 210--211
 []|\T1/ppl/m/n/10 (+20) (contínua) Renda mensal do
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 175--176
+Underfull \hbox (badness 10000) in paragraph at lines 212--213
 []|\T1/ppl/m/n/10 (+20) (discreta) Número de
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 177--178
+Underfull \hbox (badness 10000) in paragraph at lines 214--215
 []|\T1/ppl/m/n/10 (+20) (categórica) Estado civil do
  []
 
-<example-image.pdf, id=35, 321.2pt x 240.9pt>
+
+Underfull \vbox (badness 4765) has occurred while \output is active []
+
+ [4]
+<example-image.pdf, id=46, 321.2pt x 240.9pt>
 File: example-image.pdf Graphic file (type pdf)
 <use example-image.pdf>
-Package pdftex.def Info: example-image.pdf  used on input line 189.
+Package pdftex.def Info: example-image.pdf  used on input line 226.
 (pdftex.def)             Requested size: 213.39566pt x 160.04944pt.
 
-Underfull \hbox (badness 1102) in paragraph at lines 200--200
+Underfull \hbox (badness 1102) in paragraph at lines 237--237
 \T1/ppl/m/n/10 (+20) Quisque libero justo, consectetuer a, feugiat vitae,
  []
 
-[4pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has been already used, duplicate ignored
 
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.200 
-      pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.200 
-       </usr/share/texlive/texmf-dist/tex/latex/mwe/example-image.pdf>]
-Underfull \hbox (badness 1178) in paragraph at lines 208--208
+Underfull \hbox (badness 1178) in paragraph at lines 245--245
 \T1/ppl/m/n/10 (+20) fringilla et, consectetuer eu, nonummy id, sapien.
  []
 
 
-Underfull \hbox (badness 3128) in paragraph at lines 212--212
+Underfull \hbox (badness 3128) in paragraph at lines 249--249
 \T1/ppl/m/n/10 (+20) potenti. In mi erat, cursus id, nonummy sed,
  []
 
+[5pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has been already used, duplicate ignored
 
-Underfull \hbox (badness 1910) in paragraph at lines 238--239
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.271 $$
+        pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.271 $$
+         </usr/share/texlive/texmf-dist/tex/latex/mwe/example-image.pdf>]
+Underfull \hbox (badness 1910) in paragraph at lines 275--276
 []\T1/ppl/m/n/10 (+20) O \T1/ppl/m/it/10 (+20) F1 \T1/ppl/m/n/10 (+20) é a média harmônica entre precisão e a
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 257--257
+Underfull \hbox (badness 10000) in paragraph at lines 294--294
 []|\T1/ppl/m/n/10 (-10) Tempo
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 259--259
+Underfull \hbox (badness 10000) in paragraph at lines 296--296
 []|\T1/ppl/m/n/10 (+20) Random
  []
 
-[5pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.268 
-      ]
 File: example-image.pdf Graphic file (type pdf)
 <use example-image.pdf>
-Package pdftex.def Info: example-image.pdf  used on input line 272.
+Package pdftex.def Info: example-image.pdf  used on input line 309.
 (pdftex.def)             Requested size: 213.39566pt x 160.04944pt.
 
-Underfull \hbox (badness 2503) in paragraph at lines 287--287
+Underfull \hbox (badness 2503) in paragraph at lines 324--324
 \T1/ppl/m/n/10 (+20) Curabitur tellus magna, porttitor a, commodo a,
  []
 
 
-Underfull \hbox (badness 1377) in paragraph at lines 287--287
+Underfull \hbox (badness 1377) in paragraph at lines 324--324
 \T1/ppl/m/n/10 (+20) commodo in, tortor. Donec interdum. Praesent
  []
 
 
-Underfull \hbox (badness 1132) in paragraph at lines 287--287
+Underfull \hbox (badness 1132) in paragraph at lines 324--324
 \T1/ppl/m/n/10 (+20) porta. Lorem ipsum dolor sit amet, consectetuer
  []
 
@@ -804,33 +810,38 @@ No file dsbd_tcc.bbl.
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 294.
-[6pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 331.
+[6pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.294 \end{document}
+l.331 \end{document}
+                    pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.331 \end{document}
                     ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 294.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 331.
  (/home/gabriel/jazz-airflow/misc/thesis/dsbd_tcc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 294.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 294.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 331.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 331.
 
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 294.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 331.
  ) 
 Here is how much of TeX's memory you used:
- 13143 strings out of 483183
- 201444 string characters out of 5966293
- 789471 words of memory out of 5000000
+ 13146 strings out of 483183
+ 201471 string characters out of 5966293
+ 787985 words of memory out of 5000000
  27676 multiletter control sequences out of 15000+600000
- 606061 words of font info for 215 fonts, out of 8000000 for 9000
+ 606220 words of font info for 217 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 38i,12n,47p,389b,616s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,13n,47p,389b,616s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/bera/fvmr8a.pfb></usr/share/texmf/fonts/type1/public/lm/lmss12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss17.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsso17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on /home/gabriel/jazz-airflow/misc/thesis/dsbd_tcc.pdf (6 pages, 407150 bytes).
+Output written on /home/gabriel/jazz-airflow/misc/thesis/dsbd_tcc.pdf (6 pages, 409193 bytes).
 PDF statistics:
  169 PDF objects out of 1000 (max. 8388607)
  141 compressed objects within 2 object streams

@@ -42,9 +42,9 @@ def lambda_handler(event, context):
             s3_object_name = os.path.join(object_prefix, exec_date, demo_name)
             result = s3_client.upload_file(local_path, output_bucket, s3_object_name)
             print(f"{s3_object_name} yielded s3 upload result {result}")
-
+            print(f"removing {local_path}")
             os.remove(local_path)
-
+    print('removing .rar file')
     os.remove(zname)
 
     conn = connect_to_rds()
@@ -56,6 +56,8 @@ def lambda_handler(event, context):
                 WHERE demo_id = {demo_id}
             """)
     conn.commit()
+
+    delete_local_tmp(DEMOS_COMPRESSED_DIR)
 
 def extract(demo_file, DEMOS_COMPRESSED_DIR):
     demo_file = os.path.join(DEMOS_COMPRESSED_DIR, demo_file)
@@ -92,3 +94,10 @@ def connect_to_rds():
     port='5432'
     )
     return conn 
+
+def delete_local_tmp(tempdirectory):
+    files_to_delete = os.listdir(tempdirectory)
+    print('deleting files: ',files_to_delete)
+    for single_file in files_to_delete:
+        filepath = os.path.join(tempdirectory, single_file)
+        os.remove(filepath)

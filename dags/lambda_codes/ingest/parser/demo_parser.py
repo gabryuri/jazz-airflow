@@ -64,7 +64,14 @@ def handler(event, context):
     s3_object_name = os.path.join(object_prefix, exec_date, demo_name)+".json"
     result = s3_client.upload_file(local_json_path, output_bucket, s3_object_name)
 
-    os.remove(demo_path)
-    os.remove(local_json_path)
+    delete_local_tmp(processed_folder)
     
     return result
+
+
+def delete_local_tmp(tempdirectory):
+    files_to_delete = os.listdir(tempdirectory)
+    print('deleting files: ',files_to_delete)
+    for single_file in files_to_delete:
+        filepath = os.path.join(tempdirectory, single_file)
+        os.remove(filepath)
