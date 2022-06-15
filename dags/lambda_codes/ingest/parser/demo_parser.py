@@ -73,7 +73,7 @@ def delete_local_tmp(tempdirectory):
     files_to_delete = os.listdir(tempdirectory)
     print('deleting files: ',files_to_delete)
     for single_file in files_to_delete:
-        filepath = os.path.join(directory, single_file)
+        filepath = os.path.join(tempdirectory, single_file)
         if 'go' in filepath:
             pass
         else:
