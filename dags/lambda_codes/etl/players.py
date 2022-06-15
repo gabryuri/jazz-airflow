@@ -2,25 +2,22 @@ import json
 import psycopg2 
 import boto3 
 from datetime import datetime
-import pandas as pd
-#from utils.connector import connect_to_rds
+from utils.connector import connect_to_rds
 
 def handler(event, context):
 
-    #s3_object = event.get('s3_object')
-    #exec_date = event.get('exec_date')
+    s3_object = event.get('s3_object')
+    exec_date = event.get('exec_date')
+    print("processing s3 object, ", s3_object)
 
-    #data = get_object(s3_object)  
-    with open('demo1.json') as json_file:
-        data = json.load(json_file)
-    #print(data)
-
+    data = get_object(s3_object)  
+    updated_at = datetime.utcnow().__str__()
     match = data['matchID']
     columns = ['tick','matchID','roundNum','steamID','hp','armor',
                 'totalUtility','isAlive','isInBombZone','equipmentValue',
                 'cash','hasHelmet','hasDefuse','hasBomb','created_at','updated_at']
 
-    updated_at = datetime.utcnow().__str__()
+
     players = []
     for round in data['gameRounds']:
         for frame in round['frames']:
@@ -37,13 +34,7 @@ def handler(event, context):
                     players_info.append(updated_at)        
                     players.append(players_info)
             
-
-    print(players_info)
-    #print(players)
-    df_players = pd.DataFrame(players, columns=columns) 
-    print(df_players)
-    df_players.to_csv('Output.csv', index = False)
-    
+   
     query = """INSERT INTO match_data.players(
     tick,
     "matchID",
@@ -81,31 +72,3 @@ def get_object(s3_object):
     obj = s3.get_object(Bucket='jazz-processed', Key=s3_object)
     data = json.loads(obj['Body'].read())
     return data 
-
-def connect_to_rds():
-    session = boto3.session.Session()
-    
-    # client = session.client(
-    #     service_name='secretsmanager',
-    #     region_name='us-east-1'
-    # )
-    
-    # get_secret_value_response = client.get_secret_value(
-    # SecretId='RDSSecret3683CA93-EbWoCdWb5X7B'
-    # )
-    
-    # secret = get_secret_value_response['SecretString']
-    # j = json.loads(secret)
-
-    
-   
-    conn = psycopg2.connect(
-    database=database,
-    user=user,
-    password=password,
-    host=host,
-    port='5432'
-    )
-    return conn 
-
-handler('a','b')
