@@ -63,7 +63,7 @@ def handler(event, context):
     print('total round amount:', len(players))
 
     cur = conn.cursor()
-    cur.executemany(query, players[0:2])
+    cur.executemany(query, players)
     conn.commit()
 
 
