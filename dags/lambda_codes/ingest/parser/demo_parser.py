@@ -24,7 +24,7 @@ def handler(event, context):
     print('demo being saved to: ', demo_path)
     s3_client.download_file(landing_bucket, s3_object, demo_path)
         
-    demo_name = os.path.basename(s3_object.strip('.dem'))
+    demo_name = os.path.basename(s3_object.rstrip('.dem'))
     print('demo name: ', demo_name)
     path = os.path.join(os.path.dirname(__file__), "")
     print("Running Golang parser from " + path)
@@ -63,5 +63,15 @@ def handler(event, context):
     print('local_json_path:' , local_json_path)
     s3_object_name = os.path.join(object_prefix, exec_date, demo_name)+".json"
     result = s3_client.upload_file(local_json_path, output_bucket, s3_object_name)
+
+    delete_local_tmp(processed_folder)
     
     return result
+
+
+def delete_local_tmp(tempdirectory):
+    files_to_delete = os.listdir(tempdirectory)
+    print('deleting files: ',files_to_delete)
+    for single_file in files_to_delete:
+        filepath = os.path.join(tempdirectory, single_file)
+        os.remove(filepath)

@@ -1,4 +1,3 @@
-import logging
 import boto3
 import json
 import os
@@ -6,13 +5,11 @@ import sys
 import psycopg2
 import time
 
-
 sys.path.append("/usr/local/airflow/dags/utils")
 
 from datetime import datetime
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
-from airflow.operators.bash_operator import BashOperator
 from airflow.settings import AIRFLOW_HOME
 from airflow.contrib.hooks.aws_lambda_hook import AwsLambdaHook
 
@@ -27,11 +24,27 @@ dag = DAG('parse_dag', description='Hello World DAG',
 landing_bucket = 'jazz-landing'
 output_bucket = 'jazz-processed'
 
-demos_folder = 'tmp_demos'
-processed_folder = 'tmp_processed'
-
 object_prefix = 'hltv'
 
+def crawling_matches(**kwargs):
+    offset = 0 
+
+    hook = AwsLambdaHook( 
+    function_name='jazz-ingest-crawling_matches',
+    region_name='us-east-1',
+    invocation_type='Event',
+    )
+
+    event = {"offset" : offset}
+
+    result = hook.invoke_lambda(payload=json.dumps(event))
+    print(result)
+
+crawling_matches = PythonOperator(
+    task_id='crawling_matches',
+    python_callable=crawling_matches,
+    provide_context=True,
+    dag=dag)
 
 
 def find_demo_ids(**kwargs):
@@ -64,8 +77,7 @@ def download_demos(**kwargs):
                         FROM crawling.crawled_matches
                         WHERE updated_at >= current_date - interval '1 day'
                         AND (demo_id <> 1 or demo_id is not null)
-                        limit 10
-                    """)
+                     """)
 
     results = cur.fetchall()
     print('total amount of matches to download: ', len(results))
@@ -82,7 +94,6 @@ def download_demos(**kwargs):
         event = {"demo_id" : demo[0],
                 "object_prefix" : object_prefix,
                 "exec_date" : exec_date}
-
 
         print(event)
 
@@ -125,7 +136,7 @@ def parse_and_upload(**kwargs):
                 "object_prefix":object_prefix,
                 "exec_date":exec_date}
 
-        output_s3 = (os.path.join(event.get('object_prefix'), exec_date, os.path.basename(s3_object).strip('.dem')))+'.json'
+        output_s3 = (os.path.join(event.get('object_prefix'), exec_date, os.path.basename(s3_object).rstrip('.dem')))+'.json'
         print(output_s3)
         s3_json_objects.append(output_s3)
 
@@ -155,8 +166,8 @@ def json_to_tables(**kwargs):
         )
 
     for s3_object in s3_object_list:
-        event = {"s3_object":s3_object,
-                "exec_date":exec_date}
+        event = {"s3_object" : s3_object,
+                 "exec_date" : exec_date}
 
         result = rounds_hook.invoke_lambda(payload= json.dumps(event))
         print(result)
@@ -167,6 +178,6 @@ json_to_tables = PythonOperator(
     provide_context=True,
     dag=dag)
 
-find_demo_ids >> download_demos >> parse_and_upload >> json_to_tables
+crawling_matches >> find_demo_ids >> download_demos >> parse_and_upload >> json_to_tables
 
 #download_demos

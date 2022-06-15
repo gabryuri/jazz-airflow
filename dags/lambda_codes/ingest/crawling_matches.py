@@ -12,7 +12,6 @@ from utils.connector import connect_to_rds
 def handler(event, context):
 
     offset = int(event.get('offset'))
-    #conn = connect_to_rds()
 
     table_name = 'crawled_matches'
     url = f'https://www.hltv.org/results?offset={offset}'

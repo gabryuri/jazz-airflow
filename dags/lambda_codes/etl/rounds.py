@@ -9,9 +9,9 @@ def handler(event, context):
 
     s3_object = event.get('s3_object')
     exec_date = event.get('exec_date')
-
+    print("processing s3 object, ", s3_object)
+    
     data = get_object(s3_object)  
-    print(data)
     match = data['matchID']
     mapname = data['mapName']
 
@@ -34,7 +34,6 @@ def handler(event, context):
         round_info.append(updated_at)
         rounds.append(round_info)
 
-    print(round_info)
         
     query ="""INSERT INTO match_data.rounds(
         "matchID",
