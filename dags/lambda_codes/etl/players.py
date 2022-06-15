@@ -13,54 +13,30 @@ def handler(event, context):
     data = get_object(s3_object)  
     #print(data)
     updated_at = datetime.utcnow().__str__()
-    # match = data['matchID']
-    # columns = ['tick','matchID','roundNum','steamID','hp','armor',
-    #             'totalUtility','isAlive','isInBombZone','equipmentValue',
-    #             'cash','hasHelmet','hasDefuse','hasBomb','created_at','updated_at']
-
-
-    # players = []
-    # for game_round in data['gameRounds']:
-    #     print(game_round)
-    #     for frame in game_round['frames']:
-    #         for side in ['t', 'ct']:
-    #             for player in frame[side]['players']:
-    #                 players_info = []
-    #                 players_info.append(frame['tick'])
-    #                 players_info.append(match)
-    #                 players_info.append(game_round['roundNum'])
-    #                 for key in player.keys():
-    #                     if key in columns:
-    #                         players_info.append(player[key])   
-    #                 players_info.append(updated_at)
-    #                 players_info.append(updated_at)      
-    #                 print(players_info)  
-    #                 players.append(players_info)
-            
     match = data['matchID']
-    columns = ['matchID','roundNum','steamID','hp','armor',
+    columns = ['tick','matchID','roundNum','steamID','hp','armor',
                 'totalUtility','isAlive','isInBombZone','equipmentValue',
-                'cash','hasHelmet','hasDefuse','hasBomb']
+                'cash','hasHelmet','hasDefuse','hasBomb','created_at','updated_at']
+
 
     players = []
-    for round in data['gameRounds']:
-        print(round)
-        for frame in round['frames']:
-            print(frame)
-            print(round['roundNum'])
-            for player in frame['t']['players']:
-                players_info = []
-                players_info.append(match)
-                print(players_info)
-                players_info.append(round['roundNum'])
-                for key in player.keys():
-                    if key in columns:
-                        players_info.append(player[key])   
-                players.append(players_info)
-                print(players)
-
-    print(players)
-   
+    for game_round in data['gameRounds']:
+        print(game_round)
+        for frame in game_round['frames']:
+            for side in ['t', 'ct']:
+                for player in frame[side]['players']:
+                    players_info = []
+                    players_info.append(frame['tick'])
+                    players_info.append(match)
+                    players_info.append(game_round['roundNum'])
+                    for key in player.keys():
+                        if key in columns:
+                            players_info.append(player[key])   
+                    players_info.append(updated_at)
+                    players_info.append(updated_at)      
+                    print(players_info)  
+                    players.append(players_info)
+               
     query = """INSERT INTO match_data.players(
     tick,
     "matchID",
@@ -85,12 +61,12 @@ def handler(event, context):
         "updated_at" = excluded."updated_at";
     """
 
-    #conn = connect_to_rds()
+    conn = connect_to_rds()
     print('total round amount:', len(players))
 
-    # cur = conn.cursor()
-    # cur.executemany(query, players)
-    # conn.commit()
+    cur = conn.cursor()
+    cur.executemany(query, players)
+    conn.commit()
 
 
 def get_object(s3_object):
@@ -98,9 +74,3 @@ def get_object(s3_object):
     obj = s3.get_object(Bucket='jazz-processed', Key=s3_object)
     data = json.loads(obj['Body'].read())
     return data 
-
-
-
-handler(
-{'s3_object':'hltv/2022-06-15/72380_arctic-vs-sharks-m2-nuke.json', 'exec_date':'2022-06-15'},''
-)

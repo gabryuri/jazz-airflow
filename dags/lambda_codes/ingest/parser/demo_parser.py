@@ -41,7 +41,6 @@ def handler(event, context):
         "5",
         "--parseframes",
         "--dmgrolled",
-        "--parsekillframes",
         "-buystyle",
         "hltv",
         "-demoid",
