@@ -136,7 +136,7 @@ def parse_and_upload(**kwargs):
                 "object_prefix":object_prefix,
                 "exec_date":exec_date}
 
-        output_s3 = (os.path.join(event.get('object_prefix'), exec_date, os.path.basename(s3_object)[:-4])))+'.json'
+        output_s3 = (os.path.join(event.get('object_prefix'), exec_date, os.path.basename(s3_object)[:-4]))+'.json'
         print(output_s3)
         s3_json_objects.append(output_s3)
 
