@@ -2,7 +2,7 @@ import json
 import psycopg2 
 import boto3 
 from datetime import datetime
-#from utils.connector import connect_to_rds
+from utils.connector import connect_to_rds
 
 def handler(event, context):
 
