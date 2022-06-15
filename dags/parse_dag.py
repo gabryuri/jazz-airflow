@@ -151,7 +151,7 @@ parse_and_upload = PythonOperator(
     dag=dag)
 
 
-def json_to_tables(**kwargs):
+def json_to_rounds(**kwargs):
     time.sleep(60)
     ti = kwargs['ti']
     exec_date = kwargs['next_ds']
@@ -172,12 +172,68 @@ def json_to_tables(**kwargs):
         result = rounds_hook.invoke_lambda(payload= json.dumps(event))
         print(result)
 
-json_to_tables = PythonOperator(
-    task_id='json_to_tables',
-    python_callable=json_to_tables, 
+json_to_rounds = PythonOperator(
+    task_id='json_to_rounds',
+    python_callable=json_to_rounds, 
     provide_context=True,
     dag=dag)
 
-crawling_matches >> find_demo_ids >> download_demos >> parse_and_upload >> json_to_tables
+def json_to_players(**kwargs):
+    time.sleep(60)
+    ti = kwargs['ti']
+    exec_date = kwargs['next_ds']
 
-#download_demos
+    s3_object_list = ti.xcom_pull(task_ids='parse_and_upload')
+    print(s3_object_list)
+
+    rounds_hook = AwsLambdaHook( 
+        function_name='jazz-etl-players',
+        region_name='us-east-1',
+        invocation_type='Event',
+        )
+
+    for s3_object in s3_object_list:
+        event = {"s3_object" : s3_object,
+                 "exec_date" : exec_date}
+
+        result = rounds_hook.invoke_lambda(payload= json.dumps(event))
+        print(result)
+
+json_to_players = PythonOperator(
+    task_id='json_to_players',
+    python_callable=json_to_players, 
+    provide_context=True,
+    dag=dag)
+
+
+
+def json_to_snapshots(**kwargs):
+    time.sleep(60)
+    ti = kwargs['ti']
+    exec_date = kwargs['next_ds']
+
+    s3_object_list = ti.xcom_pull(task_ids='parse_and_upload')
+    print(s3_object_list)
+
+    rounds_hook = AwsLambdaHook( 
+        function_name='jazz-etl-snapshots',
+        region_name='us-east-1',
+        invocation_type='Event',
+        )
+
+    for s3_object in s3_object_list:
+        event = {"s3_object" : s3_object,
+                 "exec_date" : exec_date}
+
+        result = rounds_hook.invoke_lambda(payload= json.dumps(event))
+        print(result)
+
+json_to_snapshots = PythonOperator(
+    task_id='json_to_snapshots',
+    python_callable=json_to_snapshots, 
+    provide_context=True,
+    dag=dag)
+
+crawling_matches >> find_demo_ids >> download_demos >> parse_and_upload >> json_to_rounds
+parse_and_upload >> json_to_players
+parse_and_upload >> json_to_snapshots

@@ -2,7 +2,6 @@ import json
 import psycopg2 
 import boto3 
 from datetime import datetime
-
 from utils.connector import connect_to_rds
 
 def handler(event, context):
@@ -12,6 +11,7 @@ def handler(event, context):
     print("processing s3 object, ", s3_object)
     
     data = get_object(s3_object)  
+    updated_at = datetime.utcnow().__str__()
     match = data['matchID']
     mapname = data['mapName']
 
@@ -22,7 +22,6 @@ def handler(event, context):
             'ctRoundStartMoney', 'ctBuyType', 'ctSpend', 'tStartEqVal', 
             'tRoundStartEqVal', 'tRoundStartMoney', 'tBuyType', 'tSpend']
 
-    updated_at = datetime.utcnow().__str__()
     rounds = []
     for round in data['gameRounds']:
         round_info = []

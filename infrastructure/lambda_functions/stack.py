@@ -109,3 +109,29 @@ class LambdaStack(core.Stack):
             memory_size=512
         )
 
+        players_lambda = _lambda.Function(
+            self,
+            'jazz-etl-players',
+            function_name='jazz-etl-players',
+            runtime=_lambda.Runtime.PYTHON_3_8,
+            code=_lambda.Code.from_asset('dags'),
+            handler='lambda_codes/etl/players.handler',
+            role=role,
+            layers=[psycopg_layer],
+            timeout=core.Duration.minutes(15),
+            memory_size=512
+        )
+
+        snapshots_lambda = _lambda.Function(
+            self,
+            'jazz-etl-snapshots',
+            function_name='jazz-etl-snapshots',
+            runtime=_lambda.Runtime.PYTHON_3_8,
+            code=_lambda.Code.from_asset('dags'),
+            handler='lambda_codes/etl/snapshots.handler',
+            role=role,
+            layers=[psycopg_layer],
+            timeout=core.Duration.minutes(15),
+            memory_size=512
+        )
+
