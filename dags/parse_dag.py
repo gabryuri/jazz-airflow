@@ -75,8 +75,9 @@ def download_demos(**kwargs):
 
     cur.execute("""SELECT demo_id
                         FROM crawling.crawled_matches
-                        WHERE updated_at >= current_date - interval '1 day'
+                        WHERE created_at >= current_date - interval '1 day'
                         AND (demo_id <> 1 or demo_id is not null)
+                        and downloaded_at is null
                      """)
 
     results = cur.fetchall()

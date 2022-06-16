@@ -11,7 +11,6 @@ def handler(event, context):
     print("processing s3 object, ", s3_object)
 
     data = get_object(s3_object)  
-    #print(data)
     updated_at = datetime.utcnow().__str__()
     match = data['matchID']
     columns = ['tick','matchID','roundNum','steamID','hp','armor',
@@ -21,7 +20,6 @@ def handler(event, context):
 
     players = []
     for game_round in data['gameRounds']:
-        print(game_round)
         for frame in game_round.get('frames'):
             for side in ['t', 'ct']:
                 if frame.get(side).get('players') is not None:
@@ -35,7 +33,6 @@ def handler(event, context):
                                 players_info.append(player.get(key))
                         players_info.append(updated_at)
                         players_info.append(updated_at)      
-                        print(players_info)  
                         players.append(players_info)
                
     query = """INSERT INTO match_data.players(
