@@ -22,20 +22,21 @@ def handler(event, context):
     players = []
     for game_round in data['gameRounds']:
         print(game_round)
-        for frame in game_round['frames']:
+        for frame in game_round.get('frames'):
             for side in ['t', 'ct']:
-                for player in frame[side]['players']:
-                    players_info = []
-                    players_info.append(frame['tick'])
-                    players_info.append(match)
-                    players_info.append(game_round['roundNum'])
-                    for key in player.keys():
-                        if key in columns:
-                            players_info.append(player[key])   
-                    players_info.append(updated_at)
-                    players_info.append(updated_at)      
-                    print(players_info)  
-                    players.append(players_info)
+                if frame.get(side).get('players') is not None:
+                    for player in frame.get(side).get('players'):
+                        players_info = []
+                        players_info.append(frame.get('tick'))
+                        players_info.append(match)
+                        players_info.append(game_round.get('roundNum'))
+                        for key in player.keys():
+                            if key in columns:
+                                players_info.append(player.get(key))
+                        players_info.append(updated_at)
+                        players_info.append(updated_at)      
+                        print(players_info)  
+                        players.append(players_info)
                
     query = """INSERT INTO match_data.players(
     tick,

@@ -20,23 +20,22 @@ def handler(event, context):
     rounds = []
     for round in data['gameRounds']:
         for frame in round['frames']:
-            frame_info = []
-            frame_info.append(match)
-            frame_info.append(round['roundNum'])
+            if frame.get('t').get('players') is not None and frame.get('ct').get('players') is not None:
+                frame_info = []
+                frame_info.append(match)
+                frame_info.append(round['roundNum'])
+                for field in frame.keys():
+                    if field in columns:
+                        frame_info.append(frame.get(field))
+                for side in ['t', 'ct']:
+                    for field in frame.get(side).keys():
+                        if field in columns_side:
+                            frame_info.append(frame.get(side).get(field))
+                frame_info.append(updated_at)
+                frame_info.append(updated_at)
+                rounds.append(frame_info)
 
-            for field in frame.keys():
-
-                if field in columns:
-                    frame_info.append(frame[field])
-            for side in ['t', 'ct']:
-                for field in frame[side].keys():
-                    if field in columns_side:
-                        frame_info.append(frame[side][field])
-            frame_info.append(updated_at)
-            frame_info.append(updated_at)
-            rounds.append(frame_info)
-
-    columns_sides = [col + '_' + side for side in ['t', 'ct'] for col in columns_side]
+    # columns_sides = [col + '_' + side for side in ['t', 'ct'] for col in columns_side]
 
 
     query = """INSERT INTO match_data.snapshots(
