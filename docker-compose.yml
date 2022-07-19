@@ -1,10 +1,22 @@
 version: '3.7'
 services:
+    postgres:
+        image: postgres:11
+        environment:
+            - POSTGRES_USER=airflow
+            - POSTGRES_PASSWORD=airflow
+            - POSTGRES_DB=airflow
+        logging:
+            options:
+                max-size: 10m
+                max-file: "3"
+        volumes: 
+            - "/db-data:/var/lib/postgresql/11/main"
     webserver:
         build: .
         #image: puckel/docker-airflow:1.10.9
         restart: always
-        env_file: .env
+        #env_file: .env
         logging:
             options:
                 max-size: 10m
