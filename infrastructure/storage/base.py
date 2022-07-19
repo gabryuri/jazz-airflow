@@ -6,9 +6,9 @@ from aws_cdk import (
 )
 
 class StorageLayer(Enum):
-    LANDING = "landing"
-    PROCESSED = "processed"
-    METADATA = "metadata"
+    LANDING = "csgo-landing"
+    PROCESSED = "csgo-processed"
+    METADATA = "csgo-metadata"
 
 
 class S3StorageBaseBucket(s3.Bucket):
